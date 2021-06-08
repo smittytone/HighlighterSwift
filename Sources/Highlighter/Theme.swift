@@ -1,4 +1,14 @@
+/*
+ *  Highlighter.swift
+ *  Copyright 2021, Tony Smith
+ *  Copyright 2016, Juan-Pablo Illanes
+ *
+ *  Licence: MIT
+ */
+
+
 import Foundation
+
 
 #if os(iOS) || os(tvOS)
     import UIKit
@@ -10,8 +20,9 @@ import Foundation
     public typealias HRFont  = NSFont
 #endif
 
-private typealias HRThemeDict = [String: [AnyHashable: AnyObject]]
+private typealias HRThemeDict       = [String: [AnyHashable: AnyObject]]
 private typealias HRThemeStringDict = [String: [String: String]]
+
 
 open class Theme {
 
@@ -28,47 +39,60 @@ open class Theme {
     open var italicCodeFont: HRFont!
     open var themeBackgroundColour: HRColor!
 
+    
     // MARK: Private Properties
     private var themeDict : HRThemeDict!
     private var strippedTheme : HRThemeStringDict!
 
 
-    init(withTheme: String = "default") {
-
+    init(withTheme: String = "default", usingFont: HRFont? = nil) {
+        
+        // Record the theme name
         self.theme = withTheme
-        setCodeFont(HRFont(name: "Courier", size: 14)!)
+        
+        // Apply the font choice
+        if let font: HRFont = usingFont {
+            setCodeFont(font)
+        } else {
+            setCodeFont(HRFont(name: "courier", size: 14)!)
+        }
 
-        self.strippedTheme = stripTheme(withTheme)
+        // Generate and store theme variants
+        self.strippedTheme = stripTheme(self.theme)
         self.lightTheme = strippedThemeToString(self.strippedTheme)
         self.themeDict = strippedThemeToTheme(self.strippedTheme)
 
+        // Determine the theme's background colour as a hex string
         var backgroundColourHex: String? = self.strippedTheme[".hljs"]?["background"]
-        if (backgroundColourHex == nil) {
-            backgroundColourHex = strippedTheme[".hljs"]?["background-color"]
+        if backgroundColourHex == nil {
+            backgroundColourHex = self.strippedTheme[".hljs"]?["background-color"]
         }
-
-        if let backgroundColourHex = backgroundColourHex {
-            if (backgroundColourHex == "white") {
+        
+        // Convert the hex to a UIColor or NSColor
+        if let bgColourHex = backgroundColourHex {
+            if (bgColourHex == "white") {
                 self.themeBackgroundColour = HRColor(white: 1, alpha: 1)
-            } else if (backgroundColourHex == "black") {
+            } else if (bgColourHex == "black") {
                 self.themeBackgroundColour = HRColor(white: 0, alpha: 1)
             } else {
-                let range: Range? = backgroundColourHex.range(of: "#")
-                let hexString: String = String(backgroundColourHex[(range?.lowerBound)!...])
+                let range: Range? = bgColourHex.range(of: "#")
+                let hexString: String = String(bgColourHex[(range?.lowerBound)!...])
                 self.themeBackgroundColour = colourFromHexString(hexString)
             }
         } else {
+            // Set a generic (light) background
             self.themeBackgroundColour = HRColor.white
         }
     }
 
+    
     open func setCodeFont(_ font: HRFont) {
 
         /*
          * Changes the theme font. This will try to automatically populate the codeFont,
          * boldCodeFont and italicCodeFont properties based on the provided font.
          *
-         * -parameter font: UIFont (iOS or tvOS) or NSFont (OSX)
+         * - parameter font: UIFont (iOS or tvOS) or NSFont (OSX)
         */
 
         self.codeFont = font
@@ -109,11 +133,23 @@ open class Theme {
         }
     }
 
+    
     internal func applyStyleToString(_ string: String, styleList: [String]) -> NSAttributedString {
-
+        
+        /*
+         * Convert a String to an NSAttributedString by applying the specified attributes.
+         * Automatically sets the font according to the theme's stored font
+         *
+         * - parameter string:    The base string
+         * - parameter styleList: An array of attribute values
+         *
+         * - returns: NSAttributedString
+         */
+        
         let returnString: NSAttributedString
 
         if styleList.count > 0 {
+            // Build the attributes from the style list, including the font
             var attrs = [AttributedStringKey: Any]()
             attrs[.font] = self.codeFont
             for style in styleList {
@@ -126,14 +162,24 @@ open class Theme {
 
             returnString = NSAttributedString(string: string, attributes:attrs)
         } else {
-			returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:codeFont as Any])
+			// No specified attributes? Just set the font
+            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:codeFont as Any])
         }
 
         return returnString
     }
 
-    private func stripTheme(_ themeString : String) -> [String:[String:String]] {
-
+    
+    private func stripTheme(_ themeString : String) -> HRThemeStringDict {
+        
+        /*
+         * Decode the theme CSS into a dictionary
+         *
+         * - parameter themeString: The loaded theme CSS
+         *
+         * - returns: the theme dictionary
+         */
+        
         let objcString: NSString = (themeString as NSString)
         let cssRegex = try! NSRegularExpression(pattern: "(?:(\\.[a-zA-Z0-9\\-_]*(?:[, ]\\.[a-zA-Z0-9\\-_]*)*)\\{([^\\}]*?)\\})", options:[.caseInsensitive])
         let results = cssRegex.matches(in: themeString, options: [.reportCompletion], range: NSMakeRange(0, objcString.length))
@@ -177,11 +223,20 @@ open class Theme {
         return returnDict
     }
 
-    private func strippedThemeToString(_ theme: HRThemeStringDict) -> String {
+    
+    private func strippedThemeToString(_ themeDict: HRThemeStringDict) -> String {
 
+        /*
+         * Recode a theme dictionary to a String
+         *
+         * - parameter themeDict: The theme dictionary
+         *
+         * - returns: the theme as a string
+         */
+        
         var resultString: String = ""
-        for (key, props) in theme {
-            resultString += key+"{"
+        for (key, props) in themeDict {
+            resultString += (key + "{")
             for (cssProp, val) in props {
                 if key != ".hljs" || (cssProp.lowercased() != "background-color" && cssProp.lowercased() != "background") {
                     resultString += "\(cssProp):\(val);"
@@ -194,10 +249,19 @@ open class Theme {
         return resultString
     }
 
-    private func strippedThemeToTheme(_ theme: HRThemeStringDict) -> HRThemeDict {
+    
+    private func strippedThemeToTheme(_ themeStringDict: HRThemeStringDict) -> HRThemeDict {
 
+        /*
+         * Convert between one type of theme dictionary and another
+         *
+         * - parameter themeStringDict: The loaded theme CSS
+         *
+         * - returns: The theme dictionary
+         */
+        
         var returnTheme = HRThemeDict()
-        for (className, props) in theme {
+        for (className, props) in themeStringDict {
             var keyProps = [AttributedStringKey: AnyObject]()
             for (key, prop) in props {
                 switch key {
@@ -223,8 +287,19 @@ open class Theme {
         return returnTheme
     }
 
-    private func fontForCSSStyle(_ fontStyle:String) -> HRFont {
-
+    
+    private func fontForCSSStyle(_ fontStyle: String) -> HRFont {
+        
+        /*
+         * Get font information from a CSS string and return a suitable
+         * UIFont or NSFont object -- which we have already set up,
+         * see setCodeFont()
+         *
+         * - parameter fontStyle: The CSS font information
+         *
+         * - returns: The font object
+         */
+        
         switch fontStyle {
             case "bold", "bolder", "600", "700", "800", "900":
                 return self.boldCodeFont
@@ -235,8 +310,17 @@ open class Theme {
         }
     }
 
+    
     private func attributeForCSSKey(_ key: String) -> AttributedStringKey {
 
+        /*
+         * Emit an AttributedString key based on the a style key from a CSS file.
+         *
+         * - parameter key: The CSS style key
+         *
+         * - returns: The AttributedString key
+         */
+        
         switch key {
         case "color":
             return .foregroundColor
@@ -251,50 +335,72 @@ open class Theme {
         }
     }
 
-    private func colourFromHexString (_ hex:String) -> HRColor {
+    private func colourFromHexString(_ colourValue: String) -> HRColor {
 
-        var colourString:String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        /*
+         * Emit an UIColor or NSColor to match a hex string or le.
+         *
+         * - parameter colourValue: A CSS colour value, either a literal or a hex string
+         *
+         * - returns: The colour object
+         */
+        
+        var colourString: String = colourValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
+            // The colour is defined by a hex value
             colourString = (colourString as NSString).substring(from: 1)
         } else {
             switch colourString {
             case "white":
-                return HRColor(white: 1, alpha: 1)
+                return HRColor.init(white: 1.0, alpha: 1.0)
             case "black":
-                return HRColor(white: 0, alpha: 1)
+                return HRColor.init(white: 0.0, alpha: 1.0)
             case "red":
-                return HRColor(red: 1, green: 0, blue: 0, alpha: 1)
+                return HRColor.init(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
             case "green":
-                return HRColor(red: 0, green: 1, blue: 0, alpha: 1)
+                return HRColor.init(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
             case "blue":
-                return HRColor(red: 0, green: 0, blue: 1, alpha: 1)
+                return HRColor.init(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+            case "navy":
+                return HRColor.init(red: 0.0, green: 0.0, blue: 0.5, alpha: 1.0)
             default:
                 return HRColor.gray
             }
         }
-
-        if colourString.count != 6 && colourString.count != 3 {
+        
+        // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
+        if colourString.count != 8 || colourString.count != 6 && colourString.count != 3 {
             return HRColor.gray
         }
 
-        var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0;
+        var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0, a: UInt64 = 0
         var divisor: CGFloat
+        var alpha: CGFloat = 1.0
 
-        if colourString.count == 6 {
-            let rString = (colourString as NSString).substring(to: 2)
-            let gString = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 2)
-            let bString = ((colourString as NSString).substring(from: 4) as NSString).substring(to: 2)
+        if colourString.count == 6 || colourString.count == 8 {
+            // Decode a six-character hex string
+            let rString: String = (colourString as NSString).substring(to: 2)
+            let gString: String = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 2)
+            let bString: String = ((colourString as NSString).substring(from: 4) as NSString).substring(to: 2)
 
             Scanner(string: rString).scanHexInt64(&r)
             Scanner(string: gString).scanHexInt64(&g)
             Scanner(string: bString).scanHexInt64(&b)
 
             divisor = 255.0
+            
+            if colourString.count == 8 {
+                // Decode the eight-character hex string's alpha value
+                let aString: String = ((colourString as NSString).substring(from: 6) as NSString).substring(to: 2)
+                Scanner(string: aString).scanHexInt64(&a)
+                alpha = CGFloat(a) / divisor
+            }
         } else {
-            let rString = (colourString as NSString).substring(to: 1)
-            let gString = ((colourString as NSString).substring(from: 1) as NSString).substring(to: 1)
-            let bString = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 1)
+            // Decode a three-character hex string
+            let rString: String = (colourString as NSString).substring(to: 1)
+            let gString: String = ((colourString as NSString).substring(from: 1) as NSString).substring(to: 1)
+            let bString: String = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 1)
 
             Scanner(string: rString).scanHexInt64(&r)
             Scanner(string: gString).scanHexInt64(&g)
@@ -303,6 +409,6 @@ open class Theme {
             divisor = 15.0
         }
 
-        return HRColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: CGFloat(1))
+        return HRColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: alpha)
     }
 }

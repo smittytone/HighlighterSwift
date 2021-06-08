@@ -1,7 +1,16 @@
+/*
+ *  Highlighter.swift
+ *  Copyright 2021, Tony Smith
+ *  Copyright 2016, Juan-Pablo Illanes
+ *
+ *  Adapted from: https://gist.github.com/jrmgx/3f9f1d330b295cf6b1c6
+ *
+ *  Licence: MIT
+ */
+
 
 import Foundation
 
-// NOTE Adapted from: https://gist.github.com/jrmgx/3f9f1d330b295cf6b1c6
 
 private let characterEntities: [String: Character] = [
 
@@ -266,7 +275,7 @@ private let characterEntities: [String: Character] = [
 
 internal class HTMLUtils {
 
-    class func decode(_ entity : String) -> Character? {
+    class func decode(_ entity: String) -> Character? {
 
         /*
          * Decode the HTML character entity to the corresponding
@@ -277,7 +286,7 @@ internal class HTMLUtils {
          *     decode("&foo;")    --> nil
          */
 
-        if entity.hasPrefix("&#x") || entity.hasPrefix("&#X") {
+        if entity.lowercased().hasPrefix("&#x") {
             return decodeNumeric(String(entity[entity.index(entity.startIndex, offsetBy: 3)...]), base: 16)
         } else if entity.hasPrefix("&#") {
             return decodeNumeric(String(entity[entity.index(entity.startIndex, offsetBy: 2)...]), base: 10)
@@ -286,7 +295,8 @@ internal class HTMLUtils {
         }
     }
 
-    class func decodeNumeric(_ string : String, base : Int32) -> Character? {
+    
+    class func decodeNumeric(_ string: String, base: Int32) -> Character? {
 
         /*
          * Convert the number in the string to the corresponding

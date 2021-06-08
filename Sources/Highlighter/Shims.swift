@@ -1,3 +1,12 @@
+/*
+ *  Highlighter.swift
+ *  Copyright 2021, Tony Smith
+ *  Copyright 2016, Juan-Pablo Illanes
+ *
+ *  Licence: MIT
+ */
+
+
 import Foundation
 
 #if os(OSX)
@@ -6,6 +15,11 @@ import Foundation
     import UIKit
 #endif
 
+// Set type aliases according to which Swift is being run and,
+// in the second case, if we're running on iOS
+//
+// NOTE This is probably unnecessary now since the Swift Package
+//      mandates Swift 5.3
 #if swift(>=4.2)
     public typealias AttributedStringKey = NSAttributedString.Key
 #else

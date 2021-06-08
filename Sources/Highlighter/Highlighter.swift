@@ -1,9 +1,19 @@
+/*
+ *  Highlighter.swift
+ *  Copyright 2021, Tony Smith
+ *  Copyright 2016, Juan-Pablo Illanes
+ *
+ *  Licence: MIT
+ */
+
+
 import Foundation
 import JavaScriptCore
 
 #if os(OSX)
 import AppKit
 #endif
+
 
 open class Highlighter {
 
@@ -24,6 +34,7 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
 
+    
     // MARK: Private Properties
 
     private let hljs: JSValue
@@ -42,12 +53,8 @@ open class Highlighter {
         /*
          * Default init method.
          *
-         * - parameter highlightPath: The path to 'highlight.min.js'. Default: 'Highlighter.framework/highlight.min.js'
-         *
          * - returns: Highlightr instance.
          */
-
-        let context = JSContext.init()!
 
         #if SWIFT_PACKAGE
         let bundle = Bundle.module
@@ -55,26 +62,30 @@ open class Highlighter {
         let bundle = Bundle(for: Highlighter.self)
         #endif
 
-        self.bundle = bundle
-
+        // Load the highlight.js code from the bundle
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
             return nil
         }
 
+        // Check the JavaScript
+        let context = JSContext.init()!
         let highlightJs: String = try! String.init(contentsOfFile: highlightPath)
         let _ = context.evaluateScript(highlightJs)
-
         guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
             return nil
         }
-
+        
+        // Store properties for later
         self.hljs = hljs
-
+        self.bundle = bundle
+        
+        // Check and set applying a theme
         guard setTheme("default") else {
             return nil
         }
     }
 
+    
     open func highlight(_ code: String, as languageName: String? = nil, fastRender: Bool = true) -> NSAttributedString? {
 
         /*
@@ -88,32 +99,48 @@ open class Highlighter {
          */
 
         let returnValue: JSValue
+        
         if let language = languageName {
+            // Use the specified language
+            // NOTE Will return 'undefined' (trapped below) if it's a unknown language
             let options: [String: Any] = ["language": language, "ignoreIllegals": self.ignoreIllegals]
-            returnValue = hljs.invokeMethod("highlight", withArguments: [code, options])
+            returnValue = hljs.invokeMethod("highlight",
+                                            withArguments: [code, options])
         } else {
             // Use language auto detection
-            returnValue = hljs.invokeMethod("highlightAuto", withArguments: [code])
+            returnValue = hljs.invokeMethod("highlightAuto",
+                                            withArguments: [code])
         }
-
+        
+        // Check we got a valid string back
         let renderedHTMLValue: JSValue? = returnValue.objectForKeyedSubscript("value")
         guard var renderedHTMLString: String = renderedHTMLValue!.toString() else {
             return nil
         }
+        
+        // Trap 'undefined' output as this is effectively an error condition
+        // and should not be returned as a valid result
+        if renderedHTMLString == "undefined" {
+            return nil
+        }
 
-        var returnAttrString: NSAttributedString?
-
+        // Convert the HTML received from Highlight.js to an NSAttributedString or nil
+        var returnAttrString: NSAttributedString? = nil
+        
         if (fastRender) {
+            // Use fast rendering -- the default
             returnAttrString = processHTMLString(renderedHTMLString)!
         } else {
+            // Use NSAttributedString's own not-so-fast rendering
             renderedHTMLString = "<style>" + self.theme.lightTheme + "</style><pre><code class=\"hljs\">" + renderedHTMLString + "</code></pre>"
+            
+            let data = renderedHTMLString.data(using: String.Encoding.utf8)!
             let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
                 .documentType: NSAttributedString.DocumentType.html,
                 .characterEncoding: String.Encoding.utf8.rawValue
             ]
 
-            let data = renderedHTMLString.data(using: String.Encoding.utf8)!
-
+            // Execute on main thread
             safeMainSync
             {
                 returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
@@ -132,7 +159,7 @@ open class Highlighter {
         /*
          * Set the theme to use for highlighting.
          *
-         * - parameter to: Theme name
+         * - parameter: The name of desired theme
          *
          * - returns: true if it was possible to set the given theme, false otherwise
          */
@@ -146,6 +173,7 @@ open class Highlighter {
         return true
     }
 
+    
     open func availableThemes() -> [String] {
 
         /*
@@ -163,6 +191,7 @@ open class Highlighter {
         return result
     }
 
+    
     open func supportedLanguages() -> [String] {
 
         /*
@@ -175,6 +204,7 @@ open class Highlighter {
         return res!.toArray() as! [String]
     }
 
+    
     private func safeMainSync(_ block: @escaping ()->()) {
 
         /*
@@ -191,7 +221,7 @@ open class Highlighter {
     }
 
 
-    // MARK:- HTML Rendering Functions
+    // MARK:- Fast HTML Rendering Function
 
     private func processHTMLString(_ string: String) -> NSAttributedString? {
 
