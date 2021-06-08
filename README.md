@@ -1,8 +1,54 @@
 # HighlighterSwift 1.0.0
 
-This library provides a Swift wrapper for the popular [Highlight.js]() code highlighting utility.
+This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
-It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr]() and relies heavily upon code from that project, which is now no longer maintained. It makes use of Highlight.js 9, but the most recent release, as of June 2021, is version 11. The use of version 9 is no longer supported, so I have made use of 10.7.3, and hope to update the library to version 11.x in due course.
+It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately now no longer fully maintained.
+
+Highlightr makes use of Highlight.js 9, but the most recent release, as of June 2021, is version 11 and the use of version 9 is no longer supported. HighlighterSwift works with Highlight.js 10.7.3, which continues to receive updates. I hope to update the library to version 11.x in due course.
+
+## Platform Support
+
+HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is untested.
+
+## Installation
+
+To add HighlighterSwift to your project, use Xcode to add it as a Swift Package at this repo’s URL. The library contains the Highlight.js code and themes.
+
+**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Schoolbook and Pojoago themes.
+
+## Usage
+
+Instantiate a Highlighter object. Its *init()* function returns an optional, which will be `nil` if the `Highlight.min.js` could not be found or is non-functional, or the Default theme is missing.
+
+```swift
+if let highlighter: Highlighter = Highlighter.init() {
+    ...
+}
+```
+
+You can set a specific theme using the *setTheme()* function:
+
+```swift
+highlighter.setTheme(hr.setTheme("atom-one-light")
+```
+
+**Note** Set your preferred font using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want and is called on the Highlighter instance’s *theme* property:
+
+```swift
+let font: NSFont = NSFont.init(name: "menlo-regular", size: 12.0)!
+highlighter.theme.setCodeFont(font)
+```
+
+Finally, get an optional NSAttributedString containing the formatted code:
+
+```swift
+let displayString: NSAttributedString? = highlighter.highlight(codeString, as: "swift")
+```
+
+The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, Highlighter will use Highlight.js’ language detection feature.
+
+You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings. The function *availableThemes()* returns a list of the installed themes.
+
 
 ## Licences
 
