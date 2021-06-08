@@ -50,10 +50,12 @@ open class Highlighter {
         let context = JSContext.init()!
 
         #if SWIFT_PACKAGE
-        self.bundle = Bundle.module
+        let bundle = Bundle.module
         #else
-        self.bundle = Bundle(for: Highlighter.self)
+        let bundle = Bundle(for: Highlighter.self)
         #endif
+
+        bundle = self.bundle
 
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
             return nil

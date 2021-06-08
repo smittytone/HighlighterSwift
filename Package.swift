@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Hightlighter",
+    name: "Highlighter",
     platforms: [
         .macOS(.v10_14),
         .iOS(.v12),
@@ -12,15 +12,15 @@ let package = Package(
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "Hightlighter",
-            targets: ["Hightlighter"])
+            name: "Highlighter",
+            targets: ["Highlighter"])
     ],
     dependencies: [],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "Hightlighter",
+            name: "Highlighter",
             dependencies: [],
             exclude: ["Assets/LICENCE"],
             resources: [
@@ -116,7 +116,7 @@ let package = Package(
                 .copy("Assets/styles/zenburn.css")
             ]),
         .testTarget(
-            name: "HightlighterTests",
-            dependencies: ["Hightlighter"])
+            name: "HighlighterTests",
+            dependencies: ["Highlighter"])
     ]
 )

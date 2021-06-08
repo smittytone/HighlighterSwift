@@ -1,7 +1,7 @@
     import XCTest
-    @testable import Hightlighter
+    @testable import Highlighter
 
-    final class HightlighterTests: XCTestCase {
+    final class HighlighterTests: XCTestCase {
         func testExample() {
             // This is an example of a functional test case.
             // Use XCTAssert and related functions to verify your tests produce the correct
