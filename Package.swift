@@ -22,6 +22,7 @@ let package = Package(
         .target(
             name: "Highlighter",
             dependencies: [],
+            path: "Sources",
             exclude: ["Assets/LICENCE"],
             resources: [
                 .copy("Assets/highlight.min.js"),
