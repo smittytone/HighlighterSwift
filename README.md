@@ -18,7 +18,7 @@ HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is 
 
 To add HighlighterSwift to your project, use Xcode to add it as a Swift Package at this repo’s URL. The library contains the Highlight.js code and themes.
 
-**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Schoolbook and Pojoago themes.
+**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes; the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
 
 ## Usage
 
