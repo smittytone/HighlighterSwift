@@ -137,7 +137,7 @@ open class Highlighter {
          * - returns: true if it was possible to set the given theme, false otherwise
          */
 
-        guard let themePath = bundle.path(forResource: themeName + ".min", ofType: "css") else {
+        guard let themePath = bundle.path(forResource: themeName, ofType: "css") else {
             return false
         }
 
@@ -157,7 +157,7 @@ open class Highlighter {
         let paths = bundle.paths(forResourcesOfType: "css", inDirectory: nil) as [NSString]
         var result = [String]()
         for path in paths {
-            result.append(path.lastPathComponent.replacingOccurrences(of: ".min.css", with: ""))
+            result.append(path.lastPathComponent.replacingOccurrences(of: ".css", with: ""))
         }
 
         return result
