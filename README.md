@@ -4,7 +4,11 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately now no longer fully maintained.
 
-Highlightr makes use of Highlight.js 9, but the most recent release, as of June 2021, is version 11 and the use of version 9 is no longer supported. HighlighterSwift works with Highlight.js 10.7.3, which continues to receive updates. I hope to update the library to version 11.x in due course.
+Highlightr makes use of Highlight.js 9, but the most recent release of the JavaScript, as of June 2021, is version 11, and the use of version 9 is no longer supported or recommended. HighlighterSwift works with Highlight.js 10.7.3, which continues to receive updates. I hope to update the library to version 11.x in due course.
+
+#### Why not update Highlightr?
+
+HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. The changes, though minimal and mostly in the form ot tweaks to the bundled Highlight.js theme mean it wasn’t considered appropriate to inflict on the Hightlightr source — or to wait for a pull request to be accepted (the last was in 2018). HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing devs to select either, both or a mix of the two.
 
 ## Platform Support
 
@@ -49,6 +53,10 @@ The second parameter is the name of language you’re rendering. If you leave ou
 
 You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings. The function *availableThemes()* returns a list of the installed themes.
 
+## Release Notes
+
+* 1.0.0 *Unreleased*
+    * Initial public release.
 
 ## Licences
 
