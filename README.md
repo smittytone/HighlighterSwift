@@ -6,6 +6,6 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr]() and reli
 
 ## Licences
 
-HighlighterSwift, like Highlightr before it, is released under the terms of the MIT Licence. Hightlight.js is released under the BSD Clause 3 licence.
+HighlighterSwift, like Highlightr before it, is released under the terms of the MIT Licence. Hightlight.js is released under the BSD 3-Clause Licence.
 
 HighlighterSwift is &copy; 2021, Tony Smith. Portions are &copy; 2018, Juan Pablo Illanes. Other portions are &copy; 2021, Ivan Sagalaev.

@@ -22,6 +22,7 @@ let package = Package(
         .target(
             name: "Hightlighter",
             dependencies: [],
+            exclude: ["Assets/LICENCE"],
             resources: [
                 .copy("Assets/highlight.min.js"),
                 .copy("Assets/styles/a11y-dark.css"),
