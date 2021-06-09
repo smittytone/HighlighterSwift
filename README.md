@@ -2,7 +2,7 @@
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
-![Far theme example](Images/far.png)
+![Far theme example](Images/atom-one-dark.png)
 
 It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately now no longer fully maintained.
 
@@ -15,6 +15,8 @@ HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, 
 HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included.
 
 HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
+
+![Far theme example](Images/far.png)
 
 #### Why not update Highlightr?
 
@@ -60,6 +62,8 @@ let displayString: NSAttributedString? = highlighter.highlight(codeString, as: "
 ```
 
 The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, Highlighter will use Highlight.js’ language detection feature.
+
+![Far theme example](Images/github-gist.png)
 
 You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings. The function *availableThemes()* returns a list of the installed themes.
 
