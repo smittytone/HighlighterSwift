@@ -17,17 +17,25 @@ final class HighlighterTests: XCTestCase {
         
         // Test trapping of a bad language name
         
-        let result: NSAttributedString? = self.hr!.highlight("", as: "bollocks")
+        let result: NSAttributedString? = self.hr!.highlight("", as: "fintlewoodlewix@1")
         XCTAssert(result == nil)
     }
     
     
-    func testBadTheme() {
+    func testSetThemeBad() {
         
         // Test trapping of a bad theme name
         
-        let result: Bool = self.hr!.setTheme("bollocks")
+        let result: Bool = self.hr!.setTheme("fintlewoodlewix@1")
         XCTAssert(!result)
+    }
+    
+    
+    func testSetThemeDefaultFont() {
+        
+        let _ = self.hr!.setTheme("agate")
+        let font: NSFont = self.hr!.theme.codeFont
+        XCTAssert(font.fontName == "Courier" && font.pointSize == 14.0)
     }
     
     
@@ -106,4 +114,6 @@ final class HighlighterTests: XCTestCase {
         result = self.hr!.theme.colourFromHexString("#aaaaa")
         XCTAssert(result == NSColor.gray)
     }
+    
+    
 }
