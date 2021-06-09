@@ -49,11 +49,61 @@ final class HighlighterTests: XCTestCase {
     }
     
     
-    func testColourFromHexString() {
+    func testColourFromHexStringGood() {
         
-        // Test private functions
+        // Test colour decoding -- all should be processed as valid colours
         
-        //let result: NSColor = self.hr!.theme.publicColourFromHexString("#808000")
-        //XCTAssert(result.redComponent == 0.5 && result.greenComponent == 0.5)
+        // Six-digit RGB
+        var result: NSColor = self.hr!.theme.colourFromHexString("#808000")
+        XCTAssert(result.redComponent > 0.49 &&
+                    result.redComponent < 0.56 &&
+                    result.greenComponent > 0.49 &&
+                    result.greenComponent < 0.56 &&
+                    result.blueComponent == 0.0
+        )
+        
+        // Three-digit RGB
+        result = self.hr!.theme.colourFromHexString("#444")
+        XCTAssert(result.redComponent > 0.2 &&
+                    result.redComponent < 0.29 &&
+                    result.blueComponent > 0.2 &&
+                    result.greenComponent < 0.29 &&
+                    result.blueComponent > 0.2 &&
+                    result.blueComponent < 0.29
+        )
+        
+        // Eight-digit RGB + Alpha
+        result = self.hr!.theme.colourFromHexString("#80800080")
+        XCTAssert(result.alphaComponent > 0.49 &&
+                    result.alphaComponent < 0.56
+        )
+        
+        // CSS entity
+        result = self.hr!.theme.colourFromHexString("red")
+        XCTAssert(result.redComponent == 1.0 &&
+                    result.blueComponent == 0.0 &&
+                    result.greenComponent == 0.0
+        )
+    }
+    
+    
+    func testColourFromHexStringBad() {
+        
+        // Test colour decoding -- all should be trapped as bad colours
+        
+        // Unknown CSS entity
+        var result = self.hr!.theme.colourFromHexString("olive")
+        XCTAssert(result == NSColor.gray)
+        
+        // Bad hex value 1
+        result = self.hr!.theme.colourFromHexString("#ZZZ")
+        XCTAssert(result.redComponent == 0.0 &&
+                    result.blueComponent == 0.0 &&
+                    result.greenComponent == 0.0
+        )
+        
+        // Bad hex value 2
+        result = self.hr!.theme.colourFromHexString("#aaaaa")
+        XCTAssert(result == NSColor.gray)
     }
 }
