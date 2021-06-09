@@ -15,11 +15,10 @@ import AppKit
 #endif
 
 
+/**
+    Wrapper class for generating a highlighted NSAttributedString from a code string.
+ */
 open class Highlighter {
-
-    /**
-        Wrapper class for generating a highlighted NSAttributedString from a code string.
-     */
 
     // MARK: Public Properties
     open var theme : Theme! {

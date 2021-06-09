@@ -24,11 +24,10 @@ private typealias HRThemeDict       = [String: [AnyHashable: AnyObject]]
 private typealias HRThemeStringDict = [String: [String: String]]
 
 
+/**
+    Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
+ */
 open class Theme {
-
-    /**
-        Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
-     */
 
     // MARK: Public Properties
     internal let theme: String
