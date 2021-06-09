@@ -17,8 +17,8 @@ import AppKit
 
 open class Highlighter {
 
-    /*
-     * Utility class for generating a highlighted NSAttributedString from a String.
+    /**
+        Wrapper class for generating a highlighted NSAttributedString from a code string.
      */
 
     // MARK: Public Properties
@@ -47,14 +47,11 @@ open class Highlighter {
 
 
     // MARK:- Constructor
-
+    
+    /**
+        The default initialiser.
+    */
     public init?() {
-
-        /*
-         * Default init method.
-         *
-         * - returns: Highlightr instance.
-         */
 
         #if SWIFT_PACKAGE
         let bundle = Bundle.module
@@ -86,17 +83,19 @@ open class Highlighter {
     }
 
     
+    //MARK: - Primary Functions
+    
+    /**
+        Highlight the specified code in the specified language.
+    
+        - Parameters:
+            - code:         The source code to highlight.
+            - languageName: The language in which the code is written.
+            - fastRender:   Should fast rendering be used? Default: `true`.
+     
+        - Returns: NSAttributedString with code highlighted.
+    */
     open func highlight(_ code: String, as languageName: String? = nil, fastRender: Bool = true) -> NSAttributedString? {
-
-        /*
-         * Takes a String and returns a NSAttributedString with the given language highlighted.
-         *
-         * - parameter code:           Code to highlight.
-         * - parameter languageName:   Language name or alias. Set to `nil` to use auto detection.
-         * - parameter fastRender:     Defaults to true - When *true* will use the custom made html parser rather than Apple's solution.
-         *
-         * - returns: NSAttributedString with the detected code highlighted.
-         */
 
         let returnValue: JSValue
         
@@ -151,18 +150,16 @@ open class Highlighter {
     }
 
 
-    // MARK:- Utility Functions
-
+    /**
+        Set the Highligt.js theme to use for highlighting.
+    
+        - Parameters:
+            - themeName: The Highlight.js theme's name
+     
+        - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
+    */
     @discardableResult
     open func setTheme(_ themeName: String) -> Bool {
-
-        /*
-         * Set the theme to use for highlighting.
-         *
-         * - parameter: The name of desired theme
-         *
-         * - returns: true if it was possible to set the given theme, false otherwise
-         */
 
         guard let themePath = bundle.path(forResource: themeName, ofType: "css") else {
             return false
@@ -174,13 +171,12 @@ open class Highlighter {
     }
 
     
+    /**
+        Get a list of available Highlight.js themes.
+    
+        - Returns: The list of themes as an array of strings.
+    */
     open func availableThemes() -> [String] {
-
-        /*
-         * Returns a list of all the available themes.
-         *
-         * - returns: Array of Strings
-         */
 
         let paths = bundle.paths(forResourcesOfType: "css", inDirectory: nil) as [NSString]
         var result = [String]()
@@ -192,54 +188,45 @@ open class Highlighter {
     }
 
     
+    /**
+        Get a list of languages supported by Highlight.js.
+    
+        - Returns: The list of languages as an array of strings.
+    */
     open func supportedLanguages() -> [String] {
-
-        /*
-         * Returns a list of all supported languages.
-         *
-         * - returns: Array of Strings
-         */
 
         let res: JSValue? = hljs.invokeMethod("listLanguages", withArguments: [])
         return res!.toArray() as! [String]
     }
 
     
-    private func safeMainSync(_ block: @escaping ()->()) {
-
-        /*
-         * Execute the provided block in the main thread synchronously.
-         */
-
-        if Thread.isMainThread {
-            block()
-        } else {
-            DispatchQueue.main.sync {
-                block()
-            }
-        }
-    }
-
-
     // MARK:- Fast HTML Rendering Function
 
-    private func processHTMLString(_ string: String) -> NSAttributedString? {
+    /**
+        Generate an NSAttributedString from HTML source.
+    
+        - Parameters:
+            - htmlString: The HTML to be converted
+     
+        - Returns: An optional NSAttibutedString containing the render, or `nil` if an error occurred.
+    */
+    private func processHTMLString(_ htmlString: String) -> NSAttributedString? {
 
-        let scanner: Scanner = Scanner(string: string)
+        let scanner: Scanner = Scanner(string: htmlString)
         scanner.charactersToBeSkipped = nil
         var scannedString: NSString?
         let resultString: NSMutableAttributedString = NSMutableAttributedString(string: "")
-        var propStack = ["hljs"]
+        var propStack: [String] = ["hljs"]
 
         while !scanner.isAtEnd {
             var ended: Bool = false
-            if scanner.scanUpTo(htmlStart, into: &scannedString) {
+            if scanner.scanUpTo(self.htmlStart, into: &scannedString) {
                 ended = scanner.isAtEnd
             }
 
             if scannedString != nil && scannedString!.length > 0 {
-                let attrScannedString: NSAttributedString = theme.applyStyleToString(scannedString! as String,
-                                                                                     styleList: propStack)
+                let attrScannedString: NSAttributedString = self.theme.applyStyleToString(scannedString! as String,
+                                                                                          styleList: propStack)
                 resultString.append(attrScannedString)
 
                 if ended {
@@ -252,15 +239,15 @@ open class Highlighter {
             let string: NSString = scanner.string as NSString
             let nextChar: String = string.substring(with: NSMakeRange(scanner.scanLocation, 1))
             if nextChar == "s" {
-                scanner.scanLocation += (spanStart as NSString).length
-                scanner.scanUpTo(spanStartClose, into:&scannedString)
-                scanner.scanLocation += (spanStartClose as NSString).length
+                scanner.scanLocation += (self.spanStart as NSString).length
+                scanner.scanUpTo(self.spanStartClose, into:&scannedString)
+                scanner.scanLocation += (self.spanStartClose as NSString).length
                 propStack.append(scannedString! as String)
             } else if nextChar == "/" {
-                scanner.scanLocation += (spanEnd as NSString).length
+                scanner.scanLocation += (self.spanEnd as NSString).length
                 propStack.removeLast()
             } else {
-                let attrScannedString: NSAttributedString = theme.applyStyleToString("<", styleList: propStack)
+                let attrScannedString: NSAttributedString = self.theme.applyStyleToString("<", styleList: propStack)
                 resultString.append(attrScannedString)
                 scanner.scanLocation += 1
             }
@@ -268,9 +255,9 @@ open class Highlighter {
             scannedString = nil
         }
 
-        let results: [NSTextCheckingResult] = htmlEscape.matches(in: resultString.string,
-                                                                 options: [.reportCompletion],
-                                                                 range: NSMakeRange(0, resultString.length))
+        let results: [NSTextCheckingResult] = self.htmlEscape.matches(in: resultString.string,
+                                                                      options: [.reportCompletion],
+                                                                      range: NSMakeRange(0, resultString.length))
         var localOffset: Int = 0
         for result: NSTextCheckingResult in results {
             let fixedRange: NSRange = NSMakeRange(result.range.location - localOffset, result.range.length)
@@ -283,5 +270,24 @@ open class Highlighter {
 
         return resultString
     }
+    
+    
+    // MARK:- Utility Functions
 
+    /**
+        Execute the supplied block on the main thread
+    */
+    private func safeMainSync(_ block: @escaping ()->()) {
+
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.sync {
+                block()
+            }
+        }
+    }
+
+
+    
 }
