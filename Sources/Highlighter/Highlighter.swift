@@ -154,18 +154,33 @@ open class Highlighter {
     
         - Parameters:
             - themeName: The Highlight.js theme's name
+            - withFont:  The name of the font to use. Default: Courier
+            - ofSize:    The size of the font. Default: 14pt
      
         - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    open func setTheme(_ themeName: String) -> Bool {
-
+    open func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
+        
+        // Make sure we can load the theme's CSS file
         guard let themePath = bundle.path(forResource: themeName, ofType: "css") else {
             return false
         }
-
+        
+        // Create the required font
+        var font: HRFont? = nil
+        if let fontName: String = withFont {
+            var size: CGFloat = 14.0
+            if ofSize != nil {
+                size = ofSize!
+            }
+            
+            font = HRFont.init(name: fontName, size: size)
+        }
+        
+        // Get the theme CSS and instantiate a Theme object
         let themeString = try! String.init(contentsOfFile: themePath)
-        self.theme = Theme.init(withTheme: themeString)
+        self.theme = Theme.init(withTheme: themeString, usingFont: font)
         return true
     }
 

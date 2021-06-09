@@ -16,11 +16,15 @@ HighlighterSwift was designed from the ground up as a Swift Package. Support for
 
 HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
 
+A number of functions have been given extra parameters, primarily to add font selection when setting themes and initiating Theme objects.
+
 ![Far theme example](Images/far.png)
 
 #### Why not update Highlightr?
 
-HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. The changes, though minimal and mostly in the form ot tweaks to the bundled Highlight.js theme mean it wasn’t considered appropriate to inflict on the Hightlightr source — or to wait for a pull request to be accepted (the last was in 2018). HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing devs to select either, both or a mix of the two.
+HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. Some of the changes are breaking, and so I feel it’s not appropriate to inflict them on the Hightlightr source — or to wait for a pull request to be accepted (the last was in 2018). Not that I am opposed to pulling in the changes if the community would prefer that.
+
+HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing devs to select either, both or a mix of the two.
 
 ## Platform Support
 
