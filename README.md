@@ -4,7 +4,15 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately now no longer fully maintained.
 
+### Improvements and Changes
+
 Highlightr makes use of Highlight.js 9, but the most recent release of the JavaScript, as of June 2021, is version 11, and the use of version 9 is no longer supported or recommended. HighlighterSwift works with Highlight.js 10.7.3, which continues to receive updates. I hope to update the library to version 11.x in due course.
+
+HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
+
+HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included.
+
+HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
 
 #### Why not update Highlightr?
 
@@ -12,7 +20,7 @@ HighlighterSwift was created to meet the needs of a specific project, which was 
 
 ## Platform Support
 
-HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is untested.
+HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is untested, however.
 
 ## Installation
 
