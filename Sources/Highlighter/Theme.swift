@@ -354,6 +354,7 @@ open class Theme {
      * `green`
      * `blue`
      * `navy`
+     * `silver`
      
      Unknown colour identifiers default to grey.
         
@@ -383,6 +384,8 @@ open class Theme {
                 return HRColor.init(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
             case "navy":
                 return HRColor.init(red: 0.0, green: 0.0, blue: 0.5, alpha: 1.0)
+            case "silver":
+                return HRColor.init(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.0)
             default:
                 return HRColor.gray
             }

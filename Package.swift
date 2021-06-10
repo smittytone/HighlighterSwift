@@ -122,6 +122,7 @@ let package = Package(
                 .copy("Assets/styles/vs.css"),
                 .copy("Assets/styles/vs2015.css"),
                 .copy("Assets/styles/xcode.css"),
+                .copy("Assets/styles/xcode-dusk.css"),
                 .copy("Assets/styles/xt256.css"),
                 .copy("Assets/styles/zenburn.css")
             ]),
