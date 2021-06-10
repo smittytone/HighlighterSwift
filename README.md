@@ -8,23 +8,25 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9, but the most recent release of the JavaScript, as of June 2021, is version 11, and the use of version 9 is no longer supported or recommended. HighlighterSwift works with Highlight.js 10.7.3, which continues to receive updates. I hope to update the library to version 11.x in due course.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript, as of June 2021, is version 11.0.1. The use of version 9 is no longer supported or recommended by the Hightlight.js team. Highlight.js 11 is very new, so I have chosen to use Highlight.js 10.7.3 for the moment. Highlight.js 10 continues to receive updates, but I hope to update the library to version 11 in due course.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
-HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included.
+HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included. Highlightr supprts CocoaPods and Carthage.
 
 HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
 
-A number of functions have been given extra parameters, primarily to add font selection when setting themes and initiating Theme objects.
+A number of functions have been given extra parameters, primarily to add font selection when setting themes and initiating Theme objects. Redundant code has been removed. Some parameters have been renamed.
+
+Unit tests have been added, and more will come, I hope.
 
 ![Far theme example](Images/far.png)
 
 #### Why not update Highlightr?
 
-HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. Some of the changes are breaking, and so I feel it’s not appropriate to inflict them on the Hightlightr source — or to wait for a pull request to be accepted (the last was in 2018). Not that I am opposed to pulling in the changes if the community would prefer that.
+HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. Some of the changes listed above are breaking, and so I feel it’s not appropriate to just inflict them on the Hightlightr source, especially when there are many outstanding pull requests.But I’m not opposed to pulling in my changes if the community requests that.
 
-HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing devs to select either, both or a mix of the two.
+HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing developers to select either, both or a mix of the two.
 
 ## Platform Support
 
@@ -38,7 +40,7 @@ To add HighlighterSwift to your project, use Xcode to add it as a Swift Package 
 
 ## Usage
 
-Instantiate a Highlighter object. Its *init()* function returns an optional, which will be `nil` if the `Highlight.min.js` could not be found or is non-functional, or the Default theme is missing.
+Instantiate a *Highlighter* object. Its *init()* function returns an optional, which will be `nil` if the `Highlight.min.js` could not be found or is non-functional, or the `Default` theme CSS file is missing:
 
 ```swift
 if let highlighter: Highlighter = Highlighter.init() {
@@ -52,24 +54,34 @@ You can set a specific theme using the *setTheme()* function:
 highlighter.setTheme(hr.setTheme("atom-one-light")
 ```
 
-**Note** Set your preferred font using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want and is called on the Highlighter instance’s *theme* property:
+You can apply your chosen font at this time too, or use the default: 14pt Courier.
 
 ```swift
-let font: NSFont = NSFont.init(name: "menlo-regular", size: 12.0)!
+highlighter.setTheme(hr.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
+```
+
+You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want and is called on the Highlighter instance’s *theme* property:
+
+```swift
+let font: NSFont = NSFont.init(name: "Menlo-Regular", size: 12.0)!
 highlighter.theme.setCodeFont(font)
 ```
 
 Finally, get an optional NSAttributedString containing the formatted code:
 
 ```swift
-let displayString: NSAttributedString? = highlighter.highlight(codeString, as: "swift")
+if let displayString: NSAttributedString = highlighter.highlight(codeString, as: "swift") {
+    myTextView.textStorage!.addAttributedString(displayString)
+}
 ```
-
-The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, Highlighter will use Highlight.js’ language detection feature.
 
 ![Far theme example](Images/github-gist.png)
 
-You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings. The function *availableThemes()* returns a list of the installed themes.
+The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, Highlighter will use Highlight.js’ language detection feature.
+
+You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings.
+
+The function *availableThemes()* returns a list of the installed themes.
 
 ## Release Notes
 
@@ -80,4 +92,4 @@ You can get a list of supported languages by the name they are known to Highligh
 
 HighlighterSwift, like Highlightr before it, is released under the terms of the MIT Licence. Hightlight.js is released under the BSD 3-Clause Licence.
 
-HighlighterSwift is &copy; 2021, Tony Smith. Portions are &copy; 2018, Juan Pablo Illanes. Other portions are &copy; 2021, Ivan Sagalaev.
+HighlighterSwift is &copy; 2021, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2021, Ivan Sagalaev.
