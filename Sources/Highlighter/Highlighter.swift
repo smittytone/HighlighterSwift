@@ -20,7 +20,7 @@ import AppKit
  */
 open class Highlighter {
 
-    // MARK: Public Properties
+    // MARK:- Public Properties
     open var theme : Theme! {
         didSet {
             themeChanged?(theme)
@@ -34,8 +34,7 @@ open class Highlighter {
     open var ignoreIllegals = false
 
     
-    // MARK: Private Properties
-
+    // MARK:- Private Properties
     private let hljs: JSValue
     private let bundle: Bundle
     private let htmlStart: String = "<"
@@ -48,22 +47,27 @@ open class Highlighter {
     // MARK:- Constructor
     
     /**
-        The default initialiser.
+     The default initialiser.
+     
+     Returns `nil` on failure to load or evaluate `highlight.min.js`,
+     or to load the default theme (`Default`)
     */
     public init?() {
-
+        
+        // Get the library's bundle based on how it's
+        // being included in the host app
         #if SWIFT_PACKAGE
         let bundle = Bundle.module
         #else
         let bundle = Bundle(for: Highlighter.self)
         #endif
 
-        // Load the highlight.js code from the bundle
+        // Load the highlight.js code from the bundle or fail
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
             return nil
         }
 
-        // Check the JavaScript
+        // Check the JavaScript or fail
         let context = JSContext.init()!
         let highlightJs: String = try! String.init(contentsOfFile: highlightPath)
         let _ = context.evaluateScript(highlightJs)
@@ -71,11 +75,12 @@ open class Highlighter {
             return nil
         }
         
-        // Store properties for later
+        // Store the results for later
         self.hljs = hljs
         self.bundle = bundle
         
-        // Check and set applying a theme
+        // Check and set applying a theme or fail
+        // NOTE 'setTheme()' depends on 'self.bundle'
         guard setTheme("default") else {
             return nil
         }
@@ -85,16 +90,16 @@ open class Highlighter {
     //MARK: - Primary Functions
     
     /**
-        Highlight the specified code in the specified language.
+    Highlight the supplied code in the specified language.
     
-        - Parameters:
-            - code:         The source code to highlight.
-            - languageName: The language in which the code is written.
-            - fastRender:   Should fast rendering be used? Default: `true`.
+    - Parameters:
+     - code:         The source code to highlight.
+     - languageName: The language in which the code is written.
+     - doFastRender: Should fast rendering be used? Default: `true`.
      
-        - Returns: NSAttributedString with code highlighted.
+     - Returns: The highlighted code as an NSAttributedString, or `nil`
     */
-    open func highlight(_ code: String, as languageName: String? = nil, fastRender: Bool = true) -> NSAttributedString? {
+    open func highlight(_ code: String, as languageName: String? = nil, doFastRender: Bool = true) -> NSAttributedString? {
 
         let returnValue: JSValue
         
@@ -110,14 +115,14 @@ open class Highlighter {
                                             withArguments: [code])
         }
         
-        // Check we got a valid string back
+        // Check we got a valid string back - fail if we didn't
         let renderedHTMLValue: JSValue? = returnValue.objectForKeyedSubscript("value")
         guard var renderedHTMLString: String = renderedHTMLValue!.toString() else {
             return nil
         }
         
         // Trap 'undefined' output as this is effectively an error condition
-        // and should not be returned as a valid result
+        // and should not be returned as a valid result -- it's actually a fail
         if renderedHTMLString == "undefined" {
             return nil
         }
@@ -125,7 +130,7 @@ open class Highlighter {
         // Convert the HTML received from Highlight.js to an NSAttributedString or nil
         var returnAttrString: NSAttributedString? = nil
         
-        if (fastRender) {
+        if doFastRender {
             // Use fast rendering -- the default
             returnAttrString = processHTMLString(renderedHTMLString)!
         } else {
@@ -139,6 +144,7 @@ open class Highlighter {
             ]
 
             // Execute on main thread
+            // NOTE Not sure why, when we don't do this elsewhere
             safeMainSync
             {
                 returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
@@ -150,24 +156,25 @@ open class Highlighter {
 
 
     /**
-        Set the Highligt.js theme to use for highlighting.
+     Set the Highligt.js theme to use for highlighting.
     
-        - Parameters:
-            - themeName: The Highlight.js theme's name
-            - withFont:  The name of the font to use. Default: Courier
-            - ofSize:    The size of the font. Default: 14pt
+     - Parameters:
+        - themeName: The Highlight.js theme's name.
+        - withFont:  The name of the font to use. Default: Courier.
+        - ofSize:    The size of the font. Default: 14pt.
      
-        - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
+     - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
     open func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
         
-        // Make sure we can load the theme's CSS file
-        guard let themePath = bundle.path(forResource: themeName, ofType: "css") else {
+        // Make sure we can load the theme's CSS file -- or fail
+        guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
             return false
         }
         
         // Create the required font
+        // If this fails ('font' == nil), we use the defaults
         var font: HRFont? = nil
         if let fontName: String = withFont {
             var size: CGFloat = 14.0
@@ -186,9 +193,11 @@ open class Highlighter {
 
     
     /**
-        Get a list of available Highlight.js themes.
+     Get a list of available Highlight.js themes.
+     
+     Just lists what CSS files are in the bundle.
     
-        - Returns: The list of themes as an array of strings.
+     - Returns: The list of themes as an array of strings.
     */
     open func availableThemes() -> [String] {
 
@@ -203,9 +212,9 @@ open class Highlighter {
 
     
     /**
-        Get a list of languages supported by Highlight.js.
+     Get a list of languages supported by Highlight.js.
     
-        - Returns: The list of languages as an array of strings.
+     - Returns: The list of languages as an array of strings.
     */
     open func supportedLanguages() -> [String] {
 
@@ -217,12 +226,12 @@ open class Highlighter {
     // MARK:- Fast HTML Rendering Function
 
     /**
-        Generate an NSAttributedString from HTML source.
+     Generate an NSAttributedString from HTML source.
     
-        - Parameters:
-            - htmlString: The HTML to be converted
+     - Parameters:
+        - htmlString: The HTML to be converted.
      
-        - Returns: An optional NSAttibutedString containing the render, or `nil` if an error occurred.
+     - Returns: The rendered HTML as an NSAttibutedString, or `nil` if an error occurred.
     */
     private func processHTMLString(_ htmlString: String) -> NSAttributedString? {
 
@@ -234,7 +243,8 @@ open class Highlighter {
 
         while !scanner.isAtEnd {
             var ended: Bool = false
-            if scanner.scanUpTo(self.htmlStart, into: &scannedString) {
+            if scanner.scanUpTo(self.htmlStart,
+                                into: &scannedString) {
                 ended = scanner.isAtEnd
             }
 
@@ -289,7 +299,7 @@ open class Highlighter {
     // MARK:- Utility Functions
 
     /**
-        Execute the supplied block on the main thread
+     Execute the supplied block on the main thread.
     */
     private func safeMainSync(_ block: @escaping ()->()) {
 

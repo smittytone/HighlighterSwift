@@ -25,11 +25,11 @@ private typealias HRThemeStringDict = [String: [String: String]]
 
 
 /**
-    Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
+ Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
  */
 open class Theme {
 
-    // MARK: Public Properties
+    // MARK:- Public Properties
     internal let theme: String
     internal var lightTheme: String!
 
@@ -39,7 +39,7 @@ open class Theme {
     open var themeBackgroundColour: HRColor!
 
     
-    // MARK: Private Properties
+    // MARK:- Private Properties
     private var themeDict : HRThemeDict!
     private var strippedTheme : HRThemeStringDict!
 
@@ -47,11 +47,11 @@ open class Theme {
     // MARK:- Constructor
     
     /**
-        The default initialiser.
+     The default initialiser.
      
-        - Parameters:
-            - withTheme: The name of the Highlight.js theme to use. Default: `default`.
-            - usingFont: Optionally, a UIFont or NSFont to apply to the theme. Default: Courier @ 14pt.
+     - Parameters:
+        - withTheme: The name of the Highlight.js theme to use. Default: `Default`.
+        - usingFont: Optionally, a UIFont or NSFont to apply to the theme. Default: Courier @ 14pt.
     */
     init(withTheme: String = "default", usingFont: HRFont? = nil) {
         
@@ -61,8 +61,11 @@ open class Theme {
         // Apply the font choice
         if let font: HRFont = usingFont {
             setCodeFont(font)
+        } else if let font = HRFont(name: "courier", size: 14.0) {
+            setCodeFont(font)
         } else {
-            setCodeFont(HRFont(name: "courier", size: 14)!)
+            // Just in case Courier has been deleted...
+            setCodeFont(HRFont.systemFont(ofSize: 14.0))
         }
 
         // Generate and store the theme variants
@@ -78,15 +81,7 @@ open class Theme {
         
         // Convert the hex to a UIColor or NSColor
         if let bgColourHex = backgroundColourHex {
-            if (bgColourHex == "white") {
-                self.themeBackgroundColour = HRColor(white: 1, alpha: 1)
-            } else if (bgColourHex == "black") {
-                self.themeBackgroundColour = HRColor(white: 0, alpha: 1)
-            } else {
-                let range: Range? = bgColourHex.range(of: "#")
-                let hexString: String = String(bgColourHex[(range?.lowerBound)!...])
-                self.themeBackgroundColour = colourFromHexString(hexString)
-            }
+            self.themeBackgroundColour = colourFromHexString(bgColourHex)
         } else {
             // Set a generic (light) background
             self.themeBackgroundColour = HRColor.white
@@ -94,13 +89,15 @@ open class Theme {
     }
 
     
-    /**
-        Change the theme's font.
-     
-        This will automatically populate bold and italic variants of the specified font.
+    // MARK:- Getters and Setters
     
-        - Parameters:
-            - font: The UIFont or NSFont to use.
+    /**
+     Change the theme's font.
+     
+     This will automatically populate bold and italic variants of the specified font.
+    
+     - Parameters:
+        - font: The UIFont or NSFont to use.
     */
     open func setCodeFont(_ font: HRFont) {
 
@@ -148,15 +145,15 @@ open class Theme {
     // MARK:- Private Functions
     
     /**
-        Convert a string to an NSAttributedString styled using the theme.
+     Convert a string to an NSAttributedString styled using the theme.
         
-        Automatically applies the theme's font.
+     Automatically applies the theme's font.
     
-        - Parameters:
-            - string:    The source code string
-            - styleList: An array of attribute keys (strings)
+     - Parameters:
+        - string:    The source code string.
+        - styleList: An array of attribute keys (strings).
      
-        - Returns: NSAttributedString with code highlighted.
+     - Returns: The styled text as an NSAttributedString.
     */
     internal func applyStyleToString(_ string: String, styleList: [String]) -> NSAttributedString {
         
@@ -167,7 +164,7 @@ open class Theme {
             var attrs = [AttributedStringKey: Any]()
             attrs[.font] = self.codeFont
             for style in styleList {
-                if let themeStyle = themeDict[style] as? [AttributedStringKey: Any] {
+                if let themeStyle = self.themeDict[style] as? [AttributedStringKey: Any] {
                     for (attrName, attrValue) in themeStyle {
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
@@ -177,19 +174,19 @@ open class Theme {
             returnString = NSAttributedString(string: string, attributes:attrs)
         } else {
             // No specified attributes? Just set the font
-            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:codeFont as Any])
+            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font: codeFont as Any])
         }
 
         return returnString
     }
 
     /**
-        Convert a Highlight.js theme's CSS to the class' string dictionary.
+     Convert a Highlight.js theme's CSS to the class' string dictionary.
         
-        - Parameters:
-            - themeString: The theme's CSS string
+     - Parameters:
+        - themeString: The theme's CSS string.
      
-        - Returns: A dictionary of styles and values
+     - Returns: A dictionary of styles and values.
     */
     private func stripTheme(_ themeString : String) -> HRThemeStringDict {
         
@@ -238,12 +235,12 @@ open class Theme {
 
     
     /**
-        Convert  in instance's string dictionary to a CSS string
+     Convert an instance's string dictionary to a CSS string.
         
-        - Parameters:
-            - themeStringDict: The dictionary of styles and values
+     - Parameters:
+        - themeStringDict: The dictionary of styles and values.
      
-        - Returns: CSS code as a string
+     - Returns: CSS code as a string.
     */
     private func strippedThemeToString(_ themeStringDict: HRThemeStringDict) -> String {
 
@@ -264,12 +261,12 @@ open class Theme {
 
     
     /**
-        Convert  in instance's string dictionary to base dictionary
+     Convert  in instance's string dictionary to base dictionary.
         
-        - Parameters:
-            - themeStringDict: The dictionary of styles and values
+     - Parameters:
+        - themeStringDict: The dictionary of styles and values.
      
-        - Returns: The base dictionary
+     - Returns: The base dictionary.
     */
     private func strippedThemeToTheme(_ themeStringDict: HRThemeStringDict) -> HRThemeDict {
 
@@ -302,14 +299,14 @@ open class Theme {
 
     
     /**
-        Get font information from a CSS string and use it to generate a font object.
+     Get font information from a CSS string and use it to generate a font object.
         
-        - Parameters:
-            - fontStyle: The CSS font definition
+     - Parameters:
+        - fontStyle: The CSS font definition.
      
-        - Returns: A UIFont or NSFont
+     - Returns: A UIFont or NSFont.
     */
-    private func fontForCSSStyle(_ fontStyle: String) -> HRFont {
+    internal func fontForCSSStyle(_ fontStyle: String) -> HRFont {
         
         switch fontStyle {
             case "bold", "bolder", "600", "700", "800", "900":
@@ -325,12 +322,12 @@ open class Theme {
     /**
      Emit an AttributedString key based on the a style key from a CSS file.
         
-        - Parameters:
-            - key: The CSS attribute key
+     - Parameters:
+        - key: The CSS attribute key.
      
-        - Returns: The NSAttributedString key
+     - Returns: The NSAttributedString key.
     */
-    private func attributeForCSSKey(_ key: String) -> AttributedStringKey {
+    internal func attributeForCSSKey(_ key: String) -> AttributedStringKey {
 
         switch key {
         case "color":
@@ -349,12 +346,21 @@ open class Theme {
     /**
      Emit a colour object to match a hex string or CSS colour identifiier.
      
-     Identifiers supported: `white`, `black`, `red`, `green`, `blue`, `navy`.
-        
-        - Parameters:
-            - colourValue: The CSS colour specification
+     Identifiers supported:
      
-        - Returns: A UIColor or NSColor
+     * `white`
+     * `black`
+     * `red`
+     * `green`
+     * `blue`
+     * `navy`
+     
+     Unknown colour identifiers default to grey.
+        
+     - Parameters:
+        - colourValue: The CSS colour specification.
+     
+     - Returns: A UIColor or NSColor.
     */
     internal func colourFromHexString(_ colourValue: String) -> HRColor {
         

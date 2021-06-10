@@ -3,8 +3,6 @@
  *  Copyright 2021, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
- *  Adapted from: https://gist.github.com/jrmgx/3f9f1d330b295cf6b1c6
- *
  *  Licence: MIT
  */
 
@@ -13,23 +11,24 @@ import Foundation
 
 
 /**
-    Utility class for processing certain HTML entities.
+ Utility class for processing certain HTML entities.
  */
 internal class HTMLUtils {
     
     /**
-        Decode the HTML character entity to the corresponding Unicode character.
+     Decode the HTML character entity to the corresponding Unicode character.
      
-        Unicode character, return `nil` for invalid input. For example:
-            `decode("&#64;") `          returns     `"@"`
-            `decode("&#x20ac;")`    returns     ` "€"`
-            `decode("&lt;")`             returns     `"<"`
-            `decode("&foo;")`           returns     `nil`
+     Unicode character, return `nil` for invalid input. For example:
+     
+     * `decode("&#64;")`    returns `"@"`
+     * `decode("&#x20ac;")` returns `"€"`
+     * `decode("&lt;")`     returns `"<"`
+     * `decode("&foo;")`    returns `nil`
     
-        - Parameters:
-            - entity: The HTML entity code.
+     - Parameters:
+        - entity: The HTML entity code.
      
-        - Returns: The entity as a Swift Character, or `nil` if it could not be decoded..
+     - Returns: The entity as a Swift Character, or `nil` if it could not be decoded.
     */
     class func decode(_ entity: String) -> Character? {
 
@@ -44,17 +43,18 @@ internal class HTMLUtils {
 
     
     /**
-        Decode a numerically encoded HTML character entity to the corresponding Unicode character.
+     Decode a numerically encoded HTML character entity to the corresponding Unicode character.
      
-        Unicode character, return `nil` for invalid input. For example:
-            `decodeNumeric("&#64;") `          returns     `"@"`
-            `decodeNumeric("&#x20ac;")`    returns     ` "€"
+     Unicode character, return `nil` for invalid input. For example:
+     
+     * `decodeNumeric("&#64;")`    returns `"@"`,
+     * `decodeNumeric("&#x20ac;")` returns `"€"`
     
-        - Parameters:
-            - entityValue: The HTML entity numeric code.
-            - base:        The numeric base of the value.
+     - Parameters:
+        - entityValue: The HTML entity numeric code.
+        - base:        The numeric base of the value.
      
-        - Returns: The entity as a Swift Character, or `nil` if it could not be decoded..
+     - Returns: The entity as a Swift Character, or `nil` if it could not be decoded.
     */
     class func decodeNumeric(_ entityValue: String, base: Int32) -> Character? {
 
@@ -65,6 +65,9 @@ internal class HTMLUtils {
 }
 
 
+/**
+ Dictionary of HTML entities and the characters they refer to.
+ */
 private let characterEntities: [String: Character] = [
 
     // XML predefined entities
