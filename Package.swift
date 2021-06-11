@@ -124,7 +124,11 @@ let package = Package(
                 .copy("Assets/styles/xcode.css"),
                 .copy("Assets/styles/xcode-dusk.css"),
                 .copy("Assets/styles/xt256.css"),
-                .copy("Assets/styles/zenburn.css")
+                .copy("Assets/styles/zenburn.css"),
+                .copy("Assets/styles/snazzy.css"),
+                .copy("Assets/styles/silk-light.css"),
+                .copy("Assets/styles/silk-dark.css"),
+                .copy("Assets/styles/vulcan.css")
             ]),
         .testTarget(
             name: "HighlighterTests",
