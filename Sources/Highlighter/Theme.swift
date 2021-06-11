@@ -191,8 +191,11 @@ open class Theme {
     private func stripTheme(_ themeString : String) -> HRThemeStringDict {
         
         let objcString: NSString = (themeString as NSString)
-        let cssRegex = try! NSRegularExpression(pattern: "(?:(\\.[a-zA-Z0-9\\-_]*(?:[, ]\\.[a-zA-Z0-9\\-_]*)*)\\{([^\\}]*?)\\})", options:[.caseInsensitive])
-        let results = cssRegex.matches(in: themeString, options: [.reportCompletion], range: NSMakeRange(0, objcString.length))
+        let cssRegex = try! NSRegularExpression(pattern: "(?:(\\.[a-zA-Z0-9\\-_]*(?:[, ]\\.[a-zA-Z0-9\\-_]*)*)\\{([^\\}]*?)\\})",
+                                                options:[.caseInsensitive])
+        let results = cssRegex.matches(in: themeString,
+                                       options: [.reportCompletion],
+                                       range: NSMakeRange(0, objcString.length))
         var resultDict = [String: [String: String]]()
 
         for result in results {
@@ -213,7 +216,7 @@ open class Theme {
         }
 
         var returnDict = [String: [String: String]]()
-        for (keys,result) in resultDict {
+        for (keys, result) in resultDict {
             let keyArray = keys.replacingOccurrences(of: " ", with: ",").components(separatedBy: ",")
             for key in keyArray {
                 var props : [String: String]?
