@@ -12,6 +12,14 @@ Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the 
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
+Unlike Highlightr, HighlighterSwift parses Highlight.js themes for separate declarations of the same style. For example, Hybrid contains the following CSS:
+
+```css
+.hljs{display:block;overflow-x:auto;padding:.5em;background:#1d1f21}.hljs span::selection,.hljs::selection{background:#373b41}.hljs{color:#c5c8c6}
+```
+
+The `hljs.color` attributed is added to `hljs.display`,  `hljs.overflow-x`, `hjls.padding` and `hljs.background`, it doesn’t replace them.
+
 HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included. Highlightr supprts CocoaPods and Carthage.
 
 HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
