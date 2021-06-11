@@ -200,7 +200,7 @@ open class Theme {
 
         for result in results {
             if result.numberOfRanges == 3 {
-                var attributes = [String: String]()
+                var attributes = [String:String]()
                 let cssPairs = objcString.substring(with: result.range(at: 2)).components(separatedBy: ";")
                 for pair in cssPairs {
                     let cssPropComp = pair.components(separatedBy: ":")
@@ -210,7 +210,15 @@ open class Theme {
                 }
 
                 if attributes.count > 0 {
-                    resultDict[objcString.substring(with: result.range(at: 1))] = attributes
+                    // Check if we're adding attributes to an existing hjls key
+                    if resultDict[objcString.substring(with: result.range(at: 1))] != nil {
+                        // We have the key already so merge in the latest attribute dictionary
+                        let existingAttributes: [String: String] = resultDict[objcString.substring(with: result.range(at: 1))]!
+                        resultDict[objcString.substring(with: result.range(at: 1))] = existingAttributes.merging(attributes, uniquingKeysWith: { (first, _) in first })
+                    } else {
+                        // Set the attributes to a new key
+                        resultDict[objcString.substring(with: result.range(at: 1))] = attributes
+                    }
                 }
             }
         }
