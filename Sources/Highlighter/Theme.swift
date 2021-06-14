@@ -210,7 +210,7 @@ open class Theme {
                 }
 
                 if attributes.count > 0 {
-                    // Check if we're adding attributes to an existing hjls key
+                    // Check if we're adding attributes to an existing hljs key
                     if resultDict[objcString.substring(with: result.range(at: 1))] != nil {
                         // We have the key already so merge in the latest attribute dictionary
                         let existingAttributes: [String: String] = resultDict[objcString.substring(with: result.range(at: 1))]!
