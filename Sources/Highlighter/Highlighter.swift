@@ -21,14 +21,14 @@ import AppKit
 open class Highlighter {
 
     // MARK:- Public Properties
-    open var theme : Theme! {
+    open var theme: Theme! {
         didSet {
             themeChanged?(theme)
         }
     }
 
     // This block will be called every time the theme changes.
-    open var themeChanged : ((Theme) -> Void)?
+    open var themeChanged: ((Theme) -> Void)?
 
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
