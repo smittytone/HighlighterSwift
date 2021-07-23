@@ -58,7 +58,6 @@ let package = Package(
                 .copy("Assets/styles/color-brewer.css"),
                 .copy("Assets/styles/darcula.css"),
                 .copy("Assets/styles/dark.css"),
-                .copy("Assets/styles/darkula.css"),
                 .copy("Assets/styles/default.css"),
                 .copy("Assets/styles/docco.css"),
                 .copy("Assets/styles/dracula.css"),
