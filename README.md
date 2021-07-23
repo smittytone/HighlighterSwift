@@ -1,4 +1,4 @@
-# HighlighterSwift 1.0.0
+# HighlighterSwift 1.0.1
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -93,7 +93,9 @@ The function *availableThemes()* returns a list of the installed themes.
 
 ## Release Notes
 
-* 1.0.0 *Unreleased*
+* 1.0.1 *23 July 2021*
+    - Correct list of available themes in `package.swift`.
+* 1.0.0 *15 July 2021*
     * Initial public release.
 
 ## Licences
