@@ -1,4 +1,4 @@
-# HighlighterSwift 1.0.1
+# HighlighterSwift 2.0.0
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -8,7 +8,7 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript, as of June 2021, is version 11.0.1. The use of version 9 is no longer supported or recommended by the Hightlight.js team. Highlight.js 11 is very new, so I have chosen to use Highlight.js 10.7.3 for the moment. Highlight.js 10 continues to receive updates, but I hope to update the library to version 11 in due course.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript in June 2021 was version 11.0.1. The use of version 9 is no longer supported or recommended by the Hightlight.js team. Version 1.x of HighlighterSwift made use of Highlight.js 10.7.3. Version 2.0.0 moves to Highlight.js 11.5.0.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -93,6 +93,8 @@ The function *availableThemes()* returns a list of the installed themes.
 
 ## Release Notes
 
+* 2.0.0 *Unreleased*
+    - Update to Highlight.js 11.5.0.
 * 1.0.1 *23 July 2021*
     - Correct list of available themes in `package.swift`.
 * 1.0.0 *15 July 2021*
@@ -102,4 +104,4 @@ The function *availableThemes()* returns a list of the installed themes.
 
 HighlighterSwift, like Highlightr before it, is released under the terms of the MIT Licence. Hightlight.js is released under the BSD 3-Clause Licence.
 
-HighlighterSwift is &copy; 2021, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2021, Ivan Sagalaev.
+HighlighterSwift is &copy; 2022, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2022, Ivan Sagalaev.
