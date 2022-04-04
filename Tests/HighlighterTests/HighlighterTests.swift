@@ -115,5 +115,4 @@ final class HighlighterTests: XCTestCase {
         XCTAssert(result == NSColor.gray)
     }
     
-    
 }
