@@ -95,6 +95,7 @@ The function *availableThemes()* returns a list of the installed themes.
 
 * 2.0.0 *Unreleased*
     - Update to Highlight.js 11.5.0.
+    - Include all Highlight.js languages.
 * 1.0.1 *23 July 2021*
     - Correct list of available themes in `package.swift`.
 * 1.0.0 *15 July 2021*
