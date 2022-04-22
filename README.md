@@ -62,10 +62,10 @@ You can set a specific theme using the *setTheme()* function:
 highlighter.setTheme("atom-one-light")
 ```
 
-You can apply your chosen font at this time too, or use the default: 14pt Courier.
+You can apply your chosen font — the default is 14pt Courier — at this time too:
 
 ```swift
-highlighter.setTheme(hr.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
+highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
 You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want and is called on the Highlighter instance’s *theme* property:
