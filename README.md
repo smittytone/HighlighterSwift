@@ -59,7 +59,7 @@ if let highlighter: Highlighter = Highlighter.init() {
 You can set a specific theme using the *setTheme()* function:
 
 ```swift
-highlighter.setTheme(hr.setTheme("atom-one-light")
+highlighter.setTheme("atom-one-light")
 ```
 
 You can apply your chosen font at this time too, or use the default: 14pt Courier.
@@ -75,7 +75,7 @@ let font: NSFont = NSFont.init(name: "Menlo-Regular", size: 12.0)!
 highlighter.theme.setCodeFont(font)
 ```
 
-Finally, get an optional NSAttributedString containing the formatted code:
+Finally, get an optional NSAttributedString containing the formatted code using the instance’s *highlight()* method:
 
 ```swift
 if let displayString: NSAttributedString = highlighter.highlight(codeString, as: "swift") {
