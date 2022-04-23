@@ -4,11 +4,11 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ![Far theme example](Images/atom-one-dark.png)
 
-It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately now no longer fully maintained.
+It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr) and relies heavily upon code from that project, which is unfortunately no longer fully maintained.
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript in June 2021 was version 11.0.1. The use of version 9 is no longer supported or recommended by the Hightlight.js team. Version 1.x of HighlighterSwift made use of Highlight.js 10.7.3. Version 2.0.0 moves to Highlight.js 11.5.0.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library in June 2021, when HighlighterSwift was developed, was version 11.0.1. The use of Highlight.js 9.x is no longer supported or recommended by the Hightlight.js team. Version 1.x of HighlighterSwift made use of the stable Highlight.js 10.7.3. Version 2.0.0 moves to Highlight.js 11.5.0.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -18,7 +18,7 @@ Unlike Highlightr, HighlighterSwift parses Highlight.js themes for separate decl
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#1d1f21}.hljs span::selection,.hljs::selection{background:#373b41}.hljs{color:#c5c8c6}
 ```
 
-The `hljs.color` attributed is added to `hljs.display`,  `hljs.overflow-x`, `hljs.padding` and `hljs.background`, it doesn’t replace them.
+The `hljs.color` attribute is added to `hljs.display`, `hljs.overflow-x`, `hljs.padding` and `hljs.background`, it doesn’t replace them.
 
 HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included. Highlightr supprts CocoaPods and Carthage.
 
@@ -32,7 +32,7 @@ Unit tests have been added, and more will come, I hope.
 
 #### Why not update Highlightr?
 
-HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. Some of the changes listed above are breaking, and so I feel it’s not appropriate to just inflict them on the Hightlightr source, especially when there are many outstanding pull requests.But I’m not opposed to pulling in my changes if the community requests that.
+HighlighterSwift was created to meet the needs of a specific project, which was originally conceived with a modified version Hightlightr in mind. Some of the changes listed above are breaking, and so I feel it’s not appropriate to just inflict them on the Hightlightr source, especially when there are many outstanding pull requests yet to be addressed. But I’m not opposed to pulling in my changes if the community requests that.
 
 HighlighterSwift is released under the same [licence](#licence) as Highlightr, allowing developers to select either, both or a mix of the two.
 
@@ -44,7 +44,7 @@ HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is 
 
 To add HighlighterSwift to your project, use Xcode to add it as a Swift Package at this repo’s URL. The library contains the Highlight.js code and themes.
 
-**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes; the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
+**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (Highlight.js is also starting to do this); the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
 
 ## Usage
 
@@ -62,20 +62,20 @@ You can set a specific theme using the *setTheme()* function:
 highlighter.setTheme("atom-one-light")
 ```
 
-You can apply your chosen font — the default is 14pt Courier — at this time too:
+You can apply your chosen font at this time too rather than fall back on the default, 14pt Courier:
 
 ```swift
 highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
-You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want and is called on the Highlighter instance’s *theme* property:
+You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want, and is called on the Highlighter instance’s *theme* property:
 
 ```swift
 let font: NSFont = NSFont.init(name: "Menlo-Regular", size: 12.0)!
 highlighter.theme.setCodeFont(font)
 ```
 
-Finally, get an optional NSAttributedString containing the formatted code using the instance’s *highlight()* method:
+Finally, get an optional NSAttributedString containing the formatted code:
 
 ```swift
 if let displayString: NSAttributedString = highlighter.highlight(codeString, as: "swift") {
