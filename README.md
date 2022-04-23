@@ -1,4 +1,4 @@
-# HighlighterSwift 2.0.0
+# HighlighterSwift 1.1.0
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -8,7 +8,7 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library in June 2021, when HighlighterSwift was developed, was version 11.0.1. The use of Highlight.js 9.x is no longer supported or recommended by the Hightlight.js team. Version 1.x of HighlighterSwift made use of the stable Highlight.js 10.7.3. Version 2.0.0 moves to Highlight.js 11.5.0.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library in June 2021, when HighlighterSwift was developed, was version 11.0.1. The use of Highlight.js 9.x is no longer supported or recommended by the Hightlight.js team. Version 1.0.x of HighlighterSwift made use of the stable Highlight.js 10.7.3. Version 1.1.0 moves to Highlight.js 11.5.0.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -93,7 +93,7 @@ The function *availableThemes()* returns a list of the installed themes.
 
 ## Release Notes
 
-* 2.0.0 *Unreleased*
+* 1.1.0 *Unreleased*
     - Update to Highlight.js 11.5.0.
     - Include all Highlight.js languages.
 * 1.0.1 *23 July 2021*
