@@ -44,11 +44,11 @@ HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is 
 
 To add HighlighterSwift to your project, use Xcode to add it as a Swift Package at this repo’s URL. The library contains the Highlight.js code and themes.
 
-**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (Highlight.js is also starting to do this); the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
+**Note*- This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (Highlight.js is also starting to do this); the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
 
 ## Usage
 
-Instantiate a *Highlighter* object. Its *init()* function returns an optional, which will be `nil` if the `Highlight.min.js` could not be found or is non-functional, or the `Default` theme CSS file is missing:
+Instantiate a *Highlighter- object. Its *init()- function returns an optional, which will be `nil` if the `Highlight.min.js` could not be found or is non-functional, or the `Default` theme CSS file is missing:
 
 ```swift
 if let highlighter: Highlighter = Highlighter.init() {
@@ -56,7 +56,7 @@ if let highlighter: Highlighter = Highlighter.init() {
 }
 ```
 
-You can set a specific theme using the *setTheme()* function:
+You can set a specific theme using the *setTheme()- function:
 
 ```swift
 highlighter.setTheme("atom-one-light")
@@ -68,7 +68,7 @@ You can apply your chosen font at this time too rather than fall back on the def
 highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
-You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want, and is called on the Highlighter instance’s *theme* property:
+You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want, and is called on the Highlighter instance’s *theme- property:
 
 ```swift
 let font: NSFont = NSFont.init(name: "Menlo-Regular", size: 12.0)!
@@ -87,19 +87,19 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 
 The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, Highlighter will use Highlight.js’ language detection feature.
 
-You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()* — it returns an array of strings.
+You can get a list of supported languages by the name they are known to Highlight.js by calling *supportedLanguages()- — it returns an array of strings.
 
-The function *availableThemes()* returns a list of the installed themes.
+The function *availableThemes()- returns a list of the installed themes.
 
 ## Release Notes
 
-* 1.1.0 *Unreleased*
+- 1.1.0 *26 April 2022*
     - Update to Highlight.js 11.5.0.
     - Include all Highlight.js languages.
-* 1.0.1 *23 July 2021*
+- 1.0.1 *23 July 2021*
     - Correct list of available themes in `package.swift`.
-* 1.0.0 *15 July 2021*
-    * Initial public release.
+- 1.0.0 *15 July 2021*
+    - Initial public release.
 
 ## Licences
 
