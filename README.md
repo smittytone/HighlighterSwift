@@ -20,7 +20,7 @@ Unlike Highlightr, HighlighterSwift parses Highlight.js themes for separate decl
 
 The `hljs.color` attribute is added to `hljs.display`, `hljs.overflow-x`, `hljs.padding` and `hljs.background`, it doesn’t replace them.
 
-HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included. Highlightr supprts CocoaPods and Carthage.
+HighlighterSwift was designed from the ground up as a Swift Package. Support for legacy package managers is not included. Highlightr supports CocoaPods and Carthage.
 
 HighlighterSwift is more deeply commented and the code is presented in a more consistent style.
 
