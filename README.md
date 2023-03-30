@@ -1,4 +1,4 @@
-# HighlighterSwift 1.1.2
+# HighlighterSwift 1.1.3
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -68,6 +68,22 @@ You can apply your chosen font at this time too rather than fall back on the def
 highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
+From 1.1.3, you can also specify a line spacing value:
+
+```swift
+highlighter.theme.lineSpacing = (self.lineSpacing - 1.0) * self.fontSize
+```
+
+and/or a paragraph spacing value:
+
+```swift
+highlighter.theme.paraSpacing = 1.0
+```
+
+A value of zero for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph — use `0.0` for no additional spacing (the default).
+
+Both values must be non-negative. Negative values be replaced with default valyes: `0.0` in both cases.
+
 You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want, and is called on the Highlighter instance’s *theme- property:
 
 ```swift
@@ -93,6 +109,8 @@ The function *availableThemes()- returns a list of the installed themes.
 
 ## Release Notes
 
+- 1.1.3 *Unreleased*
+    - Add line and paragraph spacing.
 - 1.1.2 *15 March 2023*
     - Include missing languages.
 - 1.1.1 *14 March 2023*
