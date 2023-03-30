@@ -37,6 +37,7 @@ open class Theme {
     open var boldCodeFont: HRFont!
     open var italicCodeFont: HRFont!
     open var themeBackgroundColour: HRColor!
+    open var lineSpacing: CGFloat = 1.0
 
     
     // MARK:- Private Properties
@@ -158,11 +159,15 @@ open class Theme {
     internal func applyStyleToString(_ string: String, styleList: [String]) -> NSAttributedString {
         
         let returnString: NSAttributedString
+        
+        let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.init()
+        spacedParaStyle.lineSpacing = self.lineSpacing
 
         if styleList.count > 0 {
             // Build the attributes from the style list, including the font
             var attrs = [AttributedStringKey: Any]()
             attrs[.font] = self.codeFont
+            attrs[.paragraphStyle] = spacedParaStyle
             for style in styleList {
                 if let themeStyle = self.themeDict[style] as? [AttributedStringKey: Any] {
                     for (attrName, attrValue) in themeStyle {
@@ -174,7 +179,8 @@ open class Theme {
             returnString = NSAttributedString(string: string, attributes:attrs)
         } else {
             // No specified attributes? Just set the font
-            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font: codeFont as Any])
+            returnString = NSAttributedString(string: string,
+                                              attributes:[.font: codeFont as Any, .paragraphStyle: spacedParaStyle])
         }
 
         return returnString
