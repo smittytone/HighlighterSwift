@@ -32,7 +32,8 @@ open class Highlighter {
 
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
-
+    
+    open var lineSpacing: CGFloat = 1.0
     
     // MARK:- Private Properties
     private let hljs: JSValue
@@ -150,7 +151,15 @@ open class Highlighter {
                 returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
             }
         }
-
+        
+        if let ras: NSAttributedString = returnAttrString {
+            let hs: NSMutableAttributedString = NSMutableAttributedString.init(attributedString: ras)
+            let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.init()
+            spacedParaStyle.lineSpacing = self.lineSpacing
+            hs.addParaStyle(with: spacedParaStyle)
+            return hs as NSAttributedString
+        }
+        
         return returnAttrString
     }
 
@@ -312,6 +321,26 @@ open class Highlighter {
         }
     }
 
+}
 
+
+/**
+ Swap the paragraph style in all of the attributes of
+ an NSMutableAttributedString.
+
+- Parameters:
+ - paraStyle: The injected NSParagraphStyle.
+*/
+extension NSMutableAttributedString {
     
+    func addParaStyle(with paraStyle: NSParagraphStyle) {
+        beginEditing()
+        self.enumerateAttribute(.paragraphStyle, in: NSMakeRange(0, self.length)) { (value, range, stop) in
+            if let _ = value as? NSParagraphStyle {
+                removeAttribute(.paragraphStyle, range: range)
+                addAttribute(.paragraphStyle, value: paraStyle, range: range)
+            }
+        }
+        endEditing()
+    }
 }
