@@ -8,7 +8,7 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library in June 2021, when HighlighterSwift was developed, was version 11.0.1. The use of Highlight.js 9.x is no longer supported or recommended by the Hightlight.js team. Version 1.0.x of HighlighterSwift made use of the stable Highlight.js 10.7.3. Version 1.1.0 moves to Highlight.js 11.5.0.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library is 11.7.0. This is the version used by HighlighterSwift.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -44,7 +44,7 @@ HighlighterSwift supports macOS 10.14 and up, and iOS 12 and up. iOS support is 
 
 To add HighlighterSwift to your project, use Xcode to add it as a Swift Package at this repo’s URL. The library contains the Highlight.js code and themes.
 
-**Note*- This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (Highlight.js is also starting to do this); the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
+**Note** This project was begun to support another, so some themes have been modified slightly to meet the needs of that other project. For example, background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (Highlight.js is also starting to do this); the two Kimbies have been renamed for consistency; colours have been formalised as hex values.
 
 ## Usage
 
@@ -83,6 +83,8 @@ highlighter.theme.paraSpacing = 1.0
 A value of zero for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph — use `0.0` for no additional spacing (the default).
 
 Both values must be non-negative. Negative values be replaced with default valyes: `0.0` in both cases.
+
+**Note** These new values are applied to the instance’s `theme` property.
 
 You can set or change your preferred font later by using *setCodeFont()*, which takes an NSFont or UIFont instance configured for the font and text size you want, and is called on the Highlighter instance’s *theme- property:
 
