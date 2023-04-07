@@ -9,11 +9,19 @@
 
 import Foundation
 
+/**
+ Basic imports and typealiases.
+ */
 #if os(OSX)
     import AppKit
+    public typealias HRColor = NSColor
+    public typealias HRFont  = NSFont
 #elseif os(iOS)
     import UIKit
+    public typealias HRColor = UIColor
+    public typealias HRFont  = UIFont
 #endif
+
 
 /**
  Set type aliases according to which Swift is being run and,

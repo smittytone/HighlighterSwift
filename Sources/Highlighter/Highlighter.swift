@@ -20,7 +20,8 @@ import AppKit
  */
 open class Highlighter {
 
-    // MARK:- Public Properties
+    // MARK: - Public Properties
+    
     open var theme: Theme! {
         didSet {
             themeChanged?(theme)
@@ -33,7 +34,9 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
     
-    // MARK:- Private Properties
+    
+    // MARK: - Private Properties
+    
     private let hljs: JSValue
     private let bundle: Bundle
     private let htmlStart: String = "<"
@@ -43,7 +46,7 @@ open class Highlighter {
     private let htmlEscape: NSRegularExpression = try! NSRegularExpression(pattern: "&#?[a-zA-Z0-9]+?;", options: .caseInsensitive)
 
 
-    // MARK:- Constructor
+    // MARK: - Constructor
     
     /**
      The default initialiser.
@@ -222,7 +225,7 @@ open class Highlighter {
     }
 
     
-    // MARK:- Fast HTML Rendering Function
+    // MARK: - Fast HTML Rendering Function
 
     /**
      Generate an NSAttributedString from HTML source.

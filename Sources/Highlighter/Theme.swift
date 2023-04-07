@@ -9,17 +9,15 @@
 
 import Foundation
 
-
-#if os(iOS) || os(tvOS)
-    import UIKit
-    public typealias HRColor = UIColor
-    public typealias HRFont  = UIFont
-#else
+#if os(OSX)
     import AppKit
-    public typealias HRColor = NSColor
-    public typealias HRFont  = NSFont
+#elseif os(iOS)
+    import UIKit
 #endif
 
+/**
+ Typealiases
+ */
 private typealias HRThemeDict       = [String: [AnyHashable: AnyObject]]
 private typealias HRThemeStringDict = [String: [String: String]]
 
