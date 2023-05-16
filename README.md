@@ -111,8 +111,8 @@ The function *availableThemes()- returns a list of the installed themes.
 
 ## Release Notes
 
-- 1.1.3 *Unreleased*
-    - Add line and paragraph spacing.
+- 1.1.3 *16 May 2023*
+    - Add line and paragraph spacing controls.
 - 1.1.2 *15 March 2023*
     - Include missing languages.
 - 1.1.1 *14 March 2023*
