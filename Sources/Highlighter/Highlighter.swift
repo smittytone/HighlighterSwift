@@ -12,6 +12,8 @@ import JavaScriptCore
 
 #if os(OSX)
 import AppKit
+#else
+import UIKit
 #endif
 
 
