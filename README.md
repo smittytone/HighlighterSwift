@@ -8,7 +8,7 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library is 11.7.0. This is the version used by HighlighterSwift.
+Highlightr makes use of Highlight.js 9.13.4, but the most recent release of the JavaScript library is 11.9.0. This is the version used by HighlighterSwift. Earlier versions of Highlight.js are not considered secure.
 
 HighlighterSwift adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -112,6 +112,7 @@ The function *availableThemes()- returns a list of the installed themes.
 ## Release Notes
 
 - 1.1.4 *Unreleased*
+    - Update to Highlight.js 11.9.0.
     - Fix: add missing iOS-oriented import (thanks [@greggreg](https://github.com/gregggreg))
 - 1.1.3 *16 May 2023*
     - Add line and paragraph spacing controls.
