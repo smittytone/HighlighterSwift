@@ -111,7 +111,7 @@ The function *availableThemes()- returns a list of the installed themes.
 
 ## Release Notes
 
-- 1.1.4 *Unreleased*
+- 1.1.4 *10 November 2023*
     - Update to Highlight.js 11.9.0.
     - Fix: add missing iOS-oriented import (thanks [@greggreg](https://github.com/gregggreg))
 - 1.1.3 *16 May 2023*
