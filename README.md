@@ -1,4 +1,4 @@
-# HighlighterSwift 1.1.4
+# HighlighterSwift 1.1.5
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -111,6 +111,8 @@ The function `availableThemes()` returns a list of the installed themes.
 
 ## Release Notes
 
+- 1.1.5 *Unreleased*
+    - Add dark GitHub theme.
 - 1.1.4 *10 November 2023*
     - Update to Highlight.js 11.9.0.
     - Fix: add missing iOS-oriented import (thanks [@greggreg](https://github.com/gregggreg))
