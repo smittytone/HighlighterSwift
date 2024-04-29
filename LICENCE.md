@@ -1,8 +1,8 @@
 # HighighterSwift
 
-Copyright © 2023, Tony Smith (@smittytone) — [MIT Licence](#mid-licence)
+Copyright © 2024, Tony Smith (@smittytone) — [MIT Licence](#mid-licence)
 Portions copyright © 2016, Juan Pablo Illanes — [MIT Licence](#mid-licence)
-Portions copyright © 2006-23, Ivan Sagalaev and Contributors — [BSD 3-Clause Licence](#bsd-3-clause-licence)
+Portions copyright © 2006-24, Ivan Sagalaev and Contributors — [BSD 3-Clause Licence](#bsd-3-clause-licence)
 
 ---
 

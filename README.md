@@ -111,7 +111,7 @@ The function `availableThemes()` returns a list of the installed themes.
 
 ## Release Notes
 
-- 1.1.5 *Unreleased*
+- 1.1.5 *29 April 2024*
     - Add dark GitHub theme.
 - 1.1.4 *10 November 2023*
     - Update to Highlight.js 11.9.0.
@@ -134,4 +134,4 @@ The function `availableThemes()` returns a list of the installed themes.
 
 **HighlighterSwift**, like *Highlightr* before it, is released under the terms of the MIT Licence. *Hightlight.js* is released under the BSD 3-Clause Licence.
 
-**HighlighterSwift** is &copy; 2023, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2023, Ivan Sagalaev.
+**HighlighterSwift** is &copy; 2024, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2024, Ivan Sagalaev.
