@@ -2,7 +2,7 @@
 
 Copyright © 2024, Tony Smith (@smittytone) — [MIT Licence](#mid-licence)
 Portions copyright © 2016, Juan Pablo Illanes — [MIT Licence](#mid-licence)
-Portions copyright © 2006-24, Ivan Sagalaev and Contributors — [BSD 3-Clause Licence](#bsd-3-clause-licence)
+Portions copyright © 2006-24, Josh Goebel and Other Contributors — [BSD 3-Clause Licence](#bsd-3-clause-licence)
 
 ---
 
