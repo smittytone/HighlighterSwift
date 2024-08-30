@@ -111,7 +111,7 @@ The function `availableThemes()` returns a list of the installed themes.
 
 ## Release Notes
 
-- 1.1.6 *Unreleased*
+- 1.1.6 *30 August 2024*
     - Update to the latest version of Highlight.js 11.9.0.
 - 1.1.5 *29 April 2024*
     - Add dark GitHub theme.
