@@ -264,8 +264,8 @@ open class Highlighter {
         }
         
 #if DEBUG
-        let lineBreakSymbol: String                                 = "†\u{2028}"
-        let lineFeedSymbol: String                                  = "¶\u{2029}"
+        let lineBreakSymbol: String                                 = "†\r"
+        let lineFeedSymbol: String                                  = "¶\n"
 #else
         let lineBreakSymbol: String                                 = "\u{2028}"
         let lineFeedSymbol: String                                  = "\u{2029}"
