@@ -156,7 +156,7 @@ open class Highlighter {
         }
         
         if self.useLineNumbers {
-            renderedHTMLString = addLineNumbers(renderedHTMLString[...])
+            renderedHTMLString = addLineNumbers(renderedHTMLString)
         }
         
         // Convert the HTML received from Highlight.js to an NSAttributedString or nil
@@ -255,7 +255,7 @@ open class Highlighter {
     }
 
     
-    private func addLineNumbers(_ code: Substring) -> String {
+    private func addLineNumbers(_ code: String) -> String {
         
         var returnText = ""
         
