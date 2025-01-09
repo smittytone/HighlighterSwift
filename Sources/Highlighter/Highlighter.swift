@@ -263,19 +263,28 @@ open class Highlighter {
             return ""
         }
         
+#if DEBUG
+        let lineBreakSymbol: String                                 = "†\u{2028}"
+        let lineFeedSymbol: String                                  = "¶\u{2029}"
+#else
+        let lineBreakSymbol: String                                 = "\u{2028}"
+        let lineFeedSymbol: String                                  = "\u{2029}"
+#endif
+        
         // Split lines and, if last line is empty but for \n, remove it
-        var lines = code.split(separator: "\r")
+        var lines = code.components(separatedBy: lineBreakSymbol)
         if lines[lines.count - 1] == "" {
             lines.removeLast()
         }
         
         var count = 2
-        var lineCount = lines.count
-        if lineCount > 9999 {
+        if lines.count > 99999 {
+            count = 6
+        } else if lines.count > 9999 {
             count = 5
-        } else if lineCount > 999 {
+        } else if lines.count > 999 {
             count = 4
-        } else if lineCount > 99 {
+        } else if lines.count > 99 {
             count = 3
         }
         
