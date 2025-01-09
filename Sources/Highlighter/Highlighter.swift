@@ -269,8 +269,17 @@ open class Highlighter {
             lines.removeLast()
         }
         
-        let count = Double(lines.count)
-        let formatString = "%" + String.StringLiteralType(repeating: "0", count: count.exponent) + "d"
+        var count = 2
+        var lineCount = lines.count
+        if lineCount > 9999 {
+            count = 5
+        } else if lineCount > 999 {
+            count = 4
+        } else if lineCount > 99 {
+            count = 3
+        }
+        
+        let formatString = "%" + String.StringLiteralType(repeating: "0", count: count) + "i"
         
         var idx = 1
         for line in lines {
