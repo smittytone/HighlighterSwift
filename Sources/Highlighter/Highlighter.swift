@@ -263,13 +263,7 @@ open class Highlighter {
             return ""
         }
         
-#if DEBUG
-        let lineBreakSymbol: String                                 = "†\r"
-        let lineFeedSymbol: String                                  = "¶\n"
-#else
-        let lineBreakSymbol: String                                 = "\u{2028}"
-        let lineFeedSymbol: String                                  = "\u{2029}"
-#endif
+        let lineBreakSymbol: String = "\r"
         
         // Split lines and, if last line is empty but for \n, remove it
         var lines = code.components(separatedBy: lineBreakSymbol)
@@ -292,7 +286,7 @@ open class Highlighter {
         
         var idx = 1
         for line in lines {
-            returnText = returnText + String(format: formatString, idx) + String(line) + "\n"
+            returnText = returnText + String(format: formatString, idx) + String(line) + lineBreakSymbol
             idx += 1
         }
         
