@@ -36,7 +36,7 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
     
-    open var useLineNumbers = true
+    open var useLineNumbers = false
     
     
     // MARK: - Private Properties
