@@ -36,10 +36,13 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
     
+    open var useLineNumbers = true
+    
     
     // MARK: - Private Properties
     
     private let hljs: JSValue
+    private let context: JSContext
     private let bundle: Bundle
     private let htmlStart: String = "<"
     private let spanStart: String = "span class=\""
@@ -70,11 +73,12 @@ open class Highlighter {
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
             return nil
         }
-
+        
         // Check the JavaScript or fail
         let context = JSContext.init()!
         let highlightJs: String = try! String.init(contentsOfFile: highlightPath)
         let _ = context.evaluateScript(highlightJs)
+        
         guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
             return nil
         }
@@ -82,14 +86,32 @@ open class Highlighter {
         // Store the results for later
         self.hljs = hljs
         self.bundle = bundle
+        self.context = context
         
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
         guard setTheme("default") else {
             return nil
         }
+        
+        if self.useLineNumbers {
+            //self.useLineNumbers = loadLineNumbers()
+        }
     }
-
+    
+    
+    internal func loadLineNumbers() -> Bool {
+        
+        // Load the highlightjs-line-numbers.js code from the bundle or fail
+        guard let lineNumbersPath: String = bundle.path(forResource: "highlightjs-line-numbers.min", ofType: "js") else {
+            return false
+        }
+        
+        let lineNumbersJs: String = try! String.init(contentsOfFile: lineNumbersPath)
+        let _ = self.context.evaluateScript(lineNumbersJs)
+        return true
+    }
+    
     
     //MARK: - Primary Functions
     
@@ -119,6 +141,8 @@ open class Highlighter {
                                             withArguments: [code])
         }
         
+        //hljs.invokeMethod("initLineNumbersOnLoad", withArguments: [])
+        
         // Check we got a valid string back - fail if we didn't
         let renderedHTMLValue: JSValue? = returnValue.objectForKeyedSubscript("value")
         guard var renderedHTMLString: String = renderedHTMLValue!.toString() else {
@@ -130,7 +154,11 @@ open class Highlighter {
         if renderedHTMLString == "undefined" {
             return nil
         }
-
+        
+        if self.useLineNumbers {
+            renderedHTMLString = addLineNumbers(renderedHTMLString[...])
+        }
+        
         // Convert the HTML received from Highlight.js to an NSAttributedString or nil
         var returnAttrString: NSAttributedString? = nil
         
@@ -226,6 +254,33 @@ open class Highlighter {
         return res!.toArray() as! [String]
     }
 
+    
+    private func addLineNumbers(_ code: Substring) -> String {
+        
+        var returnText = ""
+        
+        if code.count == 0 {
+            return ""
+        }
+        
+        // Split lines and, if last line is empty but for \n, remove it
+        var lines = code.split(separator: "\n")
+        if lines[lines.count - 1] == "" {
+            lines.removeLast()
+        }
+        
+        let count = Double(lines.count)
+        let formatString = "%" + String.StringLiteralType(repeating: "0", count: count.exponent) + "d"
+        
+        var idx = 1
+        for line in lines {
+            returnText = returnText + String(format: formatString, idx) + String(line) + "\n"
+            idx += 1
+        }
+        
+        return returnText
+    }
+    
     
     // MARK: - Fast HTML Rendering Function
 
