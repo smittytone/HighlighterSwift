@@ -264,10 +264,11 @@ open class Highlighter {
         }
         
         let lineBreakSymbol: String = "\r"
+        let lbsc = lineBreakSymbol.count
         
         // Split lines and, if last line is empty but for \n, remove it
         var lines = code.components(separatedBy: lineBreakSymbol)
-        if lines[lines.count - 1] == "" {
+        if lines[lines.count - 1] == lineBreakSymbol {
             lines.removeLast()
         }
         
