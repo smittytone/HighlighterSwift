@@ -264,7 +264,7 @@ open class Highlighter {
         }
         
         // Split lines and, if last line is empty but for \n, remove it
-        var lines = code.split(separator: "\n")
+        var lines = code.split(separator: "\r")
         if lines[lines.count - 1] == "" {
             lines.removeLast()
         }
