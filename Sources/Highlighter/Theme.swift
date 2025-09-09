@@ -10,9 +10,9 @@
 import Foundation
 
 #if os(OSX)
-    import AppKit
+import AppKit
 #elseif os(iOS)
-    import UIKit
+import UIKit
 #endif
 
 /**
@@ -25,27 +25,32 @@ private typealias HRThemeStringDict = [String: [String: String]]
 /**
  Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
  */
-open class Theme {
+public class Theme {
 
-    // MARK:- Public Properties
+    // MARK: - Public Properties
+
+    public var codeFont: HRFont!
+    public var boldCodeFont: HRFont!
+    public var italicCodeFont: HRFont!
+    public var themeBackgroundColour: HRColor!
+    // FROM 1.1.3
+    public var lineSpacing: CGFloat = 0.0
+    public var paraSpacing: CGFloat = 0.0
+    // FROM 1.2.0
+    public var isDark: Bool = false
+    public var fontSize: CGFloat = 18.0
+
+
+    // MARK: - Private Properties
+
+    private var themeDict : HRThemeDict!
+    private var strippedTheme : HRThemeStringDict!
     internal let theme: String
     internal var lightTheme: String!
 
-    open var codeFont: HRFont!
-    open var boldCodeFont: HRFont!
-    open var italicCodeFont: HRFont!
-    open var themeBackgroundColour: HRColor!
-    // FROM 1.1.3
-    open var lineSpacing: CGFloat = 0.0
-    open var paraSpacing: CGFloat = 0.0
 
-    // MARK:- Private Properties
-    private var themeDict : HRThemeDict!
-    private var strippedTheme : HRThemeStringDict!
+    // MARK: - Constructor
 
-
-    // MARK:- Constructor
-    
     /**
      The default initialiser.
      
@@ -88,9 +93,9 @@ open class Theme {
         }
     }
 
-    
-    // MARK:- Getters and Setters
-    
+
+    // MARK: - Getters and Setters
+
     /**
      Change the theme's font.
      
@@ -103,23 +108,25 @@ open class Theme {
 
         // Store the primary font choice
         self.codeFont = font
-        
+        // FROM 1.2.0
+        self.fontSize = font.pointSize
+
         // Generate the bold and italic variants
-        #if os(iOS) || os(tvOS)
+#if os(iOS) || os(tvOS)
         let boldDescriptor    = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
                                                                   UIFontDescriptor.AttributeName.face:"Bold"])
         let italicDescriptor  = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
                                                                   UIFontDescriptor.AttributeName.face:"Italic"])
         let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
                                                                   UIFontDescriptor.AttributeName.face:"Oblique"])
-        #else
+#else
         let boldDescriptor    = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Bold"])
         let italicDescriptor  = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Italic"])
         let obliqueDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Oblique"])
-        #endif
+#endif
 
         self.boldCodeFont   = HRFont(descriptor: boldDescriptor, size: font.pointSize)
         self.italicCodeFont = HRFont(descriptor: italicDescriptor, size: font.pointSize)
@@ -142,8 +149,8 @@ open class Theme {
     }
 
     
-    // MARK:- Private Functions
-    
+    // MARK: - Private Functions
+
     /**
      Convert a string to an NSAttributedString styled using the theme.
         
@@ -160,7 +167,7 @@ open class Theme {
         let returnString: NSAttributedString
         
         // FROM 1.1.3
-        // Incorporate
+        // Incorporate line and paragraph spacing
         let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.init()
         spacedParaStyle.lineSpacing = (self.lineSpacing >= 0.0 ? self.lineSpacing : 0.0)
         spacedParaStyle.paragraphSpacing = (self.paraSpacing >= 0.0 ? self.paraSpacing : 0.0)
@@ -281,8 +288,8 @@ open class Theme {
 
     
     /**
-     Convert  in instance's string dictionary to base dictionary.
-        
+     Convert an instance's string dictionary to base dictionary.
+
      - Parameters:
         - themeStringDict: The dictionary of styles and values.
      
@@ -368,13 +375,13 @@ open class Theme {
      
      Identifiers supported:
      
-     * `white`
-     * `black`
-     * `red`
-     * `green`
-     * `blue`
-     * `navy`
-     * `silver`
+         * `white`
+         * `black`
+         * `red`
+         * `green`
+         * `blue`
+         * `navy`
+         * `silver`
      
      Unknown colour identifiers default to grey.
         

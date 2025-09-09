@@ -17,6 +17,46 @@ import UIKit
 #endif
 
 
+public struct LineNumberData {
+
+    var usingDarkTheme: Bool = false                // Are you using a dark theme?
+
+    var numberStart: Int {                          // The first line number.
+        get {                                       // Negative values reset any existint value to zero.
+            return self.baseStart
+        }
+
+        set (newValue) {
+            if newValue >= 0 {
+                self.baseStart = newValue
+            } else {
+                self.baseStart = 0
+            }
+        }
+    }
+
+    var separator: String {                         // A string placed between the line number and the line.
+        get {                                       // Empty strings are converted to two spaces (the default value)
+            return self.baseSeparator
+        }
+
+        set (newValue) {
+            if newValue == "" {
+                self.baseSeparator = "  "
+            } else {
+                self.baseSeparator = newValue
+            }
+        }
+    }
+
+    var lineBreak: String = "\n"                    // The line-break character emitted by the rendering code.
+                                                    // It should not be necessary to change this.
+    private var baseSeparator: String = "  "
+    private var baseStart: Int = 0
+
+
+}
+
 /**
     Wrapper class for generating a highlighted NSAttributedString from a code string.
  */
@@ -60,11 +100,11 @@ open class Highlighter {
         
         // Get the library's bundle based on how it's
         // being included in the host app
-        #if SWIFT_PACKAGE
+#if SWIFT_PACKAGE
         let bundle = Bundle.module
-        #else
+#else
         let bundle = Bundle(for: Highlighter.self)
-        #endif
+#endif
 
         // Load the highlight.js code from the bundle or fail
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
@@ -92,18 +132,36 @@ open class Highlighter {
 
     
     //MARK: - Primary Functions
-    
+
+
     /**
     Highlight the supplied code in the specified language.
-    
+
     - Parameters:
      - code:         The source code to highlight.
      - languageName: The language in which the code is written.
      - doFastRender: Should fast rendering be used? Default: `true`.
-     
+
      - Returns: The highlighted code as an NSAttributedString, or `nil`
     */
-    open func highlight(_ code: String, as languageName: String? = nil, doFastRender: Bool = true) -> NSAttributedString? {
+    public func highlight(_ code: String, as languageName: String? = nil, doFastRender: Bool = true) -> NSAttributedString? {
+
+        return highlight(code, as: languageName, doFastRender: doFastRender, lineNumbering: nil)
+    }
+
+
+    /**
+    Highlight the supplied code in the specified language.
+    
+    - Parameters:
+     - code:           The source code to highlight.
+     - languageName:   The language in which the code is written.
+     - doFastRender:   Should fast rendering be used? Default: `true`.
+     - addLineNumbers: Should line numbers be prefixed?
+
+     - Returns: The highlighted code as an NSAttributedString, or `nil`
+    */
+    public func highlight(_ code: String, as languageName: String? = nil, doFastRender: Bool = true, lineNumbering: LineNumberData? = nil) -> NSAttributedString? {
 
         let returnValue: JSValue
         
@@ -149,12 +207,15 @@ open class Highlighter {
 
             // Execute on main thread
             // NOTE Not sure why, when we don't do this elsewhere
-            safeMainSync
-            {
+            safeMainSync {
                 returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
-            }
+            } /* END OF CLOSURE */
         }
-        
+
+        if let lnd = lineNumbering, let ras = returnAttrString {
+            returnAttrString = addLineNumbers(ras, lnd)
+        }
+
         return returnAttrString
     }
 
@@ -170,8 +231,8 @@ open class Highlighter {
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    open func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
-        
+    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
+
         // Make sure we can load the theme's CSS file -- or fail
         guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
             return false
@@ -203,7 +264,7 @@ open class Highlighter {
     
      - Returns: The list of themes as an array of strings.
     */
-    open func availableThemes() -> [String] {
+    public func availableThemes() -> [String] {
 
         let paths = bundle.paths(forResourcesOfType: "css", inDirectory: nil) as [NSString]
         var result = [String]()
@@ -220,7 +281,7 @@ open class Highlighter {
     
      - Returns: The list of languages as an array of strings.
     */
-    open func supportedLanguages() -> [String] {
+    public func supportedLanguages() -> [String] {
 
         let res: JSValue? = hljs.invokeMethod("listLanguages", withArguments: [])
         return res!.toArray() as! [String]
@@ -240,47 +301,42 @@ open class Highlighter {
     private func processHTMLString(_ htmlString: String) -> NSAttributedString? {
 
         let scanner: Scanner = Scanner(string: htmlString)
+        var scanned: String? = nil
         scanner.charactersToBeSkipped = nil
-        var scannedString: NSString?
         let resultString: NSMutableAttributedString = NSMutableAttributedString(string: "")
         var propStack: [String] = ["hljs"]
 
         while !scanner.isAtEnd {
             var ended: Bool = false
-            if scanner.scanUpTo(self.htmlStart,
-                                into: &scannedString) {
-                ended = scanner.isAtEnd
-            }
+            scanned = scanner.scanUpToString(self.htmlStart)
+            ended = scanner.isAtEnd
 
-            if scannedString != nil && scannedString!.length > 0 {
-                let attrScannedString: NSAttributedString = self.theme.applyStyleToString(scannedString! as String,
-                                                                                          styleList: propStack)
-                resultString.append(attrScannedString)
+            if let content = scanned, !content.isEmpty {
+                resultString.append(self.theme.applyStyleToString(content, styleList: propStack))
 
                 if ended {
                     continue
                 }
             }
 
-            scanner.scanLocation += 1
+            scanner.skipNextCharacter()
 
-            let string: NSString = scanner.string as NSString
-            let nextChar: String = string.substring(with: NSMakeRange(scanner.scanLocation, 1))
+            let nextChar: String = scanner.getNextCharacter(in: htmlString)
             if nextChar == "s" {
-                scanner.scanLocation += (self.spanStart as NSString).length
-                scanner.scanUpTo(self.spanStartClose, into:&scannedString)
-                scanner.scanLocation += (self.spanStartClose as NSString).length
-                propStack.append(scannedString! as String)
+                _ = scanner.scanString(self.spanStart)
+                scanned = scanner.scanUpToString(self.spanStartClose)
+                _ = scanner.scanString(self.spanStartClose)
+                if let content = scanned, !content.isEmpty {
+                    propStack.append(content)
+                }
             } else if nextChar == "/" {
-                scanner.scanLocation += (self.spanEnd as NSString).length
+                _ = scanner.scanString(self.spanEnd)
                 propStack.removeLast()
             } else {
                 let attrScannedString: NSAttributedString = self.theme.applyStyleToString("<", styleList: propStack)
                 resultString.append(attrScannedString)
-                scanner.scanLocation += 1
+                scanner.skipNextCharacter()
             }
-
-            scannedString = nil
         }
 
         let results: [NSTextCheckingResult] = self.htmlEscape.matches(in: resultString.string,
@@ -300,7 +356,7 @@ open class Highlighter {
     }
     
     
-    // MARK:- Utility Functions
+    // MARK: - Utility Functions
 
     /**
      Execute the supplied block on the main thread.
@@ -316,26 +372,60 @@ open class Highlighter {
         }
     }
 
-}
 
+    // MARK: - Line Numbering Functions
 
-/**
- Swap the paragraph style in all of the attributes of
- an NSMutableAttributedString.
+    /**
+     Add line numbers to each line within the specified NSAttributedString.
 
-- Parameters:
- - paraStyle: The injected NSParagraphStyle.
-*/
-extension NSMutableAttributedString {
-    
-    func addParaStyle(with paraStyle: NSParagraphStyle) {
-        beginEditing()
-        self.enumerateAttribute(.paragraphStyle, in: NSMakeRange(0, self.length)) { (value, range, stop) in
-            if let _ = value as? NSParagraphStyle {
-                removeAttribute(.paragraphStyle, range: range)
-                addAttribute(.paragraphStyle, value: paraStyle, range: range)
-            }
+     Numbers are zero padded to the number of digits in the highest line number.
+
+     FROM 1.2.0
+
+     - Parameters:
+        - renderedCode  The already-styled NSAttributedString, ie. the code.
+        - withSeparator An extra separator string placed between number and line.
+
+     - Returns A new optional NSAttributedString containing the line numbers
+
+     */
+    private func addLineNumbers(_ renderedCode: NSAttributedString, _ lineNumberingData: LineNumberData) -> NSAttributedString? {
+
+        let linedCode = NSMutableAttributedString()
+        let lines = renderedCode.components(separatedBy: lineNumberingData.lineBreak)
+
+        // Determine the maximum digit-width of the line number field
+        var formatCount = 2
+        var lineCount: Int = lines.count + (lineNumberingData.numberStart > 0 ? lineNumberingData.numberStart : 0)
+        while lineCount > 99 {
+            formatCount += 1
+            lineCount = lineCount / 100
         }
-        endEditing()
+
+        // Determine the colour according to the usage mode
+        let colour: NSColor = lineNumberingData.usingDarkTheme ? .white : .black
+
+        // Set the line number attributes - keep it low key
+        let lineAtts: [NSAttributedString.Key : Any] = [.foregroundColor: colour.withAlphaComponent(0.2),
+                                                        .font: NSFont.monospacedSystemFont(ofSize: self.theme.fontSize, weight: .ultraLight)]
+
+        // Iterate over the rendered lines, prepending the line number
+        let formatString = "%0\(formatCount)i"
+        var lineIndex = 0
+        for line in lines {
+            // Add the line number
+            lineIndex += 1
+            linedCode.append(NSAttributedString(string: String(format: formatString, lineIndex), attributes: lineAtts))
+
+            // Add a separator
+            linedCode.append(NSAttributedString(string: lineNumberingData.separator, attributes: lineAtts))
+
+            // Add the line itself and restore the line break
+            linedCode.append(line)
+            linedCode.append(NSAttributedString(string: lineNumberingData.lineBreak, attributes: lineAtts))
+        }
+
+        return linedCode
     }
+
 }
