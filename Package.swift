@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Highlighter",
     platforms: [
-        .macOS(.v10_14),
+        .macOS(.v11),
         .iOS(.v12),
     ],
     products: [
