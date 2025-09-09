@@ -38,7 +38,7 @@ Unit tests have been added, and more will come, I hope.
 
 ## Platform Support
 
-**HighlighterSwift** supports macOS 10.14 and up, and iOS 12 and up. iOS support is untested, however.
+**HighlighterSwift** supports macOS 11 (Big Sur) and up, and iOS 12 and up. iOS support is untested, however.
 
 ## Installation
 
@@ -68,7 +68,7 @@ You can apply your chosen font at this time too rather than fall back on the def
 highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
-From 1.1.3, you can also specify a line spacing value:
+You can also specify a line spacing value:
 
 ```swift
 highlighter.theme.lineSpacing = (self.lineSpacing - 1.0) * self.fontSize
@@ -104,6 +104,19 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 ![Far theme example](Images/github-gist.png)
 
 The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, *Highlighter* will use *Highlight.js*’ language detection feature.
+
+From 1.2.0, pass in a fourth parameter, an instancw of a `LineNumberingData` structure to instruct **HighlighterSwift** to add line numbers to the code. The default for this parameter is `nil`, ie. don’t add line numbers.
+
+`LineNumberingData` allows you to specify:
+
+* The size of the line number font. Typically this will match your code font’s size. Default: 16.0pt.
+* Is the theme you are using dark? Default: `false`.
+* The initial line number. Default: `1`.
+* The minimum number of digits in the line number. Default: 2. This will always be overriden by the maximum line number. For example, if you set this to 3 (so the first line might be rendered as `001`) but there are a thousand or more lines in the code, the first line will be rendered as `0001`.
+* A separator string to be placed between the line number and the line itself. Default: two spaces.
+* The line-break string used in the tokenized source code. Default: `\n`. You should not need to change this.
+
+All these values are optional.
 
 You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()` — it returns an array of strings.
 
