@@ -39,7 +39,7 @@ public struct LineNumberData {
             if newValue > 2 {
                 self.baseMinWidth = newValue
             } else {
-                self.baseStart = 2
+                self.baseMinWidth = 2
             }
         }
     }
