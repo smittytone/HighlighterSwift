@@ -19,9 +19,9 @@ import UIKit
 
 public struct LineNumberData {
 
-    var usingDarkTheme: Bool = false                // Are you using a dark theme?
+    public var usingDarkTheme: Bool = false                // Are you using a dark theme?
 
-    var numberStart: Int {                          // The first line number.
+    public var numberStart: Int {                          // The first line number.
         get {                                       // Negative values reset any existint value to zero.
             return self.baseStart
         }
@@ -35,7 +35,7 @@ public struct LineNumberData {
         }
     }
 
-    var separator: String {                         // A string placed between the line number and the line.
+    public var separator: String {                         // A string placed between the line number and the line.
         get {                                       // Empty strings are converted to two spaces (the default value)
             return self.baseSeparator
         }
@@ -49,7 +49,7 @@ public struct LineNumberData {
         }
     }
 
-    var lineBreak: String = "\n"                    // The line-break character emitted by the rendering code.
+    public var lineBreak: String = "\n"                    // The line-break character emitted by the rendering code.
                                                     // It should not be necessary to change this.
     private var baseSeparator: String = "  "
     private var baseStart: Int = 0
