@@ -402,7 +402,8 @@ open class Highlighter {
 
         // Determine the maximum digit-width of the line number field
         var formatCount = 2
-        var lineCount: Int = lines.count + (lineNumberingData.numberStart > 0 ? lineNumberingData.numberStart : 0)
+        var lineIndex = lineNumberingData.numberStart > 0 ? lineNumberingData.numberStart : 0
+        var lineCount: Int = lines.count + lineIndex
         while lineCount > 99 {
             formatCount += 1
             lineCount = lineCount / 100
@@ -417,7 +418,7 @@ open class Highlighter {
 
         // Iterate over the rendered lines, prepending the line number
         let formatString = "%0\(formatCount)i"
-        var lineIndex = 0
+
         for line in lines {
             // Add the line number
             lineIndex += 1
