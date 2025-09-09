@@ -6,14 +6,13 @@
  *  Licence: MIT
  */
 
-
 import Foundation
-
 #if os(OSX)
 import AppKit
 #elseif os(iOS)
 import UIKit
 #endif
+
 
 /**
  Typealiases
@@ -104,7 +103,7 @@ public class Theme {
      - Parameters:
         - font: The UIFont or NSFont to use.
     */
-    open func setCodeFont(_ font: HRFont) {
+    public func setCodeFont(_ font: HRFont) {
 
         // Store the primary font choice
         self.codeFont = font
@@ -148,7 +147,7 @@ public class Theme {
         }
     }
 
-    
+
     // MARK: - Private Functions
 
     /**
@@ -195,6 +194,7 @@ public class Theme {
 
         return returnString
     }
+
 
     /**
      Convert a Highlight.js theme's CSS to the class' string dictionary.
@@ -260,7 +260,7 @@ public class Theme {
         return returnDict
     }
 
-    
+
     /**
      Convert an instance's string dictionary to a CSS string.
         
@@ -286,7 +286,7 @@ public class Theme {
         return resultString
     }
 
-    
+
     /**
      Convert an instance's string dictionary to base dictionary.
 
@@ -324,7 +324,7 @@ public class Theme {
         return returnTheme
     }
 
-    
+
     /**
      Get font information from a CSS string and use it to generate a font object.
         
@@ -345,7 +345,7 @@ public class Theme {
         }
     }
 
-    
+
     /**
      Emit an AttributedString key based on the a style key from a CSS file.
         
@@ -369,6 +369,7 @@ public class Theme {
             return .font
         }
     }
+
 
     /**
      Emit a colour object to match a hex string or CSS colour identifiier.

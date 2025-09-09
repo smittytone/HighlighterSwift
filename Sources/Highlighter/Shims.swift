@@ -6,20 +6,20 @@
  *  Licence: MIT
  */
 
-
 import Foundation
+
 
 /**
  Basic imports and typealiases.
  */
 #if os(OSX)
-    import AppKit
-    public typealias HRColor = NSColor
-    public typealias HRFont  = NSFont
+import AppKit
+public typealias HRColor = NSColor
+public typealias HRFont  = NSFont
 #elseif os(iOS)
-    import UIKit
-    public typealias HRColor = UIColor
-    public typealias HRFont  = UIFont
+import UIKit
+public typealias HRColor = UIColor
+public typealias HRFont  = UIFont
 #endif
 
 
@@ -31,13 +31,13 @@ import Foundation
       mandates Swift 5.3
  */
 #if swift(>=4.2)
-    public typealias AttributedStringKey = NSAttributedString.Key
+public typealias AttributedStringKey = NSAttributedString.Key
 #else
-    public typealias AttributedStringKey = NSAttributedStringKey
+public typealias AttributedStringKey = NSAttributedStringKey
 #endif
 
 #if swift(>=4.2) && os(iOS)
-    public typealias TextStorageEditActions = NSTextStorage.EditActions
+public typealias TextStorageEditActions = NSTextStorage.EditActions
 #else
-    public typealias TextStorageEditActions = NSTextStorageEditActions
+public typealias TextStorageEditActions = NSTextStorageEditActions
 #endif

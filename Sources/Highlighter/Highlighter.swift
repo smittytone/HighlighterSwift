@@ -6,10 +6,8 @@
  *  Licence: MIT
  */
 
-
 import Foundation
 import JavaScriptCore
-
 #if os(OSX)
 import AppKit
 #else
@@ -17,14 +15,12 @@ import UIKit
 #endif
 
 
+/**
+ A structure used to specify a line-numbering operation.`
+ */
 public struct LineNumberData {
 
-    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", baseSeparator: String = "  ", baseStart: Int = 0) {
-        self.usingDarkTheme = usingDarkTheme
-        self.lineBreak = lineBreak
-        self.baseSeparator = baseSeparator
-        self.baseStart = baseStart
-    }
+    // MARK: Public Computed Properties
 
     public var numberStart: Int {                           // The first line number.
         get {                                               // Negative values reset any existint value to zero.
@@ -54,14 +50,31 @@ public struct LineNumberData {
         }
     }
 
-    public var usingDarkTheme: Bool = false                 // Are you using a dark theme?
+
+    // MARK: Public Properties
+
+    public var usingDarkTheme: Bool = false                 // Is the host theme dark? Default: `false`.
     public var lineBreak: String = "\n"                     // The line-break character emitted by the rendering code.
                                                             // It should not be necessary to change this.
+    public var fontSize: CGFloat = 16.0                     // The base font size.
+
+
+    // MARK: Private Properties
+
     private var baseSeparator: String = "  "
     private var baseStart: Int = 0
 
 
+    // MARK: Constructor
+
+    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", baseSeparator: String = "  ", baseStart: Int = 0) {
+        self.usingDarkTheme = usingDarkTheme
+        self.lineBreak = lineBreak
+        self.baseSeparator = baseSeparator
+        self.baseStart = baseStart
+    }
 }
+
 
 /**
     Wrapper class for generating a highlighted NSAttributedString from a code string.
@@ -81,8 +94,8 @@ open class Highlighter {
 
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
-    
-    
+
+
     // MARK: - Private Properties
     
     private let hljs: JSValue
@@ -95,7 +108,7 @@ open class Highlighter {
 
 
     // MARK: - Constructor
-    
+
     /**
      The default initialiser.
      
@@ -136,9 +149,8 @@ open class Highlighter {
         }
     }
 
-    
-    //MARK: - Primary Functions
 
+    //MARK: - Primary Functions
 
     /**
     Highlight the supplied code in the specified language.
@@ -160,10 +172,10 @@ open class Highlighter {
     Highlight the supplied code in the specified language.
     
     - Parameters:
-     - code:           The source code to highlight.
-     - languageName:   The language in which the code is written.
-     - doFastRender:   Should fast rendering be used? Default: `true`.
-     - addLineNumbers: Should line numbers be prefixed?
+     - code:          The source code to highlight.
+     - languageName:  The language in which the code is written.
+     - doFastRender:  Should fast rendering be used? Default: `true`.
+     - lineNumbering: Structure containing line numbering information, or `nil` for no line numbering.
 
      - Returns: The highlighted code as an NSAttributedString, or `nil`
     */
@@ -204,20 +216,17 @@ open class Highlighter {
         } else {
             // Use NSAttributedString's own not-so-fast rendering
             renderedHTMLString = "<style>" + self.theme.lightTheme + "</style><pre><code class=\"hljs\">" + renderedHTMLString + "</code></pre>"
-            
             let data = renderedHTMLString.data(using: String.Encoding.utf8)!
             let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
                 .documentType: NSAttributedString.DocumentType.html,
                 .characterEncoding: String.Encoding.utf8.rawValue
             ]
 
-            // Execute on main thread
-            // NOTE Not sure why, when we don't do this elsewhere
-            safeMainSync {
-                returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
-            } /* END OF CLOSURE */
+            returnAttrString = try? NSMutableAttributedString(data:data, options: options, documentAttributes:nil)
         }
 
+        // FROM 1.2.0
+        // Add line numbers if the user has passed in a data structure
         if let lnd = lineNumbering, let ras = returnAttrString {
             returnAttrString = addLineNumbers(ras, lnd)
         }
@@ -262,7 +271,7 @@ open class Highlighter {
         return true
     }
 
-    
+
     /**
      Get a list of available Highlight.js themes.
      
@@ -281,7 +290,7 @@ open class Highlighter {
         return result
     }
 
-    
+
     /**
      Get a list of languages supported by Highlight.js.
     
@@ -293,7 +302,7 @@ open class Highlighter {
         return res!.toArray() as! [String]
     }
 
-    
+
     // MARK: - Fast HTML Rendering Function
 
     /**
@@ -360,23 +369,6 @@ open class Highlighter {
 
         return resultString
     }
-    
-    
-    // MARK: - Utility Functions
-
-    /**
-     Execute the supplied block on the main thread.
-    */
-    private func safeMainSync(_ block: @escaping ()->()) {
-
-        if Thread.isMainThread {
-            block()
-        } else {
-            DispatchQueue.main.sync {
-                block()
-            }
-        }
-    }
 
 
     // MARK: - Line Numbering Functions
@@ -414,7 +406,7 @@ open class Highlighter {
 
         // Set the line number attributes - keep it low key
         let lineAtts: [NSAttributedString.Key : Any] = [.foregroundColor: colour.withAlphaComponent(0.2),
-                                                        .font: NSFont.monospacedSystemFont(ofSize: self.theme.fontSize, weight: .ultraLight)]
+                                                        .font: NSFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
 
         // Iterate over the rendered lines, prepending the line number
         let formatString = "%0\(formatCount)i"
@@ -435,4 +427,20 @@ open class Highlighter {
         return linedCode
     }
 
+
+    // MARK: - Utility Functions
+
+    /**
+     Execute the supplied block on the main thread.
+    */
+    private func safeMainSync(_ block: @escaping ()->()) {
+
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.sync {
+                block()
+            }
+        }
+    }
 }

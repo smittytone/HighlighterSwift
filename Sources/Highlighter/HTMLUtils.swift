@@ -6,7 +6,6 @@
  *  Licence: MIT
  */
 
-
 import Foundation
 
 
@@ -14,7 +13,7 @@ import Foundation
  Utility class for processing certain HTML entities.
  */
 internal class HTMLUtils {
-    
+
     /**
      Decode the HTML character entity to the corresponding Unicode character.
      
@@ -41,7 +40,7 @@ internal class HTMLUtils {
         }
     }
 
-    
+
     /**
      Decode a numerically encoded HTML character entity to the corresponding Unicode character.
      
@@ -327,5 +326,3 @@ private let characterEntities: [String: Character] = [
     "&hearts;"   : "\u{2665}",
     "&diams;"    : "\u{2666}"
 ]
-
-

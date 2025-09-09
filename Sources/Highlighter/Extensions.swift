@@ -1,9 +1,10 @@
-//
-//  File.swift
-//  Highlighter
-//
-//  Created by Tony Smith on 09/09/2025.
-//
+/*
+ *  Highlighter.swift
+ *  Copyright 2025, Tony Smith
+ *  Copyright 2016, Juan-Pablo Illanes
+ *
+ *  Licence: MIT
+ */
 
 import AppKit
 
@@ -34,6 +35,11 @@ extension NSAttributedString {
 
     /**
      Split the instance as per splitting a regular string.
+
+     - Parameters:
+        - separatedBy: The string used to split the primary string.
+
+     - Returns: An array of attributed strings, one per split.
      */
     func components(separatedBy separator: String) -> [NSAttributedString] {
         var parts: [NSAttributedString] = []
@@ -56,7 +62,7 @@ extension Scanner {
      Look ahead and return the next character in the sequence without
      altering the current location of the scanner.
 
-     - Parameters
+     - Parameters:
         - in: The string being scanned.
 
      - Returns The next character as a string.
