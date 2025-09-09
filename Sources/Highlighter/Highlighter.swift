@@ -19,10 +19,15 @@ import UIKit
 
 public struct LineNumberData {
 
-    public var usingDarkTheme: Bool = false                // Are you using a dark theme?
+    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", baseSeparator: String = "  ", baseStart: Int = 0) {
+        self.usingDarkTheme = usingDarkTheme
+        self.lineBreak = lineBreak
+        self.baseSeparator = baseSeparator
+        self.baseStart = baseStart
+    }
 
-    public var numberStart: Int {                          // The first line number.
-        get {                                       // Negative values reset any existint value to zero.
+    public var numberStart: Int {                           // The first line number.
+        get {                                               // Negative values reset any existint value to zero.
             return self.baseStart
         }
 
@@ -35,8 +40,8 @@ public struct LineNumberData {
         }
     }
 
-    public var separator: String {                         // A string placed between the line number and the line.
-        get {                                       // Empty strings are converted to two spaces (the default value)
+    public var separator: String {                          // A string placed between the line number and the line.
+        get {                                               // Empty strings are converted to two spaces (the default value)
             return self.baseSeparator
         }
 
@@ -49,8 +54,9 @@ public struct LineNumberData {
         }
     }
 
-    public var lineBreak: String = "\n"                    // The line-break character emitted by the rendering code.
-                                                    // It should not be necessary to change this.
+    public var usingDarkTheme: Bool = false                 // Are you using a dark theme?
+    public var lineBreak: String = "\n"                     // The line-break character emitted by the rendering code.
+                                                            // It should not be necessary to change this.
     private var baseSeparator: String = "  "
     private var baseStart: Int = 0
 
