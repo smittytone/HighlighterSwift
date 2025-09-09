@@ -315,45 +315,56 @@ open class Highlighter {
     */
     private func processHTMLString(_ htmlString: String) -> NSAttributedString? {
 
-        let scanner: Scanner = Scanner(string: htmlString)
-        var scanned: String? = nil
-        scanner.charactersToBeSkipped = nil
         let resultString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        var scanned: String? = nil
         var propStack: [String] = ["hljs"]
+        let scanner: Scanner = Scanner(string: htmlString)
+        scanner.charactersToBeSkipped = nil
 
         while !scanner.isAtEnd {
-            var ended: Bool = false
+            // Read up to the first tag
             scanned = scanner.scanUpToString(self.htmlStart)
-            ended = scanner.isAtEnd
 
             if let content = scanned, !content.isEmpty {
                 resultString.append(self.theme.applyStyleToString(content, styleList: propStack))
 
-                if ended {
+                if scanner.isAtEnd {
                     continue
                 }
             }
 
+            // Skip over the tag delimiter
             scanner.skipNextCharacter()
 
+            // Get the next charactor
             let nextChar: String = scanner.getNextCharacter(in: htmlString)
             if nextChar == "s" {
+                // We have a SPAN tag, so skip over the tag...
                 _ = scanner.scanString(self.spanStart)
+
+                // ... get the inner class info...
                 scanned = scanner.scanUpToString(self.spanStartClose)
+
+                // ... skip over the closing tag...
                 _ = scanner.scanString(self.spanStartClose)
+
+                // ... and stash the class data we extracted
                 if let content = scanned, !content.isEmpty {
                     propStack.append(content)
                 }
             } else if nextChar == "/" {
+                // We have a SPAN end tag so skip over it
                 _ = scanner.scanString(self.spanEnd)
                 propStack.removeLast()
             } else {
+                // We have code text, so style it based on the previous SPAN classe we've stored
                 let attrScannedString: NSAttributedString = self.theme.applyStyleToString("<", styleList: propStack)
                 resultString.append(attrScannedString)
                 scanner.skipNextCharacter()
             }
         }
 
+        // Process HTML escapes in the rendered attribute string
         let results: [NSTextCheckingResult] = self.htmlEscape.matches(in: resultString.string,
                                                                       options: [.reportCompletion],
                                                                       range: NSMakeRange(0, resultString.length))
