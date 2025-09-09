@@ -16,67 +16,6 @@ import UIKit
 
 
 /**
- A structure used to specify a line-numbering operation.`
- */
-public struct LineNumberData {
-
-    // MARK: Public Computed Properties
-
-    public var numberStart: Int {                           // The first line number.
-        get {                                               // Negative values reset any existint value to zero.
-            return self.baseStart
-        }
-
-        set (newValue) {
-            if newValue >= 0 {
-                self.baseStart = newValue
-            } else {
-                self.baseStart = 0
-            }
-        }
-    }
-
-    public var separator: String {                          // A string placed between the line number and the line.
-        get {                                               // Empty strings are converted to two spaces (the default value)
-            return self.baseSeparator
-        }
-
-        set (newValue) {
-            if newValue == "" {
-                self.baseSeparator = "  "
-            } else {
-                self.baseSeparator = newValue
-            }
-        }
-    }
-
-
-    // MARK: Public Properties
-
-    public var usingDarkTheme: Bool = false                 // Is the host theme dark? Default: `false`.
-    public var lineBreak: String = "\n"                     // The line-break character emitted by the rendering code.
-                                                            // It should not be necessary to change this.
-    public var fontSize: CGFloat = 16.0                     // The base font size.
-
-
-    // MARK: Private Properties
-
-    private var baseSeparator: String = "  "
-    private var baseStart: Int = 0
-
-
-    // MARK: Constructor
-
-    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", baseSeparator: String = "  ", baseStart: Int = 0) {
-        self.usingDarkTheme = usingDarkTheme
-        self.lineBreak = lineBreak
-        self.baseSeparator = baseSeparator
-        self.baseStart = baseStart
-    }
-}
-
-
-/**
     Wrapper class for generating a highlighted NSAttributedString from a code string.
  */
 open class Highlighter {
@@ -404,8 +343,8 @@ open class Highlighter {
         let lines = renderedCode.components(separatedBy: lineNumberingData.lineBreak)
 
         // Determine the maximum digit-width of the line number field
-        var formatCount = 2
-        var lineIndex = lineNumberingData.numberStart > 0 ? lineNumberingData.numberStart : 0
+        var formatCount = lineNumberingData.minWidth
+        var lineIndex = lineNumberingData.numberStart > 1 ? lineNumberingData.numberStart - 1 : 0
         var lineCount: Int = lines.count + lineIndex
         while lineCount > 99 {
             formatCount += 1
