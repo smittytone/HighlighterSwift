@@ -38,7 +38,7 @@ Unit tests have been added, and more will come, I hope.
 
 ## Platform Support
 
-**HighlighterSwift** supports macOS 11 (Big Sur) and up, and iOS 12 and up. iOS support is untested, however.
+**HighlighterSwift** supports macOS 11 (Big Sur) and up, iOS (iPadOS) 12 and up, tvOS 12 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however.
 
 ## Installation
 
