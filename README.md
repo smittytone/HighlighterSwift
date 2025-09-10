@@ -8,7 +8,7 @@ It is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://gi
 
 ### Improvements and Changes
 
-*Highlightr* makes use of *Highlight.js 9.13.4*, but the most recent release of the JavaScript library is 11.9.0. This is the version used by **HighlighterSwift**. Earlier versions of *Highlight.js* are not considered secure.
+*Highlightr* makes use of *Highlight.js 9.13.4*, but the most recent release of the JavaScript library is 11.11.1. This is the version used by **HighlighterSwift**. Earlier versions of *Highlight.js* are not considered secure.
 
 **HighlighterSwift** adds support for alpha values in CSS colours, eg. `#808080AA`, not present in Highlightr.
 
@@ -51,7 +51,7 @@ To add **HighlighterSwift** to your project, use Xcode to add it as a Swift Pack
 Instantiate a *Highlighter* object. Its `init()` function returns an optional, which will be `nil` if the `Highlight.min.js` file could not be found or is non-functional, or the `Default` theme CSS file is missing:
 
 ```swift
-if let highlighter: Highlighter = Highlighter.init() {
+if let highlighter: Highlighter = Highlighter() {
     ...
 }
 ```
@@ -68,10 +68,10 @@ You can apply your chosen font at this time too rather than fall back on the def
 highlighter.setTheme("atom-one-light", withFont: "Menlo-Regular", ofSize: 16.0)
 ```
 
-You can also specify a line spacing value:
+Having set the theme, you can specify a line spacing value:
 
 ```swift
-highlighter.theme.lineSpacing = (self.lineSpacing - 1.0) * self.fontSize
+highlighter.theme.lineSpacing = self.lineSpacing * self.fontSize
 ```
 
 and/or a paragraph spacing value:
@@ -80,11 +80,11 @@ and/or a paragraph spacing value:
 highlighter.theme.paraSpacing = 1.0
 ```
 
-A value of zero for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph — use `0.0` for no additional spacing (the default).
+A value of `0.0` for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph — use `0.0` for no additional spacing (the default).
 
-Both values must be non-negative. Negative values be replaced with default valyes: `0.0` in both cases.
+Both values must be non-negative. Negative values be replaced with the default values.
 
-**Note** These new values are applied to the instance’s `theme` property.
+**Note** As shown above, these new values are applied to the `Highlighter` instance’s `theme` property.
 
 You can set or change your preferred font later by using `setCodeFont()`, which takes an *NSFont* or *UIFont* instance configured for the font and text size you want, and is called on the *Highlighter* instance’s `theme` property:
 
@@ -105,18 +105,42 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 
 The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, *Highlighter* will use *Highlight.js*’ language detection feature.
 
-From 1.2.0, pass in a fourth parameter, an instancw of a `LineNumberingData` structure to instruct **HighlighterSwift** to add line numbers to the code. The default for this parameter is `nil`, ie. don’t add line numbers.
+From 1.2.0, pass in a fourth parameter, an instance of a `LineNumberingData` structure, to instruct **HighlighterSwift** to add line numbers to the code. The default for this parameter is `nil` (don’t add line numbers).
 
-`LineNumberingData` allows you to specify:
+```swift
+public struct LineNumberData {
 
-* The size of the line number font. Typically this will match your code font’s size. Default: 16.0pt.
-* Is the theme you are using dark? Default: `false`.
-* The initial line number. Default: `1`.
+    public var numberStart: Int = 1
+    public var minWidth: Int = 2
+    public var separator: String = "  "
+    public var usingDarkTheme: Bool = false
+    public var lineBreak: String = "\n"
+    public var fontSize: CGFloat = 16.0
+}
+```
+
+`LineNumberingData` properties allow you to specify:
+
+* The initial line number of the rendered code. Default: 1.
 * The minimum number of digits in the line number. Default: 2. This will always be overriden by the maximum line number. For example, if you set this to 3 (so the first line might be rendered as `001`) but there are a thousand or more lines in the code, the first line will be rendered as `0001`.
 * A separator string to be placed between the line number and the line itself. Default: two spaces.
-* The line-break string used in the tokenized source code. Default: `\n`. You should not need to change this.
+* Is the theme you are using dark? Default: `false`.
+* The line-break string used in the tokenized source code. Default: `\n`. **Note** You should not need to change this.
+* The size of the line number font. Typically this will match your code font’s size. Default: 16.0 points.
 
 All these values are optional.
+
+```swift
+var lineNumberingData = LineNumberData()
+lineNumberingData.minWidth = 4
+lineNumberingData.numberStart = 100
+lineNumberingData.usingDarkTheme = !isMacInLightMode()
+lineNumberingData.fontSize = self.settings.fontSize
+
+if let displayString: NSAttributedString = highlighter.highlight(codeString, as: "swift", lineNumbering: lineNumberingData) {
+    myTextView.textStorage!.addAttributedString(displayString)
+}
+```
 
 You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()` — it returns an array of strings.
 
