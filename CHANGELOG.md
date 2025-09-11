@@ -3,9 +3,9 @@
 - 2.0.0 *11 September 2025*
     - Add line numbering facility.
     - Add preliminary VisionOS support.
-    - **Potiential Break** Migrate minimum supported macOS version to Big Sur (11).
-    - **Potiential Break** Update baseline Swift version to 5.9.
-    - **Potiential Break** Change access rules for many module components.
+    - **Potential Break** Migrate minimum supported macOS version to Big Sur (11).
+    - **Potential Break** Update baseline Swift version to 5.9.
+    - **Potential Break** Change access rules for many module components.
 - 1.1.7 *23 July 2025*
     - Update to the latest version of Highlight.js 11.11.1.
 - 1.1.6 *30 August 2024*
