@@ -74,13 +74,19 @@ public struct LineNumberData {
     private var baseMinWidth: Int = 2
 
 
-    // MARK: Constructor
+    // MARK: Constructors
 
-    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", baseSeparator: String = "  ", baseStart: Int = 1, baseMinWidth: Int = 1) {
+    public init() {
+        self.usingDarkTheme = false
+        self.lineBreak = "\n"
+        self.baseSeparator = "  "
+        self.baseStart = 1
+        self.baseMinWidth = 1
+    }
+
+    public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", fontSize: CGFloat = 16.0) {
         self.usingDarkTheme = usingDarkTheme
         self.lineBreak = lineBreak
-        self.baseSeparator = baseSeparator
-        self.baseStart = baseStart
-        self.baseMinWidth = baseMinWidth
+        self.fontSize = fontSize
     }
 }
