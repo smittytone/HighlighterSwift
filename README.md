@@ -12,7 +12,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 * Minimum supported Swift version is now 5.9.
 * Access rules for many module components have been changed from `open` to `public`.
 
-## Non-reaking Changes with 2.0.0
+## Non-breaking Changes with 2.0.0
 
 * Optionally, present highlighted code with line numbers.
 
@@ -20,7 +20,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 **HighlighterSwift**:
 
-* Uses the most recent relese of *Highlight.js*, 11.11.1.
+* Uses the most recent release of *Highlight.js*, 11.11.1.
 * Provides support for alpha values in CSS colours, eg. `#808080AA`. It also parses *Highlight.js* themes for separate declarations of the same style.
 * Has been designed from the ground up as a Swift Package. Support for legacy package managers is not included.
 * Is more deeply commented and the code is presented in a more consistent style than its predecessor.
@@ -35,7 +35,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ## Installation
 
-To add **HighlighterSwift** to your project, add it as a Swift Package with this repo’s URL. 
+To add **HighlighterSwift** to your project, add it as a Swift Package with this repo’s URL.
 
 The library contains the *Highlight.js* code and themes, but please note that some themes have been modified slightly to meet the needs of the project **HighlighterSwift** was originally developed for. Specifically:
 
@@ -117,7 +117,7 @@ public struct LineNumberData {
 `LineNumberingData` properties allow you to specify:
 
 * The initial line number of the rendered code. Default: 1.
-* The minimum number of digits in the line number. Default: 2. This will always be overriden by the maximum line number. For example, if you set this to 3 (so the first line might be rendered as `001`) but there are a thousand or more lines in the code, the first line will be rendered as `0001`.
+* The minimum number of digits in the line number. Default: 2. This will always be overridden by the maximum line number. For example, if you set this to 3 (so the first line might be rendered as `001`) but there are a thousand or more lines in the code, the first line will be rendered as `0001`.
 * A separator string to be placed between the line number and the line itself. Default: two spaces.
 * Is the theme you are using dark? Default: `false`.
 * The line-break string used in the tokenized source code. Default: `\n`. **Note** You should not need to change this.
