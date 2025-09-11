@@ -2,7 +2,7 @@
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
-![Far theme example](Images/samples.png)
+![Far theme example](Images/samples.webp)
 
 **HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version Hightlightr. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
 
