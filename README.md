@@ -1,4 +1,4 @@
-# HighlighterSwift 2.1.0
+# HighlighterSwift 2.0.1
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -151,4 +151,4 @@ Please see [CHANGELOG.md](CHANGELOG.md).
 
 **HighlighterSwift**, like *Highlightr*, is released under the terms of the MIT Licence. *Hightlight.js* is released under the BSD 3-Clause Licence.
 
-**HighlighterSwift** is &copy; 2025, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2025, Josh Goebel and other contributors.
+**HighlighterSwift** is &copy; 2026, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2026, Josh Goebel and other contributors.

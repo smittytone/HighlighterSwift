@@ -1,7 +1,7 @@
 ## Release Notes
 
-- 2.1.0 *Unreleased*
-    - Correct framework imports for iOS.
+- 2.0.1 *2 February 2026*
+    - Correct certain framework imports for iOS (thanks [@florianreinhart](https://github.com/florianreinhart)).
 - 2.0.0 *11 September 2025*
     - Add line numbering facility.
     - Add preliminary VisionOS support.
@@ -16,7 +16,7 @@
     - Add dark GitHub theme.
 - 1.1.4 *10 November 2023*
     - Update to Highlight.js 11.9.0.
-    - Fix: add missing iOS-oriented import (thanks [@greggreg](https://github.com/gregggreg))
+    - Fix: add missing iOS-oriented import (thanks [@greggreg](https://github.com/gregggreg)).
 - 1.1.3 *16 May 2023*
     - Add line and paragraph spacing controls.
 - 1.1.2 *15 March 2023*
