@@ -1,6 +1,6 @@
 /*
  *  Highlighter.swift
- *  Copyright 2025, Tony Smith
+ *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
  *  Licence: MIT

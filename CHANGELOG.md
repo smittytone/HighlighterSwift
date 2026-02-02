@@ -1,5 +1,6 @@
 ## Release Notes
 
+- 2.1.0 *Unreleased*
 - 2.0.0 *11 September 2025*
     - Add line numbering facility.
     - Add preliminary VisionOS support.
