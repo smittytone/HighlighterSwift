@@ -6,7 +6,6 @@
  *  Licence: MIT
  */
 
-import Foundation
 import JavaScriptCore
 #if os(OSX)
 import AppKit

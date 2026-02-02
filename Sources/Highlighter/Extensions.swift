@@ -6,7 +6,11 @@
  *  Licence: MIT
  */
 
+#if os(OSX)
 import AppKit
+#elseif os(iOS)
+import UIKit
+#endif
 
 
 extension NSMutableAttributedString {
