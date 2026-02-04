@@ -4,7 +4,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ![Far theme example](Images/samples.webp)
 
-**HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version Hightlightr. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
+**HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [*Highlightr*](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version *Hightlightr*. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
 
 ## Potential Breaking Changes with 3.0.0
 
@@ -33,9 +33,11 @@ To add **HighlighterSwift** to your project, add it as a Swift Package with this
 
 The library contains the *Highlight.js* code and themes, but please note that some themes have been modified slightly to meet the needs of the project **HighlighterSwift** was originally developed for. Specifically:
 
-* Background images have been removed from the Brown Paper, Greyscale, Schoolbook and Pojoacque themes (*Highlight.js* is also starting to do this)
-* The two Kimbie themes have been renamed for consistency.
+* Background images have been removed from the *Brown Paper*, *Greyscale*, *Schoolbook* and *Pojoacque* themes (*Highlight.js* is also starting to do this).
+* The two *Kimbie* themes have been renamed for consistency.
 * All colours have been formalized as hex values.
+
+You should also note that some theme style elements may not fully match the latest versions offered by *Highlight.js*.
 
 ## Usage
 
