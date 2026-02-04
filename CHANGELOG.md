@@ -1,5 +1,7 @@
 ## Release Notes
 
+- 3.0.0 *Unreleased*
+    - **Potential Break** Migrate minimum supported iOS version to 13 (thanks [@aabagdi](https://github.com/aabagdi)).
 - 2.0.1 *2 February 2026*
     - Correct certain framework imports for iOS (thanks [@florianreinhart](https://github.com/florianreinhart)).
 - 2.0.0 *11 September 2025*

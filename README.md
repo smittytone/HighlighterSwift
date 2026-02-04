@@ -1,4 +1,4 @@
-# HighlighterSwift 2.0.1
+# HighlighterSwift 3.0.0
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -6,15 +6,9 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 **HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [Highlightr](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version Hightlightr. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
 
-## Potential Breaking Changes with 2.0.0
+## Potential Breaking Changes with 3.0.0
 
-* Minimum supported macOS version is now Big Sur (11).
-* Minimum supported Swift version is now 5.9.
-* Access rules for many module components have been changed from `open` to `public`.
-
-## Non-breaking Changes with 2.0.0
-
-* Optionally, present highlighted code with line numbers.
+* Minimum supported iOS and tvOS versions are now both 13.
 
 ## HighlighterSwift vs Highlightr
 
