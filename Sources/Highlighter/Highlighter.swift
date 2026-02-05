@@ -351,11 +351,11 @@ open class Highlighter {
         }
 
         // Determine the colour according to the usage mode
-        let colour: NSColor = lineNumberingData.usingDarkTheme ? .white : .black
+        let colour: HRColor = lineNumberingData.usingDarkTheme ? .white : .black
 
         // Set the line number attributes - keep it low key
         let lineAtts: [NSAttributedString.Key : Any] = [.foregroundColor: colour.withAlphaComponent(0.2),
-                                                        .font: NSFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
+                                                        .font: HRFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
 
         // Iterate over the rendered lines, prepending the line number
         let formatString = "%0\(formatCount)i"
