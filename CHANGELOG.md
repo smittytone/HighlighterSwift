@@ -1,6 +1,6 @@
 ## Release Notes
 
-- 3.0.0 *Unreleased*
+- 3.0.0 *9 February 2026*
     - **Potential Break** Migrate minimum supported iOS version to 13 (thanks [@aabagdi](https://github.com/aabagdi)).
     - Fix use of non-shimmed `NSColor` and `NSFont`.
 - 2.0.1 *2 February 2026*
