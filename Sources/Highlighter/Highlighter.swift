@@ -381,7 +381,9 @@ open class Highlighter {
 
     /**
      Execute the supplied block on the main thread.
-    */
+
+     FROM 3.0.1 - This is never called, so remove it
+
     private func safeMainSync(_ block: @escaping @Sendable ()->()) {
 
         if Thread.isMainThread {
@@ -392,4 +394,5 @@ open class Highlighter {
             }
         }
     }
+     */
 }
