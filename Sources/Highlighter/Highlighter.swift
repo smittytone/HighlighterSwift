@@ -382,7 +382,7 @@ open class Highlighter {
     /**
      Execute the supplied block on the main thread.
     */
-    private func safeMainSync(_ block: @escaping ()->()) {
+    private func safeMainSync(_ block: @escaping @Sendable ()->()) {
 
         if Thread.isMainThread {
             block()
