@@ -1,7 +1,7 @@
 ## Release Notes
 
 - 3.0.1 *Unreleased*
-    - Strict concurrency compilation warning fix.
+    - Strict concurrency compilation warning fix (thanks [@Wcowin](https://github.com/Wcowin)).
 - 3.0.0 *9 February 2026*
     - **Potential Break** Migrate minimum supported iOS version to 13 (thanks [@aabagdi](https://github.com/aabagdi)).
     - Fix use of non-shimmed `NSColor` and `NSFont`.
