@@ -80,13 +80,13 @@ open class Highlighter {
             guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
                 return nil
             }
+
+            // Store the results for later
+            self.hljs = hljs
+            self.bundle = bundle
         } catch {
             return nil
         }
-
-        // Store the results for later
-        self.hljs = hljs
-        self.bundle = bundle
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
