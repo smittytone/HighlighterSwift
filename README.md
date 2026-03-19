@@ -1,4 +1,4 @@
-# HighlighterSwift 3.0.1
+# HighlighterSwift 3.0.2
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 

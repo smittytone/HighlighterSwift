@@ -1,5 +1,7 @@
 ## Release Notes
 
+- 3.0.2 *Unreleased*
+    - Tighten error-checking on Highlight.js load.
 - 3.0.1 *18 March 2026*
     - Strict concurrency compilation warning fix (thanks [@Wcowin](https://github.com/Wcowin)).
 - 3.0.0 *9 February 2026*

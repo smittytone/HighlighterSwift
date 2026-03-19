@@ -69,17 +69,25 @@ open class Highlighter {
         }
 
         // Check the JavaScript or fail
-        let context = JSContext.init()!
-        let highlightJs: String = try! String.init(contentsOfFile: highlightPath)
-        let _ = context.evaluateScript(highlightJs)
-        guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
+        do {
+            guard let context = JSContext() else {
+                return nil
+            }
+
+            let highlightJs: String = try String(contentsOfFile: highlightPath)
+            let _ = context.evaluateScript(highlightJs)
+
+            guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
+                return nil
+            }
+        } catch {
             return nil
         }
-        
+
         // Store the results for later
         self.hljs = hljs
         self.bundle = bundle
-        
+
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
         guard setTheme("default") else {
