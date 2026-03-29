@@ -1,5 +1,7 @@
 ## Release Notes
 
+- 3.0.3 *29 March 2026*
+    - Add important caveat regarding line-numbering to Read Me. No functional changes to code.
 - 3.0.2 *24 March 2026*
     - Tighten error-checking on Highlight.js load.
 - 3.0.1 *18 March 2026*

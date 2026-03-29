@@ -1,4 +1,4 @@
-# HighlighterSwift 3.0.2
+# HighlighterSwift 3.0.3
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -96,7 +96,9 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 
 The second parameter is the name of language you’re rendering. If you leave out this parameter, or pass `nil`, **HighlighterSwift** will use the language detection feature built into *Highlight.js*.
 
-From 2.0.0, pass in a fourth parameter, an instance of a `LineNumberingData` structure, to instruct **HighlighterSwift** to add line numbers to the code according to the values included in this data. The default for this parameter is `nil` (don’t add line numbers).
+### Line Numbering
+
+Pass in a fourth parameter, an instance of a `LineNumberingData` structure, to instruct **HighlighterSwift** to add line numbers to the code according to the values included in this data. The default for this parameter is `nil` (don’t add line numbers).
 
 ```swift
 public struct LineNumberData {
@@ -109,6 +111,8 @@ public struct LineNumberData {
     public var fontSize: CGFloat = 16.0
 }
 ```
+
+**IMPORTANT** Line-numbering is intended solely for apps which *present* code, not for apps which *edit* code. In the latter case, **HighlighterSwift** line-numbering should not be used (use the default paramater) and you should implement your own, editing-friendly line-numbering mechanism.
 
 `LineNumberingData` properties allow you to specify:
 
@@ -134,6 +138,8 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
     myTextView.textStorage!.addAttributedString(displayString)
 }
 ```
+
+### Supported Languages and Themes
 
 You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()` — it returns an array of strings.
 
