@@ -112,7 +112,7 @@ public struct LineNumberData {
 }
 ```
 
-**IMPORTANT** Line-numbering is intended solely for apps which *present* code, not for apps which *edit* code. In the latter case, **HighlighterSwift** line-numbering should not be used (use the default paramater) and you should implement your own, editing-friendly line-numbering mechanism.
+**IMPORTANT** Line-numbering is intended solely for apps which *present* code, not for apps which *edit* code. In the latter case, **HighlighterSwift** *line-numbering should not be used* (call the `highlight()` method with no fourth parameter) and you should implement your own, editing-friendly line-numbering mechanism.
 
 `LineNumberingData` properties allow you to specify:
 
