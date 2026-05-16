@@ -118,7 +118,6 @@ let package = Package(
                 .copy("Assets/styles/kimbie-light.css"),
                 .copy("Assets/styles/lightfair.css"),
                 .copy("Assets/styles/lioshi.css"),
-                .copy("Assets/styles/list.txt"),
                 .copy("Assets/styles/magula.css"),
                 .copy("Assets/styles/mono-blue.css"),
                 .copy("Assets/styles/monokai-sublime.css"),
