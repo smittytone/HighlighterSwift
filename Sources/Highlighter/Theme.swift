@@ -161,12 +161,12 @@ public class Theme {
      - Returns: The styled text as an NSAttributedString.
     */
     internal func applyStyleToString(_ string: String, styleList: [String]) -> NSAttributedString {
-        
+
         let returnString: NSAttributedString
         
         // FROM 1.1.3
         // Incorporate line and paragraph spacing
-        let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.init()
+        let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         spacedParaStyle.lineSpacing = (self.lineSpacing >= 0.0 ? self.lineSpacing : 0.0)
         spacedParaStyle.paragraphSpacing = (self.paraSpacing >= 0.0 ? self.paraSpacing : 0.0)
         
@@ -176,10 +176,26 @@ public class Theme {
             attrs[.font] = self.codeFont
             attrs[.paragraphStyle] = spacedParaStyle
             for style in styleList {
-                if let themeStyle = self.themeDict[style] as? [AttributedStringKey: Any] {
+                // FROM 3.1.0
+                // Highlight.js once listed styles as, for example, `hljs-title`.
+                // Now you may see `hljs-title class_ inherited__`.
+                // The CSS is `.hljs-title.class_.inherited__`
+                // The extra items should be parsed and handled, but for now, just remove them.
+                let aStyle: String
+                if let spaceIndex = style.firstIndex(of: " ") {
+                    aStyle = String(style[style.startIndex..<spaceIndex])
+                } else {
+                    aStyle = style
+                }
+
+                if let themeStyle = self.themeDict[aStyle] as? [AttributedStringKey: Any] {
                     for (attrName, attrValue) in themeStyle {
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
+                } else {
+#if DEBUG
+                    print("WARNING MISSING STYLE: \(aStyle)")
+#endif
                 }
             }
 
@@ -187,7 +203,7 @@ public class Theme {
         } else {
             // No specified attributes? Just set the font
             returnString = NSAttributedString(string: string,
-                                              attributes:[.font: codeFont as Any,
+                                              attributes:[.font: self.codeFont as Any,
                                                           .paragraphStyle: spacedParaStyle])
         }
 
@@ -199,60 +215,73 @@ public class Theme {
      Convert a Highlight.js theme's CSS to the class' string dictionary.
         
      - Parameters:
-        - themeString: The theme's CSS string.
-     
+        - css: The theme's CSS string.
+
      - Returns: A dictionary of styles and values.
     */
-    private func stripTheme(_ themeString : String) -> HRThemeStringDict {
-        
-        let objcString: NSString = (themeString as NSString)
-        let cssRegex = try! NSRegularExpression(pattern: "(?:(\\.[a-zA-Z0-9\\-_]*(?:[, ]\\.[a-zA-Z0-9\\-_]*)*)\\{([^\\}]*?)\\})",
-                                                options:[.caseInsensitive])
-        let results = cssRegex.matches(in: themeString,
-                                       options: [.reportCompletion],
-                                       range: NSMakeRange(0, objcString.length))
+    private func stripTheme(_ css: String) -> HRThemeStringDict {
+
         var resultDict = [String: [String: String]]()
+        var returnDict = [String: [String: String]]()
 
-        for result in results {
-            if result.numberOfRanges == 3 {
-                var attributes = [String:String]()
-                let cssPairs = objcString.substring(with: result.range(at: 2)).components(separatedBy: ";")
-                for pair in cssPairs {
-                    let cssPropComp = pair.components(separatedBy: ":")
-                    if (cssPropComp.count == 2) {
-                        attributes[cssPropComp[0]] = cssPropComp[1]
-                    }
+        // Use a regex to find comma-separated sequences of style names followed by format instructions (within braces)
+        // and use the sequence as keys in a dictionary -- the values are the formatting pairs in arrays
+        // FROM 3.1.0
+        // Use a new regex for our minfied style CSS files, and a more Swifty approach
+        let cssRegex = try! NSRegularExpression(pattern: #"(?:/\*[\s\S]*?\*/\s*|([^{}]+?)\s*\{([^}]*)\})"#)
+        cssRegex.enumerateMatches(in: css, range: NSRange(css.startIndex..., in: css)) { match, _, _ in
+            // guard returns nil ranges on comment matches, so those are silently skipped
+            guard let match,
+                  let nameListRange = Range(match.range(at: 1), in: css),
+                  let formatListRange = Range(match.range(at: 2), in: css) else { return }
+            let nameList = String(css[nameListRange])
+            let formatList = String(css[formatListRange])
+#if DEBUUG
+            //print("\(names) => \(format)")
+#endif
+
+            // Separate out the format section's elements into an array of pairs
+            var attributes = [String:String]()
+            let formatPairs = formatList.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ";")
+            for formatPair in formatPairs {
+                let formatParts = formatPair.components(separatedBy: ":")
+                if (formatParts.count == 2) {
+                    attributes[formatParts[0]] = formatParts[1]
                 }
+            }
 
-                if attributes.count > 0 {
-                    // Check if we're adding attributes to an existing hljs key
-                    if resultDict[objcString.substring(with: result.range(at: 1))] != nil {
-                        // We have the key already so merge in the latest attribute dictionary
-                        let existingAttributes: [String: String] = resultDict[objcString.substring(with: result.range(at: 1))]!
-                        resultDict[objcString.substring(with: result.range(at: 1))] = existingAttributes.merging(attributes, uniquingKeysWith: { (first, _) in first })
-                    } else {
-                        // Set the attributes to a new key
-                        resultDict[objcString.substring(with: result.range(at: 1))] = attributes
-                    }
+            // We have some format data to store
+            if attributes.count > 0 {
+                // Check if we're adding attributes to an existing hljs key
+                if resultDict[nameList] != nil {
+                    // We have the key already so merge in the latest attribute dictionary
+                    let existingAttributes: [String: String] = resultDict[nameList]!
+                    resultDict[nameList] = existingAttributes.merging(attributes, uniquingKeysWith: { (first, _) in first } )
+                } else {
+                    // Set the attributes to a new key
+                    resultDict[nameList] = attributes
                 }
             }
         }
 
-        var returnDict = [String: [String: String]]()
+        // Now generate a new dictionary with the individual style names as keys
+        // and each one's format array as a value
         for (keys, result) in resultDict {
-            let keyArray = keys.replacingOccurrences(of: " ", with: ",").components(separatedBy: ",")
+            let keyArray = keys.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ",") // .replacingOccurrences(of: " ", with: ",")
             for key in keyArray {
-                var props : [String: String]?
-                props = returnDict[key]
-                if props == nil {
-                    props = [String:String]()
+                var properties = [String: String]()
+                if returnDict[key] != nil {
+                    properties = returnDict[key]!
                 }
 
-                for (pName, pValue) in result {
-                    props!.updateValue(pValue, forKey: pName)
+                for (propName, propValue) in result {
+                    properties.updateValue(propValue, forKey: propName)
                 }
 
-                returnDict[key] = props!
+                returnDict[key] = properties
+#if DEBUG
+                print("\(key) => \(properties)")
+#endif
             }
         }
 
@@ -396,23 +425,23 @@ public class Theme {
 
         if (colourString.hasPrefix("#")) {
             // The colour is defined by a hex value
-            colourString = (colourString as NSString).substring(from: 1)
+            colourString = String(colourString.dropFirst(1)) //(colourString as NSString).substring(from: 1)
         } else {
             switch colourString {
             case "white":
-                return HRColor.init(white: 1.0, alpha: 1.0)
+                return HRColor(white: 1.0, alpha: 1.0)
             case "black":
-                return HRColor.init(white: 0.0, alpha: 1.0)
+                return HRColor(white: 0.0, alpha: 1.0)
             case "red":
-                return HRColor.init(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+                return HRColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
             case "green":
-                return HRColor.init(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
+                return HRColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
             case "blue":
-                return HRColor.init(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+                return HRColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
             case "navy":
-                return HRColor.init(red: 0.0, green: 0.0, blue: 0.5, alpha: 1.0)
+                return HRColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 1.0)
             case "silver":
-                return HRColor.init(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.0)
+                return HRColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.0)
             default:
                 return HRColor.gray
             }
@@ -420,7 +449,11 @@ public class Theme {
         
         // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
         if colourString.count != 8 && colourString.count != 6 && colourString.count != 3 {
+#if DEBUG
+            return HRColor.red
+#else
             return HRColor.gray
+#endif
         }
 
         var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0, a: UInt64 = 0
@@ -429,9 +462,9 @@ public class Theme {
 
         if colourString.count == 6 || colourString.count == 8 {
             // Decode a six-character hex string
-            let rString: String = (colourString as NSString).substring(to: 2)
-            let gString: String = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 2)
-            let bString: String = ((colourString as NSString).substring(from: 4) as NSString).substring(to: 2)
+            let rString = String(colourString.dropLast(colourString.count - 2))
+            let gString = String(colourString.dropFirst(2).dropLast(colourString.count - 4))
+            let bString = String(colourString.dropFirst(4).dropLast(colourString.count - 6))
 
             Scanner(string: rString).scanHexInt64(&r)
             Scanner(string: gString).scanHexInt64(&g)
@@ -441,15 +474,15 @@ public class Theme {
             
             if colourString.count == 8 {
                 // Decode the eight-character hex string's alpha value
-                let aString: String = ((colourString as NSString).substring(from: 6) as NSString).substring(to: 2)
+                let aString = String(colourString.dropFirst(6))
                 Scanner(string: aString).scanHexInt64(&a)
                 alpha = CGFloat(a) / divisor
             }
         } else {
             // Decode a three-character hex string
-            let rString: String = (colourString as NSString).substring(to: 1)
-            let gString: String = ((colourString as NSString).substring(from: 1) as NSString).substring(to: 1)
-            let bString: String = ((colourString as NSString).substring(from: 2) as NSString).substring(to: 1)
+            let rString = String(colourString.dropLast(2))
+            let gString = String(colourString.dropFirst(1).dropLast(1))
+            let bString = String(colourString.dropFirst(2))
 
             Scanner(string: rString).scanHexInt64(&r)
             Scanner(string: gString).scanHexInt64(&g)
