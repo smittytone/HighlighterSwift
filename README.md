@@ -1,10 +1,14 @@
-# HighlighterSwift 3.0.3
+# HighlighterSwift 3.1.0
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
 ![Far theme example](Images/samples.webp)
 
 **HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [*Highlightr*](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version *Hightlightr*. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
+
+## Theme (Style) Files and HighlighterSwift 3.1.0
+
+**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/xxx.css`) and these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called (see below). You cannot transfer theme files streight from *Highlight.js* to **HighlighterSwift**.
 
 ## Potential Breaking Changes with 3.0.0
 
@@ -153,4 +157,4 @@ Please see [CHANGELOG.md](CHANGELOG.md).
 
 **HighlighterSwift**, like *Highlightr*, is released under the terms of the MIT Licence. *Hightlight.js* is released under the BSD 3-Clause Licence.
 
-**HighlighterSwift** is &copy; 2026, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2026, Josh Goebel and other contributors.
+**HighlighterSwift** is &copy; 2026, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2025, Josh Goebel and other contributors.
