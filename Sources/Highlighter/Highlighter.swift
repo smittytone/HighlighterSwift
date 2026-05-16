@@ -214,6 +214,7 @@ open class Highlighter {
         // Get the theme CSS and instantiate a Theme object
         let themeString = try! String(contentsOfFile: themePath)
         self.theme = Theme(withTheme: themeString, usingFont: font)
+        self.theme.name = themeName
         return true
     }
 

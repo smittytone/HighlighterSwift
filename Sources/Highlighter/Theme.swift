@@ -37,6 +37,8 @@ public class Theme {
     // FROM 1.2.0
     public var isDark: Bool = false
     public var fontSize: CGFloat = 18.0
+    // FROM 3.1.0
+    public var name: String = ""
 
 
     // MARK: - Private Properties
@@ -59,8 +61,9 @@ public class Theme {
     init(withTheme: String = "default", usingFont: HRFont? = nil) {
         
         // Record the theme name
-        self.theme = withTheme
-        
+        self.name = withTheme
+        self.theme = withTheme      // This SHOULD be the CSS...
+
         // Apply the font choice
         if let font: HRFont = usingFont {
             setCodeFont(font)
@@ -194,7 +197,7 @@ public class Theme {
                     }
                 } else {
 #if DEBUG
-                    print("WARNING MISSING STYLE: \(aStyle)")
+                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
 #endif
                 }
             }
