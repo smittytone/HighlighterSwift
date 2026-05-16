@@ -1,0 +1,18 @@
+/*
+  Theme: Cybertopia Icecap
+  Author: Alexandre ZANNI (noraj)
+  Repository: https://github.com/noraj/cybertopia-highlightjs
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#abb2bf;background:#101010}
+.hljs-comment,.hljs-quote,.hljs-code{color:#5c6370;font-style:italic}
+.hljs-doctag,.hljs-keyword,.hljs-formula,.hljs-meta .hljs-keyword{color:#0240C5}
+.hljs-section,.hljs-name,.hljs-selector-tag,.hljs-deletion,.hljs-subst{color:#02C5AE}
+.hljs-literal{color:#0274C5}
+.hljs-string,.hljs-regexp,.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string{color:#02c797}
+.hljs-attr,.hljs-variable,.hljs-template-variable,.hljs-type,.hljs-selector-class,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-number,.hljs-punctuation,.hljs-variable.language_{color:#02C2C5}
+.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-title,.hljs-title.function_,.hljs-property,.hljs-tag,.hljs-char.escape_{color:#025AC5}
+.hljs-built_in,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-class .hljs-title{color:#02A8C5}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:bold}
+.hljs-link{text-decoration:underline}
+.hljs-params,.hljs-operator,.hljs-template-tag{color:#028EC5}

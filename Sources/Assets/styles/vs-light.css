@@ -2,7 +2,7 @@
 Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#ffffff;color:#000000}
-.hljs-comment,.hljs-quote,.hljs-variable{color:#008000}
+.hljs-comment,.hljs-doctag,.hljs-quote,.hljs-variable{color:#008000}
 .hljs-keyword,.hljs-selector-tag,.hljs-built_in,.hljs-name,.hljs-tag{color:#00f}
 .hljs-string,.hljs-title,.hljs-section,.hljs-attribute,.hljs-literal,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-addition{color:#a31515}
 .hljs-deletion,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-meta{color:#2b91af}
