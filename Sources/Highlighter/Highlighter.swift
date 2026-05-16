@@ -208,12 +208,12 @@ open class Highlighter {
                 size = ofSize!
             }
             
-            font = HRFont.init(name: fontName, size: size)
+            font = HRFont(name: fontName, size: size)
         }
         
         // Get the theme CSS and instantiate a Theme object
-        let themeString = try! String.init(contentsOfFile: themePath)
-        self.theme = Theme.init(withTheme: themeString, usingFont: font)
+        let themeString = try! String(contentsOfFile: themePath)
+        self.theme = Theme(withTheme: themeString, usingFont: font)
         return true
     }
 
