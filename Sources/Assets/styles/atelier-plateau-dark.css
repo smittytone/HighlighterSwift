@@ -1,1 +1,25 @@
-.hljs-comment,.hljs-quote{color:#7e7777}.hljs-attribute,.hljs-link,.hljs-name,.hljs-regexp,.hljs-selector-class,.hljs-selector-id,.hljs-tag,.hljs-template-variable,.hljs-variable{color:#ca4949}.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-meta,.hljs-number,.hljs-params,.hljs-type{color:#b45a3c}.hljs-bullet,.hljs-string,.hljs-symbol{color:#4b8b8b}.hljs-section,.hljs-title{color:#7272ca}.hljs-keyword,.hljs-selector-tag{color:#8464c4}.hljs-addition,.hljs-deletion{color:#1b1818;display:inline-block;width:100%}.hljs-deletion{background-color:#ca4949}.hljs-addition{background-color:#4b8b8b}.hljs{display:block;overflow-x:auto;background:#1b1818;color:#8a8585;padding:.5em}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+/*!
+  Theme: Atelier Plateau
+  Author: Bram de Haan (http://atelierbramdehaan.nl)
+  License: ~ MIT (or more permissive) [via base16-schemes-source]
+  Maintainer: @highlightjs/core-team
+  Version: 2021.09.0
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#8a8585;background:#1b1818}
+.hljs::selection,.hljs ::selection{background-color:#585050;color:#8a8585}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#655d5d}
+.hljs-tag{color:#7e7777}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#8a8585}
+.hljs-operator{opacity:0.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#ca4949}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#b45a3c}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#a06e3b}
+.hljs-strong{font-weight:bold;color:#a06e3b}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#4b8b8b}
+.hljs-built_in,.hljs-doctag, .hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#5485b6}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#7272ca}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#8464c4}
+.hljs-emphasis{color:#8464c4;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#bd5187}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}

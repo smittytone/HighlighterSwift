@@ -1,1 +1,14 @@
-.hljs-comment{color:#8d8d8d}.hljs-quote{color:#b3c7d8}.hljs-deletion,.hljs-name,.hljs-regexp,.hljs-selector-class,.hljs-selector-id,.hljs-tag,.hljs-template-variable,.hljs-variable{color:#c66}.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-number,.hljs-subst .hljs-link,.hljs-type{color:#de935f}.hljs-attribute{color:#f0c674}.hljs-addition,.hljs-bullet,.hljs-params,.hljs-string{color:#b5bd68}.hljs-meta,.hljs-section,.hljs-title{color:#81a2be}.hljs-class,.hljs-function,.hljs-keyword,.hljs-selector-tag{color:#be94bb}.hljs-symbol{color:#dbc4d9}.hljs{display:block;overflow-x:auto;background:#303030;color:#c5c8c6;padding:.5em}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+/* lioshi Theme */
+/* Original theme - https://github.com/lioshi/vscode-lioshi-theme */
+.hljs{display:block;overflow-x:auto;padding:.5em;background:#303030;color:#c5c8c6}
+.hljs-comment{color:#8d8d8d}
+.hljs-quote{color:#b3c7d8}
+.hljs-variable,.hljs-template-variable,.hljs-tag,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-regexp,.hljs-deletion{color:#cc6666}
+.hljs-number,.hljs-built_in,.hljs-literal,.hljs-type,.hljs-subst.hljs-link{color:#de935f}
+.hljs-attribute{color:#f0c674}
+.hljs-string,.hljs-bullet,.hljs-params,.hljs-addition{color:#b5bd68}
+.hljs-selector-tag,.hljs-keyword,.hljs-function,.hljs-class{color:#be94bb}
+.hljs-title,.hljs-meta,.hljs-section{color:#81a2be}
+.hljs-symbol{color:#dbc4d9}
+.hljs-emphasis{font-style:italic}
+.hljs-strong{font-weight:bold}

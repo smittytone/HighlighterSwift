@@ -4,4 +4,22 @@
   License: ~ MIT (or more permissive) [via base16-schemes-source]
   Maintainer: @highlightjs/core-team
   Version: 2021.05.0
-*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#385156;background:#e9f1ef}.hljs ::selection{color:#90b7b6}.hljs-comment{color:#5c787b}.hljs-tag{color:#4b5b5f}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#385156}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#cf432e}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#d27f46}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#cfad25}.hljs-strong{font-weight:700;color:#cfad25}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#6ca38c}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#329ca2}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#39aac9}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#6e6582}.hljs-emphasis{color:#6e6582;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#865369}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}
+*/
+.hljs{display:block;overflow-x:auto;padding:1em;color:#385156;background:#E9F1EF}
+.hljs::selection,.hljs ::selection{background-color:#90B7B6;color:#385156}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#5C787B}
+.hljs-tag{color:#4B5B5F}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#385156}
+.hljs-operator{opacity:0.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#CF432E}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#D27F46}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#CFAD25}
+.hljs-strong{font-weight:bold;color:#CFAD25}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#6CA38C}
+.hljs-built_in,.hljs-doctag,.hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#329CA2}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#39AAC9}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#6E6582}
+.hljs-emphasis{color:#6E6582;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#865369}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}
