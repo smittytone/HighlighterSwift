@@ -90,7 +90,8 @@ open class Highlighter {
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
-        guard setTheme("default") else {
+
+        guard setTheme("default-light") else {
             return nil
         }
     }
