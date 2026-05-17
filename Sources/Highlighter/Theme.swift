@@ -195,12 +195,11 @@ public class Theme {
                     for (attrName, attrValue) in themeStyle {
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                }
+                } else {
 #if DEBUG
-                else {
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
-                }
 #endif
+                }
             }
 
             returnString = NSAttributedString(string: string, attributes:attrs)
