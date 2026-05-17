@@ -4,8 +4,8 @@ Author: Tyler Benziger (http://tybenz.com)
 License: ~ MIT (or more permissive) [via base16-schemes-source]
 Maintainer: @highlightjs/core-team
 Version: 2021.09.0
-*/.hljs{display:block;overflow-x:auto;padding:.5em}
-;color:#102015;background:#f9f9f9}
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#102015;background:#f9f9f9}
 .hljs::selection,.hljs ::selection{background-color:#ababab;color:#102015}
 .hljs-formula,.hljs-params,.hljs-property{}
 .hljs-comment{color:#555}
