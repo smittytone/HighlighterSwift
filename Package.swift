@@ -25,6 +25,9 @@ let package = Package(
             path: "Sources",
             exclude: ["Assets/LICENCE"],
             resources: [
+                // JS
+                .copy("Assets/highlight.min.js"),
+                // THEMES
                 .copy("Assets/styles/1c-light.css"),
                 .copy("Assets/styles/3024.css"),
                 .copy("Assets/styles/a11y-dark.css"),
