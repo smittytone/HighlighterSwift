@@ -2,8 +2,9 @@
 
 - 3.1.0 *Unreleased*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
-    - Update processing of themes (style) files.
-    - Fix a number of themes (styles) that had broken in recent releases, eg. `Tomorrow Night`.
+    - Add `highlight.js` themes not yet included in *HighlighterSwift*.
+    - Update processing of theme files.
+    - Fix a number of themes that had broken in recent releases, eg. `Tomorrow Night`.
     - Fix mis-handling of `highlight.js` format modifiers (see `Theme.applyStyleToString()`).
 - 3.0.3 *29 March 2026*
     - Add important caveat regarding line-numbering to Read Me. No functional changes to code.

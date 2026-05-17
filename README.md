@@ -8,7 +8,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ## Theme (Style) Files and HighlighterSwift 3.1.0
 
-**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/xxx.css`) and these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called (see below). You cannot transfer theme files streight from *Highlight.js* to **HighlighterSwift**.
+**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/xxx.css` and `/src/styles/base16/xxx.css`)). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
 
 ## Potential Breaking Changes with 3.0.0
 
