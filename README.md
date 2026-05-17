@@ -6,11 +6,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 **HighlighterSwift** is a more up-to-date version of Juan Pablo Illanes’ [*Highlightr*](https://github.com/raspu/Highlightr), which is unfortunately no longer fully maintained. **HighlighterSwift** was created to meet the needs of a specific project which required a modified version *Hightlightr*. These modifications expanded into bringing the whole codebase up to date and involved some structural and formatting changes. Hence the new repo.
 
-## Theme (Style) Files and HighlighterSwift 3.1.0
-
-**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/*.css` and `/src/styles/base16/*.css`). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
-
-## HighlighterSwift vs Highlightr
+### HighlighterSwift vs Highlightr
 
 **HighlighterSwift**:
 
@@ -23,6 +19,22 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 * Redundant code has been removed.
 * Gains unit tests, with more to come, I hope.
 
+## Theme (Style) Files and HighlighterSwift 3.1.0
+
+**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/*.css` and `/src/styles/base16/*.css`). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
+
+Additionally, where there is a name conflict between *Highlight.js*’ more modern ‘base16’ themes and older forms, the ‘base16’ version has been included and the other removed. Themes affected: *Default*, *Grayscale* and *Gruvbox*. 
+
+### Previous Versions’ Theme Notes
+
+Some themes have been modified slightly to meet the needs of the project **HighlighterSwift** was originally developed for. Specifically:
+
+* Background images have been removed from the *Brown Paper*, *Greyscale*, *Schoolbook* and *Pojoacque* themes (*Highlight.js* is also starting to do this).
+* The two *Kimbie* themes have been renamed for consistency.
+* All colours have been formalized as hex values.
+
+You should also note that some theme style elements may not fully match the latest versions offered by *Highlight.js*.
+
 ## Platform Support
 
 **HighlighterSwift** supports macOS 11 (Big Sur) and up, iOS (iPadOS) 13 and up, tvOS 13 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however. If you use **HighlighterSwift** with these operating systems and run into issues, please let me know.
@@ -30,14 +42,6 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 ## Installation
 
 To add **HighlighterSwift** to your project, add it as a Swift Package with this repo’s URL.
-
-The library contains the *Highlight.js* code and themes, but please note that some themes have been modified slightly to meet the needs of the project **HighlighterSwift** was originally developed for. Specifically:
-
-* Background images have been removed from the *Brown Paper*, *Greyscale*, *Schoolbook* and *Pojoacque* themes (*Highlight.js* is also starting to do this).
-* The two *Kimbie* themes have been renamed for consistency.
-* All colours have been formalized as hex values.
-
-You should also note that some theme style elements may not fully match the latest versions offered by *Highlight.js*.
 
 ## Usage
 
