@@ -195,11 +195,12 @@ public class Theme {
                     for (attrName, attrValue) in themeStyle {
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                } else {
-#if DEBUG
-                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
-#endif
                 }
+#if DEBUG
+                else {
+                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
+                }
+#endif
             }
 
             returnString = NSAttributedString(string: string, attributes:attrs)
@@ -239,9 +240,6 @@ public class Theme {
                   let formatListRange = Range(match.range(at: 2), in: css) else { return }
             let nameList = String(css[nameListRange])
             let formatList = String(css[formatListRange])
-#if DEBUUG
-            //print("\(names) => \(format)")
-#endif
 
             // Separate out the format section's elements into an array of pairs
             var attributes = [String:String]()
@@ -282,9 +280,6 @@ public class Theme {
                 }
 
                 returnDict[key] = properties
-#if DEBUG
-                print("\(key) => \(properties)")
-#endif
             }
         }
 
