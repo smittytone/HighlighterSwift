@@ -8,11 +8,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ## Theme (Style) Files and HighlighterSwift 3.1.0
 
-**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/xxx.css` and `/src/styles/base16/xxx.css`)). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
-
-## Potential Breaking Changes with 3.0.0
-
-* Minimum supported iOS and tvOS versions are now both 13.
+**HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/*.css` and `/src/styles/base16/*.css`). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
 
 ## HighlighterSwift vs Highlightr
 
@@ -29,7 +25,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 
 ## Platform Support
 
-**HighlighterSwift** supports macOS 11 (Big Sur) and up, iOS (iPadOS) 12 and up, tvOS 12 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however. If you use **HighlighterSwift** with these operating systems and run into issues, please let me know.
+**HighlighterSwift** supports macOS 11 (Big Sur) and up, iOS (iPadOS) 13 and up, tvOS 13 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however. If you use **HighlighterSwift** with these operating systems and run into issues, please let me know.
 
 ## Installation
 
