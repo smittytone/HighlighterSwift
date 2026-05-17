@@ -1,9 +1,9 @@
 /*
-  !Theme: Silk Dark
-  Author: Gabriel Fontes (https://github.com/Misterio77)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.05.0
+!Theme: Silk Dark
+Author: Gabriel Fontes (https://github.com/Misterio77)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.05.0
 */
 .hljs{display:block;overflow-x:auto;padding:1em;color:#C7DBDD;background:#0e3c46}
 .hljs::selection,.hljs ::selection{background-color:#2A5054;color:#C7DBDD}

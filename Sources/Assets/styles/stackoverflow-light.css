@@ -1,15 +1,15 @@
 /*!
-  Theme: StackOverflow Light
-  Description: Light theme as used on stackoverflow.com
-  Author: stackoverflow.com
-  Maintainer: @Hirse
-  Website: https://github.com/StackExchange/Stacks
-  License: MIT
-  Updated: 2021-05-15
+Theme: StackOverflow Light
+Description: Light theme as used on stackoverflow.com
+Author: stackoverflow.com
+Maintainer: @Hirse
+Website: https://github.com/StackExchange/Stacks
+License: MIT
+Updated: 2021-05-15
 
-  Updated for @stackoverflow/stacks v0.64.0
-  Code Blocks: /blob/v0.64.0/lib/css/components/_stacks-code-blocks.less
-  Colors: /blob/v0.64.0/lib/css/exports/_stacks-constants-colors.less
+Updated for @stackoverflow/stacks v0.64.0
+Code Blocks: /blob/v0.64.0/lib/css/components/_stacks-code-blocks.less
+Colors: /blob/v0.64.0/lib/css/exports/_stacks-constants-colors.less
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#2f3337;background:#f6f6f6}
 .hljs-subst{color:#2f3337}

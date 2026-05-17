@@ -1,12 +1,12 @@
 /*!
- Theme: nnfx light
- Description: a theme inspired by Netscape Navigator/Firefox
- Author: (c) 2020-2021 Jim Mason <jmason@ibinx.com>
- Maintainer: @RocketMan
- License: https://creativecommons.org/licenses/by-sa/4.0  CC BY-SA 4.0
- Updated: 2021-05-17
+Theme: nnfx light
+Description: a theme inspired by Netscape Navigator/Firefox
+Author: (c) 2020-2021 Jim Mason <jmason@ibinx.com>
+Maintainer: @RocketMan
+License: https://creativecommons.org/licenses/by-sa/4.0  CC BY-SA 4.0
+Updated: 2021-05-17
 
- @version 1.1.0
+@version 1.1.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#fff;color:#000}
 .language-xml.hljs-meta,.language-xml.hljs-meta-string{font-weight:bold;font-style:italic;color:#48b}

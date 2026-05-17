@@ -1,9 +1,9 @@
 /*!
-  Theme: Atelier Savanna Light
-  Author: Bram de Haan (http://atelierbramdehaan.nl)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Atelier Savanna Light
+Author: Bram de Haan (http://atelierbramdehaan.nl)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#526057;background:#ecf4ee}
 .hljs::selection,.hljs ::selection{background-color:#87928a;color:#526057}

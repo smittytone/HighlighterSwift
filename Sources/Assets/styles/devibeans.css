@@ -1,8 +1,8 @@
 /*
-    !Theme: devibeans (dark)
-    Author: @terminaldweller
-    Maintainer: @terminaldweller
-    Inspired by vim's jellybeans theme (https://github.com/nanotech/jellybeans.vim)
+!Theme: devibeans (dark)
+Author: @terminaldweller
+Maintainer: @terminaldweller
+Inspired by vim's jellybeans theme (https://github.com/nanotech/jellybeans.vim)
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#000;color:#a39e9b}
 .hljs-attr,.hljs-template-tag{color:#8787d7}

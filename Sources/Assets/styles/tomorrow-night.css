@@ -1,9 +1,9 @@
 /*!
-  Theme: Tomorrow Night
-  Author: Chris Kempson (http://chriskempson.com)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Tomorrow Night
+Author: Chris Kempson (http://chriskempson.com)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#cccccc;background:#2d2d2d;}
 .hljs-formula,.hljs-params,.hljs-property{}

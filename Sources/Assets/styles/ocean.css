@@ -1,9 +1,9 @@
 /*!
-  Theme: Ocean
-  Author: Chris Kempson (http://chriskempson.com)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Ocean
+Author: Chris Kempson (http://chriskempson.com)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#c0c5ce;background:#2b303b}
 .hljs::selection,.hljs ::selection{background-color:#4f5b66;color:#c0c5ce}

@@ -1,9 +1,8 @@
 /*!
-  Theme: a11y-dark
-  Author: @ericwbailey
-  Maintainer: @ericwbailey
-
-  Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css
+Theme: a11y-dark
+Author: @ericwbailey
+Maintainer: @ericwbailey
+Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#2b2b2b;color:#f8f8f2}
 .hljs-comment,.hljs-quote{color:#d4d0ab}

@@ -1,9 +1,9 @@
 /*!
-  Theme: Atelier Plateau Light
-  Author: Bram de Haan (http://atelierbramdehaan.nl)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Atelier Plateau Light
+Author: Bram de Haan (http://atelierbramdehaan.nl)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#585050;background:#f4ecec}
 .hljs::selection,.hljs ::selection{background-color:#8a8585;color:#585050}

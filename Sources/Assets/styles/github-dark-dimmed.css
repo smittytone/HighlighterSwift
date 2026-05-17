@@ -1,10 +1,10 @@
 /*
-    !Theme: GitHub Dark Dimmed
-    Description: Dark dimmed theme as seen on github.com
-    Author: github.com
-    Maintainer: @Hirse
-    Updated: 2021-05-15
-    Colors taken from GitHub's CSS
+!Theme: GitHub Dark Dimmed
+Description: Dark dimmed theme as seen on github.com
+Author: github.com
+Maintainer: @Hirse
+Updated: 2021-05-15
+Colors taken from GitHub's CSS
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;olor:#adbac7;background:#22272e}
 .hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#f47067}

@@ -1,8 +1,8 @@
-/**
- * Panda Syntax Theme for Highlight.js
- * Based on: https://github.com/tinkertrain/panda-syntax-vscode
- * Author: Annmarie Switzer <https://github.com/annmarie-switzer>
- */
+/*
+Panda Syntax Theme for Highlight.js
+Based on: https://github.com/tinkertrain/panda-syntax-vscode
+Author: Annmarie Switzer <https://github.com/annmarie-switzer>
+*/
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#e6e6e6;background:#2a2c2d}
 .hljs-emphasis{font-style:italic}
 .hljs-strong{font-weight:bold}

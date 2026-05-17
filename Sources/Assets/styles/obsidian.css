@@ -1,7 +1,7 @@
-/**
- * Obsidian style
- * ported by Alexander Marenin (http://github.com/ioncreature)
- */
+/*
+Obsidian style
+ported by Alexander Marenin (http://github.com/ioncreature)
+*/
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#e0e2e4;background:#282b2e}
 .hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-selector-id{color:#93c763}
 .hljs-number{color:#ffcd22}

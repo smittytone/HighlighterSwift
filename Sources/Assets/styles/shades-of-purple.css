@@ -1,10 +1,9 @@
-/**
- * Shades of Purple Theme — for Highlightjs.
- *
- * @author (c) Ahmad Awais <https://twitter.com/mrahmadawais/>
- * @link GitHub Repo → https://github.com/ahmadawais/Shades-of-Purple-HighlightJS
- * @version 1.5.0
- */
+/*
+Shades of Purple Theme — for Highlightjs.
+@author (c) Ahmad Awais <https://twitter.com/mrahmadawais/>
+@link GitHub Repo → https://github.com/ahmadawais/Shades-of-Purple-HighlightJS
+@version 1.5.0
+*/
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#2d2b57;color:#e3dfff;font-weight:normal}
 .hljs-subst{color:#e3dfff}
 .hljs-title{color:#fad000;font-weight:normal}

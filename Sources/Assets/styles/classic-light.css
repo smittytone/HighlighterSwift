@@ -1,0 +1,26 @@
+/*
+!Theme: Classic Light
+Author: Jason Heeris (http://heeris.id.au)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#303030;background:#f5f5f5}
+.hljs::selection,.hljs ::selection{background-color:#d0d0d0;color:#303030}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#b0b0b0}
+.hljs-tag{color:#505050}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#303030}
+.hljs-operator{opacity:.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#ac4142}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#d28445}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#f4bf75}
+.hljs-strong{font-weight:bold;color:#f4bf75}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#90a959}
+.hljs-built_in,.hljs-doctag,.hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#75b5aa}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#6a9fb5}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#aa759f}
+.hljs-emphasis{color:#aa759f;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#8f5536}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}
+

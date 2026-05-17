@@ -5,12 +5,12 @@ License: ~ MIT (or more permissive) [via base16-schemes-source]
 Maintainer: @highlightjs/core-team
 Version: 2021.09.0
 */
-.hljs{display:block;overflow-x:auto;padding:.5em;color:silver;background:#101010}
-.hljs::selection,.hljs ::selection{background-color:#454545;color:silver}
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#d6d6d6;background:#101010}
+.hljs::selection,.hljs ::selection{background-color:#454545;color:#d6d6d6}
 .hljs-formula,.hljs-params,.hljs-property{}
 .hljs-comment{color:#454545}
 .hljs-tag{color:#aaaaaa}
-.hljs-subst,.hljs-punctuation,.hljs-operator{color:silver}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#d6d6d6}
 .hljs-operator{opacity:.7}
 .hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#efa6a2}
 .hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#a3b8ef}
@@ -21,5 +21,5 @@ Version: 2021.09.0
 .hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#50cacd}
 .hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#e0af85}
 .hljs-emphasis{color:#e0af85;font-style:italic}
-.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:gray}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#aaaaaa}
 .hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}

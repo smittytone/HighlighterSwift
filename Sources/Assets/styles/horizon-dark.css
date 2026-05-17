@@ -1,0 +1,25 @@
+/*
+!Theme: Horizon Dark
+Author: Michaël Ball (http://github.com/michael-ball/)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#cbced0;background:#1c1e26}
+.hljs::selection,.hljs ::selection{background-color:#2e303e;color:#cbced0}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#6f6f70}
+.hljs-tag{color:#9da0a2}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#cbced0}
+.hljs-operator{opacity:.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#e93c58}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#e58d7d}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#efb993}
+.hljs-strong{font-weight:bold;color:#efb993}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#efaf8e}
+.hljs-built_in,.hljs-doctag,.hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#24a8b4}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#df5273}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#b072d1}
+.hljs-emphasis{color:#b072d1;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#e4a382}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}

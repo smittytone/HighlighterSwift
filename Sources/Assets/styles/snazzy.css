@@ -1,9 +1,9 @@
 /*!
-  Theme: Snazzy
-  Author: Chawye Hsu (https://github.com/chawyehsu) based on Hyper Snazzy Theme (https://github.com/sindresorhus/hyper-snazzy)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.05.0
+Theme: Snazzy
+Author: Chawye Hsu (https://github.com/chawyehsu) based on Hyper Snazzy Theme (https://github.com/sindresorhus/hyper-snazzy)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.05.0
 */
 .hljs{display:block;overflow-x:auto;padding:1em;color:#e2e4e5;background:#282a36}
 .hljs::selection,.hljs ::selection{background-color:#43454f;color:#e2e4e5}

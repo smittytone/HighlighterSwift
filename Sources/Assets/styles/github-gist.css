@@ -1,7 +1,7 @@
 /*!
-  Theme: GitHub Gist
-  Description: Light theme as seen on github.com
-  Author: github.com
+Theme: GitHub Gist
+Description: Light theme as seen on github.com
+Author: github.com
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#fff;color:#333}
 .hljs-comment,.hljs-meta{color:#969896}

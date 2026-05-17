@@ -1,0 +1,25 @@
+/*
+!Theme: Windows NT Light
+Author: Fergus Collins (https://github.com/C-Fergus)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#aaaaaa;background:#fff}
+.hljs::selection,.hljs ::selection{background-color:#d6d6d6;color:#aaaaaa}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#d6d6d6}
+.hljs-tag{color:#a0a0a0}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#aaaaaa}
+.hljs-operator{opacity:.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#941751}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#ff0}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#929000}
+.hljs-strong{font-weight:bold;color:#929000}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#00ff00}
+.hljs-built_in,.hljs-doctag,.hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#73fcd6}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#011993}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#942193}
+.hljs-emphasis{color:#942193;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#0f0}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}

@@ -1,9 +1,9 @@
 /*!
-  Theme: Solarized Light
-  Author: Ethan Schoonover (modified by aramisgithub)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Solarized Light
+Author: Ethan Schoonover (modified by aramisgithub)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#586e75;background:#fdf6e3}
 .hljs::selection,.hljs ::selection{background-color:#93a1a1;color:#586e75}

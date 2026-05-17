@@ -1,0 +1,25 @@
+/*
+!Theme: Material
+Author: Nate Peterson
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
+*/
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#eff;background:#263238}
+.hljs::selection,.hljs ::selection{background-color:#314549;color:#eff}
+.hljs-formula,.hljs-params,.hljs-property{}
+.hljs-comment{color:#546e7a}
+.hljs-tag{color:#b2ccd6}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#eff}
+.hljs-operator{opacity:.7}
+.hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#f07178}
+.hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#f78c6c}
+.hljs-title,.hljs-class .hljs-title,.hljs-title.class_{color:#ffcb6b}
+.hljs-strong{font-weight:bold;color:#ffcb6b}
+.hljs-code,.hljs-addition,.hljs-title.class_.inherited__,.hljs-string{color:#c3e88d}
+.hljs-built_in,.hljs-doctag,.hljs-quote,.hljs-keyword.hljs-atrule,.hljs-regexp{color:#89ddff}
+.hljs-function .hljs-title,.hljs-attribute,.ruby .hljs-property,.hljs-title.function_,.hljs-section{color:#82aaff}
+.hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#c792ea}
+.hljs-emphasis{color:#c792ea;font-style:italic}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#ff5370}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}

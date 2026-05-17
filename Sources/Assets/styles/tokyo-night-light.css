@@ -1,10 +1,10 @@
 /*
-    !Theme: Tokyo-night-light
-    origin: https://github.com/enkia/tokyo-night-vscode-theme
-    Description: Original highlight.js style
-    Author: (c) Henri Vandersleyen <hvandersleyen@gmail.com>
-    License: see project LICENSE
-    Touched: 2022
+!Theme: Tokyo-night-light
+origin: https://github.com/enkia/tokyo-night-vscode-theme
+Description: Original highlight.js style
+Author: (c) Henri Vandersleyen <hvandersleyen@gmail.com>
+License: see project LICENSE
+Touched: 2022
  */
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#d5d6db;color:#565a6e}
 .hljs-meta,.hljs-comment{color:#9699a3}

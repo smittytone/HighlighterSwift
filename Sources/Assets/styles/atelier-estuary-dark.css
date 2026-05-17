@@ -1,9 +1,9 @@
 /*!
-  Theme: Atelier Estuary
-  Author: Bram de Haan (http://atelierbramdehaan.nl)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Atelier Estuary
+Author: Bram de Haan (http://atelierbramdehaan.nl)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#929181;background:#22221b}
 .hljs::selection,.hljs ::selection{background-color:#5f5e4e;color:#929181}

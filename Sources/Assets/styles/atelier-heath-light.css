@@ -1,9 +1,9 @@
 /*!
-  Theme: Atelier Heath Light
-  Author: Bram de Haan (http://atelierbramdehaan.nl)
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.09.0
+Theme: Atelier Heath Light
+Author: Bram de Haan (http://atelierbramdehaan.nl)
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.09.0
 */
 .hljs{display:block;overflow-x:auto;padding:.5em;color:#695d69;background:#f7f3f7}
 .hljs::selection,.hljs ::selection{background-color:#ab9bab;color:#695d69}

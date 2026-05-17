@@ -5,12 +5,12 @@ License: ~ MIT (or more permissive) [via base16-schemes-source]
 Maintainer: @highlightjs/core-team
 Version: 2021.09.0
 */
-.hljs{display:block;overflow-x:auto;padding:.5em;color:silver;background:#000}
-.hljs::selection,.hljs ::selection{background-color:#404040;color:silver}
+.hljs{display:block;overflow-x:auto;padding:.5em;color:#d6d6d6;background:#000}
+.hljs::selection,.hljs ::selection{background-color:#404040;color:#d6d6d6}
 .hljs-formula,.hljs-params,.hljs-property{}
 .hljs-comment{color:#aaaaaa}
 .hljs-tag{color:#aaaaaa}
-.hljs-subst,.hljs-punctuation,.hljs-operator{color:silver}
+.hljs-subst,.hljs-punctuation,.hljs-operator{color:#d6d6d6}
 .hljs-operator{opacity:.7}
 .hljs-bullet,.hljs-variable,.hljs-template-variable,.hljs-selector-tag,.hljs-name,.hljs-deletion{color:#dd0907}
 .hljs-symbol,.hljs-number,.hljs-link,.hljs-attr,.hljs-variable.constant_,.hljs-literal{color:#ff6403}

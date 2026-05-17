@@ -1,14 +1,13 @@
 /*
- * Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
- * Copyright (c) 2017-present Sven Greb <development@svengreb.de>
- *
- * Project:    Nord highlight.js
- * Version:    0.1.0
- * Repository: https://github.com/arcticicestudio/nord-highlightjs
- * License:    MIT
- * References:
- *   https://github.com/arcticicestudio/nord
- */
+Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
+Copyright (c) 2017-present Sven Greb <development@svengreb.de>
+
+Project:    Nord highlight.js
+Version:    0.1.0
+Repository: https://github.com/arcticicestudio/nord-highlightjs
+License:    MIT
+References: https://github.com/arcticicestudio/nord
+*/
 .hljs{display:block;overflow-x:auto;padding:.5em;background:#2E3440}
 .hljs,.hljs-subst{color:#D8DEE9}
 .hljs-selector-tag{color:#81A1C1}
@@ -17,8 +16,8 @@
 .hljs-selector-attr{color:#8FBCBB}
 .hljs-property{color:#88C0D0}
 .hljs-selector-pseudo{color:#88C0D0}
-.hljs-addition{background-color:rgba(163,190,140,0.5)}
-.hljs-deletion{background-color:rgba(191,97,106,0.5)}
+.hljs-addition{background-color:#A3BE8C88}
+.hljs-deletion{background-color:#BF616A88}
 .hljs-built_in,.hljs-type{color:#8FBCBB}
 .hljs-class{color:#8FBCBB}
 .hljs-function{color:#88C0D0}

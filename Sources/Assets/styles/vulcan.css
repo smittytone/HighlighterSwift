@@ -1,9 +1,9 @@
 /*!
-  Theme: vulcan
-  Author: Andrey Varfolomeev
-  License: ~ MIT (or more permissive) [via base16-schemes-source]
-  Maintainer: @highlightjs/core-team
-  Version: 2021.05.0
+Theme: vulcan
+Author: Andrey Varfolomeev
+License: ~ MIT (or more permissive) [via base16-schemes-source]
+Maintainer: @highlightjs/core-team
+Version: 2021.05.0
 */
 .hljs{display:block;overflow-x:auto;padding:1em;color:#5b778c;background:#041523}
 .hljs::selection,.hljs ::selection{background-color:#003552;color:#5b778c}
