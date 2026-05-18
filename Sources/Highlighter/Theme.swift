@@ -175,6 +175,7 @@ public class Theme {
         
         if styleList.count > 0 {
             // Build the attributes from the style list, including the font
+            var embeddedAlpha: HRColor? = nil
             var attrs = [AttributedStringKey: Any]()
             attrs[.font] = self.codeFont
             attrs[.paragraphStyle] = spacedParaStyle
@@ -191,8 +192,16 @@ public class Theme {
                     aStyle = style
                 }
 
+                // Add the style to the current attribute list, if one exists
                 if let themeStyle = self.themeDict[aStyle] as? [AttributedStringKey: Any] {
                     for (attrName, attrValue) in themeStyle {
+                        // FROM 3.1.0
+                        // Trap a covert opacity value
+                        if attrName == .strokeColor {
+                            embeddedAlpha = attrValue as? HRColor
+                            continue
+                        }
+
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
                 } else {
@@ -200,6 +209,18 @@ public class Theme {
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
 #endif
                 }
+            }
+
+            // FROM 3.1.0
+            // Apply an embedded alpha value, if there is one
+            if let alpha = embeddedAlpha {
+                // There has been an opacity setting, so merge it into the current foreground
+                var base: HRColor = .label
+                if attrs[.foregroundColor] != nil {
+                    base = attrs[.foregroundColor]! as! HRColor
+                }
+
+                attrs[.foregroundColor] = base.withAlphaComponent(alpha.alphaComponent)
             }
 
             returnString = NSAttributedString(string: string, attributes:attrs)
@@ -324,25 +345,38 @@ public class Theme {
 
         var returnTheme = HRThemeDict()
         for (className, props) in themeStringDict {
-            var keyProps = [AttributedStringKey: AnyObject]()
+            var atttributes = [AttributedStringKey: AnyObject]()
             for (key, prop) in props {
                 switch key {
-                case "color":
-                    keyProps[attributeForCSSKey(key)] = colourFromHexString(prop)
-                case "font-style":
-                    keyProps[attributeForCSSKey(key)] = fontForCSSStyle(prop)
-                case "font-weight":
-                    keyProps[attributeForCSSKey(key)] = fontForCSSStyle(prop)
-                case "background-color":
-                    keyProps[attributeForCSSKey(key)] = colourFromHexString(prop)
-                default:
-                    break
+                    case "color":
+                        atttributes[attributeForCSSKey(key)] = colourFromHexString(prop)
+                    case "font-style":
+                        atttributes[attributeForCSSKey(key)] = fontForCSSStyle(prop)
+                    case "font-weight":
+                        atttributes[attributeForCSSKey(key)] = fontForCSSStyle(prop)
+                    case "background-color":
+                        atttributes[attributeForCSSKey(key)] = colourFromHexString(prop)
+                    // FROM 3.1.0
+                    case "opacity":
+                        // Make sure the opacity value is convertible and in range,
+                        // then store the opacity as an NSColor/UIColor for use in
+                        // `applyStyleToString()`
+                        var alphaValue = 1.0
+                        if let alpha = Double(prop) {
+                            alphaValue = alpha
+                        }
+
+                        if alphaValue < 0.0 { alphaValue = 0.0 }
+                        if alphaValue > 1.0 { alphaValue = 1.0 }
+                        atttributes[attributeForCSSKey(key)] = HRColor(red: 0.0, green: 0.0, blue: 0.0, alpha: alphaValue)
+                    default:
+                        break
                 }
             }
 
-            if keyProps.count > 0 {
+            if atttributes.count > 0 {
                 let key: String = className.replacingOccurrences(of: ".", with: "")
-                returnTheme[key] = keyProps
+                returnTheme[key] = atttributes
             }
         }
 
@@ -359,7 +393,7 @@ public class Theme {
      - Returns: A UIFont or NSFont.
     */
     internal func fontForCSSStyle(_ fontStyle: String) -> HRFont {
-        
+
         switch fontStyle {
             case "bold", "bolder", "600", "700", "800", "900":
                 return self.boldCodeFont
@@ -382,16 +416,21 @@ public class Theme {
     internal func attributeForCSSKey(_ key: String) -> AttributedStringKey {
 
         switch key {
-        case "color":
-            return .foregroundColor
-        case "font-weight":
-            return .font
-        case "font-style":
-            return .font
-        case "background-color":
-            return .backgroundColor
-        default:
-            return .font
+            case "color":
+                return .foregroundColor
+            case "font-weight":
+                return .font
+            case "font-style":
+                return .font
+            case "background-color":
+                return .backgroundColor
+            // FROM 3.1.0
+            // Embedded opacity values within `.strokeColor`, which is an
+            // `AttributedStringKey` value we don't otherwise support.
+            case "opacity":
+                return .strokeColor
+            default:
+                return .font
         }
     }
 
@@ -425,31 +464,39 @@ public class Theme {
             colourString = String(colourString.dropFirst(1)) //(colourString as NSString).substring(from: 1)
         } else {
             switch colourString {
-            case "white":
-                return HRColor(white: 1.0, alpha: 1.0)
-            case "black":
-                return HRColor(white: 0.0, alpha: 1.0)
-            case "red":
-                return HRColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
-            case "green":
-                return HRColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-            case "blue":
-                return HRColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
-            case "navy":
-                return HRColor(red: 0.0, green: 0.0, blue: 0.5, alpha: 1.0)
-            case "silver":
-                return HRColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.0)
-            default:
-                return HRColor.gray
+                case "red":
+                    return .red
+                case "green":
+                    return .green
+                case "blue":
+                    return .blue
+                case "white":
+                    return HRColor(white: 1.0, alpha: 1.0)
+                case "black":
+                    return HRColor(white: 0.0, alpha: 1.0)
+                case "gray":
+                    return .hexToColour("AAAAAA")
+                case "navy":
+                    return .hexToColour("07188D")
+                case "silver":
+                    return .hexToColour("D6D6D6")
+                case "olive":
+                    return .hexToColour("929000")
+                case "purple":
+                    return .hexToColour("942193")
+                case "maroon":
+                    return .hexToColour("941751")
+                default:
+                    return .gray
             }
         }
         
         // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
         if colourString.count != 8 && colourString.count != 6 && colourString.count != 3 {
 #if DEBUG
-            return HRColor.red
+            return .red
 #else
-            return HRColor.gray
+            return .gray
 #endif
         }
 

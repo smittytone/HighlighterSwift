@@ -3,6 +3,7 @@
 - 3.1.0 *Unreleased*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
     - Add `highlight.js` themes not yet included in *HighlighterSwift*.
+    - Support CSS `opacity` values.
     - Update processing of theme files.
     - Fix a number of themes that had broken in recent releases, eg. `Tomorrow Night`.
     - Fix mis-handling of `highlight.js` format modifiers (see `Theme.applyStyleToString()`).
