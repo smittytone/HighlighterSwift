@@ -146,7 +146,7 @@ extension UIColor {
     }
 
 
-    var labelColor: UIColor {
+    static var labelColor: UIColor {
 
         return .label
     }

@@ -215,7 +215,7 @@ public class Theme {
             // Apply an embedded alpha value, if there is one
             if let alpha = embeddedAlpha {
                 // There has been an opacity setting, so merge it into the current foreground
-                var base: HRColor = .label
+                var base: HRColor = .labelColor
                 if attrs[.foregroundColor] != nil {
                     base = attrs[.foregroundColor]! as! HRColor
                 }
