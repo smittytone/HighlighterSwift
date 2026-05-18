@@ -10,4 +10,4 @@ Visual Studio-like style based on original C# coloring by Jason Diamond <jason@d
 .hljs-attr{color:#9ddcfe}
 .hljs-symbol,.hljs-bullet,.hljs-link{color:#00b0e8}
 .hljs-emphasis{font-style:italic}
-.hljs-strong{font-weight:700}
+.hljs-strong{font-weight:bold}

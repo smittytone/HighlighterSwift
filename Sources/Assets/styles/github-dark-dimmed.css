@@ -15,10 +15,10 @@ Colors taken from GitHub's CSS
 .hljs-comment,.hljs-code,.hljs-formula{color:#768390}
 .hljs-name,.hljs-quote,.hljs-selector-tag,.hljs-selector-pseudo{color:#8ddb8c}
 .hljs-subst{color:#adbac7}
-.hljs-section{color:#316dca;font-weight:700}
+.hljs-section{color:#316dca;font-weight:bold}
 .hljs-bullet{color:#eac55f}
 .hljs-emphasis{color:#adbac7;font-style:italic}
-.hljs-strong{color:#adbac7;font-weight:700}
+.hljs-strong{color:#adbac7;font-weight:bold}
 .hljs-addition{color:#b4f1b4;background-color:#1b4721}
 .hljs-deletion{color:#ffd8d3;background-color:#78191b}
 .hljs-char.escape_,.hljs-link,.hljs-params,.hljs-property,.hljs-punctuation,.hljs-tag{}

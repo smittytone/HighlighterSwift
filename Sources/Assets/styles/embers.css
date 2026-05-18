@@ -22,4 +22,4 @@ Version: 2021.09.0
 .hljs-type,.hljs-template-tag,.diff .hljs-meta,.hljs-keyword{color:#82576d}
 .hljs-emphasis{color:#82576d;font-style:italic}
 .hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#825757}
-.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}
+.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:bold}
