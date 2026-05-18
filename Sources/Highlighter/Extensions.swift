@@ -146,6 +146,12 @@ extension UIColor {
     }
 
 
+    var labelColor: UIColor {
+
+        return .label
+    }
+
+
     /**
      Generate a new NSColor from an RGB+A hex string..
 
