@@ -90,14 +90,57 @@ extension Scanner {
 }
 
 
+#if os(OSX)
+extension NSColor {
+
+    /**
+     Generate a new NSColor from an RGB+A hex string..
+
+     - Parameters:
+        - hex: The RGB+A hex string, eg.`AABBCCFF`.
+
+     - Returns: An NSColor object.
+     */
+    static func hexToColour(_ hex: String) -> NSColor {
+
+        var colourString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
+        if (colourString.hasPrefix("#")) {
+            let index = colourString.index(colourString.startIndex, offsetBy: 1)
+            colourString = String(colourString[index...])
+        }
+
+        // Colours in hex strings have 6 (`AABBCC`) or 8 (6 + alpha, `AABBCCDD`) values
+        if colourString.count != 8 && colourString.count != 6 {
+            return .red
+        }
+
+        func hexToFloat(_ hs: String) -> CGFloat {
+            // No alpha value supplied, so assume full opacity is required
+            return CGFloat(UInt8(hs, radix: 16) ?? 255)
+        }
+
+        let cns: NSString = colourString as NSString
+        let red: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
+        let green: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
+        let blue: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
+        let alpha: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
+        return NSColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+}
+#elseif os(iOS)
 extension UIColor {
 
+    /**
+     Return the colour's alpha value.
+     */
     var alphaComponent: CGFloat {
 
-        var red: CGFloat   = 0
-        var green: CGFloat = 0
-        var blue: CGFloat  = 0
-        var alpha: CGFloat = 0
+        var red: CGFloat   = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat  = 0.0
+        var alpha: CGFloat = 0.0
+        
         self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         return alpha
     }
@@ -138,42 +181,4 @@ extension UIColor {
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
-
-
-extension NSColor {
-
-    /**
-     Generate a new NSColor from an RGB+A hex string..
-
-     - Parameters:
-        - hex: The RGB+A hex string, eg.`AABBCCFF`.
-
-     - Returns: An NSColor object.
-     */
-    static func hexToColour(_ hex: String) -> NSColor {
-
-        var colourString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-
-        if (colourString.hasPrefix("#")) {
-            let index = colourString.index(colourString.startIndex, offsetBy: 1)
-            colourString = String(colourString[index...])
-        }
-
-        // Colours in hex strings have 6 (`AABBCC`) or 8 (6 + alpha, `AABBCCDD`) values
-        if colourString.count != 8 && colourString.count != 6 {
-            return .red
-        }
-
-        func hexToFloat(_ hs: String) -> CGFloat {
-            // No alpha value supplied, so assume full opacity is required
-            return CGFloat(UInt8(hs, radix: 16) ?? 255)
-        }
-
-        let cns: NSString = colourString as NSString
-        let red: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
-        let green: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
-        let blue: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
-        let alpha: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
-        return NSColor(red: red, green: green, blue: blue, alpha: alpha)
-    }
-}
+#endif
