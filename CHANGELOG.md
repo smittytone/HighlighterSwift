@@ -1,6 +1,6 @@
 ## Release Notes
 
-- 3.1.0 *Unreleased*
+- 3.1.0 *27 May 2026*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
     - Add `highlight.js` themes not yet included in *HighlighterSwift*.
     - Support CSS `opacity` values.
