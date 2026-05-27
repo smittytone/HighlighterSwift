@@ -100,7 +100,7 @@ final class HighlighterTests: XCTestCase {
         // Test colour decoding -- all should be trapped as bad colours
         
         // Unknown CSS entity
-        var result = self.hr!.theme.colourFromHexString("olive")
+        var result = self.hr!.theme.colourFromHexString("viridian")
         XCTAssert(result == NSColor.gray)
         
         // Bad hex value 1
@@ -112,7 +112,7 @@ final class HighlighterTests: XCTestCase {
         
         // Bad hex value 2
         result = self.hr!.theme.colourFromHexString("#aaaaa")
-        XCTAssert(result == NSColor.gray)
+        XCTAssert(result == .gray || result == .red) // RELEASE and DEBUG values
     }
     
 }
