@@ -97,15 +97,15 @@ open class Highlighter {
     }
 
 
-    //MARK: - Primary Functions
+    // MARK: - Primary Functions
 
     /**
-    Highlight the supplied code in the specified language.
+     Highlight the supplied code in the specified language.
 
-    - Parameters:
-     - code:         The source code to highlight.
-     - languageName: The language in which the code is written.
-     - doFastRender: Should fast rendering be used? Default: `true`.
+     - Parameters:
+        - code:         The source code to highlight.
+        - languageName: The language in which the code is written.
+        - doFastRender: Should fast rendering be used? Default: `true`.
 
      - Returns: The highlighted code as an NSAttributedString, or `nil`
     */
@@ -116,13 +116,13 @@ open class Highlighter {
 
 
     /**
-    Highlight the supplied code in the specified language.
+     Highlight the supplied code in the specified language.
     
-    - Parameters:
-     - code:          The source code to highlight.
-     - languageName:  The language in which the code is written.
-     - doFastRender:  Should fast rendering be used? Default: `true`.
-     - lineNumbering: Structure containing line numbering information, or `nil` for no line numbering.
+     - Parameters:
+        - code:          The source code to highlight.
+        - languageName:  The language in which the code is written.
+        - doFastRender:  Should fast rendering be used? Default: `true`.
+        - lineNumbering: Structure containing line numbering information, or `nil` for no line numbering.
 
      - Returns: The highlighted code as an NSAttributedString, or `nil`
     */
@@ -385,24 +385,4 @@ open class Highlighter {
 
         return linedCode
     }
-
-
-    // MARK: - Utility Functions
-
-    /**
-     Execute the supplied block on the main thread.
-
-     FROM 3.0.1 - This is never called, so remove it
-
-    private func safeMainSync(_ block: @escaping @Sendable ()->()) {
-
-        if Thread.isMainThread {
-            block()
-        } else {
-            DispatchQueue.main.sync {
-                block()
-            }
-        }
-    }
-     */
 }

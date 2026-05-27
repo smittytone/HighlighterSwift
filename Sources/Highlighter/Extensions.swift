@@ -23,6 +23,7 @@ extension NSMutableAttributedString {
         - paraStyle: The injected NSParagraphStyle.
     */
     func addParaStyle(with paraStyle: NSParagraphStyle) {
+
         beginEditing()
         self.enumerateAttribute(.paragraphStyle, in: NSMakeRange(0, self.length)) { (value, range, stop) in
             if let _ = value as? NSParagraphStyle {
@@ -46,6 +47,7 @@ extension NSAttributedString {
      - Returns: An array of attributed strings, one per split.
      */
     func components(separatedBy separator: String) -> [NSAttributedString] {
+
         var parts: [NSAttributedString] = []
         let subStrings = self.string.components(separatedBy: separator)
         var range = NSRange(location: 0, length: 0)

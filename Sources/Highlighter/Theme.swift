@@ -43,8 +43,8 @@ public class Theme {
 
     // MARK: - Private Properties
 
-    private var themeDict : HRThemeDict!
-    private var strippedTheme : HRThemeStringDict!
+    private  var themeDict : HRThemeDict!
+    private  var strippedTheme : HRThemeStringDict!
     internal let theme: String
     internal var lightTheme: String!
 
@@ -113,20 +113,20 @@ public class Theme {
         self.fontSize = font.pointSize
 
         // Generate the bold and italic variants
-#if os(iOS) || os(tvOS) || os(visionOS)
-        let boldDescriptor    = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
-                                                                  UIFontDescriptor.AttributeName.face:"Bold"])
-        let italicDescriptor  = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
-                                                                  UIFontDescriptor.AttributeName.face:"Italic"])
-        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
-                                                                  UIFontDescriptor.AttributeName.face:"Oblique"])
-#else
+#if os(OSX)
         let boldDescriptor    = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Bold"])
         let italicDescriptor  = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Italic"])
         let obliqueDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Oblique"])
+#else
+        let boldDescriptor    = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
+                                                                  UIFontDescriptor.AttributeName.face:"Bold"])
+        let italicDescriptor  = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
+                                                                  UIFontDescriptor.AttributeName.face:"Italic"])
+        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:font.familyName,
+                                                                  UIFontDescriptor.AttributeName.face:"Oblique"])
 #endif
 
         self.boldCodeFont   = HRFont(descriptor: boldDescriptor, size: font.pointSize)
