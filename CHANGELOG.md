@@ -1,5 +1,7 @@
 ## Release Notes
 
+- 3.1.1 *19 June 2026*
+    - Make the “missing style” Debug warning opt-in via `Theme.logsMissingStyles` (default `false`). Unstyled classes are normal theming behaviour, so the per-token `print()` is no longer emitted by default, avoiding console spam and a Debug-build performance hit ([#8](https://github.com/smittytone/HighlighterSwift/issues/8)).
 - 3.1.0 *27 May 2026*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
     - Add `highlight.js` themes not yet included in *HighlighterSwift*.

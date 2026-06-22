@@ -39,6 +39,12 @@ public class Theme {
     public var fontSize: CGFloat = 18.0
     // FROM 3.1.0
     public var name: String = ""
+    // FROM 3.1.1
+    // Opt-in logging of tokens whose style class is absent from the theme.
+    // Unstyled classes (eg. `hljs-operator` under `atom-one-*`) are normal
+    // theming behaviour, not errors, so this is off by default to avoid
+    // console spam and the associated Debug-build performance hit.
+    public var logsMissingStyles: Bool = false
 
 
     // MARK: - Private Properties
@@ -204,7 +210,7 @@ public class Theme {
 
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                } else {
+                } else if self.logsMissingStyles {
 #if DEBUG
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
 #endif

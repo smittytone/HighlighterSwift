@@ -1,4 +1,4 @@
-# HighlighterSwift 3.1.0
+# HighlighterSwift 3.1.1
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -82,6 +82,16 @@ A value of `0.0` for `lineSpacing` is equivalent to single spacing. `paraSpacing
 Both values must be non-negative. Negative values be replaced with the default values.
 
 **Note** As shown above, these new values are applied to the `Highlighter` instance’s `theme` property.
+
+### Logging Missing Styles
+
+Some *Highlight.js* classes are intentionally left unstyled by a theme — for example, `hljs-operator` inherits the default colour under `atom-one-light` and `atom-one-dark`. By default **HighlighterSwift** ignores these silently. If you are debugging a custom theme and want to see which token classes have no matching style, set:
+
+```swift
+highlighter.theme.logsMissingStyles = true
+```
+
+This emits a `WARNING MISSING STYLE…` message per unstyled token, and only in `DEBUG` builds. It is `false` by default because unstyled classes are normal theming behaviour, and logging every one of them produces considerable console noise and slows down Debug-mode highlighting.
 
 You can set or change your preferred font later by using `setCodeFont()`, which takes an *NSFont* or *UIFont* instance configured for the font and text size you want, and is called on the *Highlighter* instance’s `theme` property:
 
