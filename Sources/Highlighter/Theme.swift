@@ -217,13 +217,11 @@ public class Theme {
                         
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-#if DEBUG
                 } else if self.loggingOptions.missingStyles {
+#if DEBUG
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
-                }
-#else
-            }
 #endif
+                }
             }
 
             // FROM 3.1.0
