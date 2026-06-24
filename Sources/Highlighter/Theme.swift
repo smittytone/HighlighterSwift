@@ -204,7 +204,7 @@ public class Theme {
                 } else {
                     aStyle = style
                 }
-
+                
                 // Add the style to the current attribute list, if one exists
                 if let themeStyle = self.themeDict[aStyle] as? [AttributedStringKey: Any] {
                     for (attrName, attrValue) in themeStyle {
@@ -214,14 +214,15 @@ public class Theme {
                             embeddedAlpha = attrValue as? HRColor
                             continue
                         }
-
+                        
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                }
 #if DEBUG
-                else if self.loggingOptions.missingStyles {
+                } else if self.loggingOptions.missingStyles {
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
                 }
+#else
+            }
 #endif
             }
 
