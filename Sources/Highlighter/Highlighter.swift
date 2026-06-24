@@ -33,6 +33,10 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
 
+    // FROM 3.2.0
+    // Line numbering
+    public var lineNumbers: NSAttributedString? = nil
+
 
     // MARK: - Private Properties
     
@@ -367,22 +371,37 @@ open class Highlighter {
         let lineAtts: [NSAttributedString.Key : Any] = [.foregroundColor: colour.withAlphaComponent(0.2),
                                                         .font: HRFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
 
-        // Iterate over the rendered lines, prepending the line number
+        // Set the string format
         let formatString = "%0\(formatCount)i"
 
-        for line in lines {
-            // Add the line number
-            lineIndex += 1
+        if !lineNumberingData.lineNumbersOnly {
+            // Iterate over the rendered lines, prepending the line number
+            for line in lines {
+                // Add the line number
+                lineIndex += 1
+                linedCode.append(NSAttributedString(string: String(format: formatString, lineIndex), attributes: lineAtts))
+
+                // Add a separator
+                linedCode.append(NSAttributedString(string: lineNumberingData.separator, attributes: lineAtts))
+
+                // Add the line itself and restore the line break
+                linedCode.append(line)
+                linedCode.append(NSAttributedString(string: lineNumberingData.lineBreak, attributes: lineAtts))
+            }
+
+            self.lineNumbers = nil
+            return linedCode
+        }
+
+        // Prepare the line-number string
+        for i in 1..<lines.count {
             linedCode.append(NSAttributedString(string: String(format: formatString, lineIndex), attributes: lineAtts))
-
-            // Add a separator
-            linedCode.append(NSAttributedString(string: lineNumberingData.separator, attributes: lineAtts))
-
-            // Add the line itself and restore the line break
-            linedCode.append(line)
             linedCode.append(NSAttributedString(string: lineNumberingData.lineBreak, attributes: lineAtts))
         }
 
-        return linedCode
+        self.lineNumbers = linedCode
+
+        // Return the untouched code
+        return renderedCode
     }
 }

@@ -65,7 +65,9 @@ public struct LineNumberData {
     public var lineBreak: String = "\n"                     // The line-break character emitted by the rendering code.
                                                             // It should not be necessary to change this.
     public var fontSize: CGFloat = 16.0                     // The base font size.
-
+    // FROM 3.2.0
+    public var lineNumbersOnly: Bool = false                // Whether line numbers should be provided as separate
+                                                            // attributed string.
 
     // MARK: Private Properties
 
@@ -77,14 +79,18 @@ public struct LineNumberData {
     // MARK: Constructors
 
     public init() {
+
         self.usingDarkTheme = false
         self.lineBreak = "\n"
         self.baseSeparator = "  "
         self.baseStart = 1
         self.baseMinWidth = 1
+        // FROM 3.2.0
+        self.lineNumbersOnly = false
     }
 
     public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", fontSize: CGFloat = 16.0) {
+
         self.usingDarkTheme = usingDarkTheme
         self.lineBreak = lineBreak
         self.fontSize = fontSize
