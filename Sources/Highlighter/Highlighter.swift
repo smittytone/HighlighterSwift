@@ -186,14 +186,15 @@ open class Highlighter {
      Set the Highligt.js theme to use for highlighting.
     
      - Parameters:
-        - themeName: The Highlight.js theme's name.
-        - withFont:  The name of the font to use. Default: Courier.
-        - ofSize:    The size of the font. Default: 14pt.
-     
+        - themeName:       The Highlight.js theme's name.
+        - withFont:        The name of the font to use. Default: Courier.
+        - ofSize:          The size of the font. Default: 14pt.
+        - debugLogOptions: Optional DEBUG-level logging choices.
+
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
+    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, debugLogOptions: ThemeLoggingOptions? = nil) -> Bool {
 
         // Make sure we can load the theme's CSS file -- or fail
         guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
@@ -216,6 +217,12 @@ open class Highlighter {
         let themeString = try! String(contentsOfFile: themePath)
         self.theme = Theme(withTheme: themeString, usingFont: font)
         self.theme.name = themeName
+
+        // FROM 3.1.1
+        if let dlo = debugLogOptions {
+            self.theme.loggingOptions = dlo
+        }
+
         return true
     }
 

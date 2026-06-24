@@ -21,6 +21,17 @@ private typealias HRThemeStringDict = [String: [String: String]]
 
 
 /**
+ Holder for current and future logging choices.
+
+ 
+ */
+public struct ThemeLoggingOptions {
+
+    public var missingStyles: Bool = false
+}
+
+
+/**
  Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
  */
 public class Theme {
@@ -39,6 +50,8 @@ public class Theme {
     public var fontSize: CGFloat = 18.0
     // FROM 3.1.0
     public var name: String = ""
+    // FROM 3.1.1
+    public var loggingOptions: ThemeLoggingOptions = ThemeLoggingOptions()
 
 
     // MARK: - Private Properties
@@ -204,11 +217,12 @@ public class Theme {
 
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                } else {
-#if DEBUG
-                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
-#endif
                 }
+#if DEBUG
+                else if self.loggingOptions.missingStyles {
+                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
+                }
+#endif
             }
 
             // FROM 3.1.0
