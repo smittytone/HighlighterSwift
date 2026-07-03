@@ -17,6 +17,18 @@ public struct LoggingOptions {
 }
 
 
+public struct HighlighterLoggingOptions {
+
+#if DEBUG
+    public var showInitErrors: Bool = true
+    public var showCSSErrors: Bool = true
+#else
+    public var showInitErrors: Bool = false
+    public var showCSSErrors: Bool = false
+#endif
+}
+
+
 public struct ThemeLoggingOptions {
 
 #if DEBUG
@@ -25,17 +37,5 @@ public struct ThemeLoggingOptions {
 #else
     public var showMissingStyles: Bool = false
     public var showBadColour: Bool = false
-#endif
-}
-
-
-public struct HighlighterLoggingOptions {
-
-#if DEBUG
-    public var showInitErrors: Bool = true
-    public var showCSSErrors: Bool = true
-#else
-    public var showInitErrors: Bool = true
-    public var showCSSErrors: Bool = false
 #endif
 }

@@ -208,7 +208,7 @@ public class Theme {
                     }
                 } else if self.loggingOptions.showMissingStyles {
 #if DEBUG
-                    print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
+                    print("WARNING MISSING STYLE in \(self.name) CSS: \(aStyle)")
 #endif
                 }
             }

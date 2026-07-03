@@ -56,8 +56,8 @@ open class Highlighter {
      Returns `nil` on failure to load or evaluate `highlight.min.js`,
      or to load the default theme (`Default`)
     */
-    public init?(loggingOptions: HighlighterLoggingOptions? = nil) {
-        
+    public init?(loggingOptions: LoggingOptions? = nil) {
+
         // Get the library's bundle based on how it's
         // being included in the host app
 #if SWIFT_PACKAGE
@@ -67,14 +67,14 @@ open class Highlighter {
 #endif
 
         // FROM 3.1.1
-        // Set the logging options
+        // Retain the logging options if any are passed in
         if let lo = loggingOptions {
             self.loggingOptions = lo
         }
 
         // Load the highlight.js code from the bundle or fail
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
-            if self.loggingOptions.showInitErrors {
+            if self.loggingOptions.highlighter.showInitErrors {
                 print("WARNING COULD NOT LOAD HIGHLIGHT.JS FILE")
             }
 
@@ -84,7 +84,7 @@ open class Highlighter {
         // Check the JavaScript or fail
         do {
             guard let context = JSContext() else {
-                if self.loggingOptions.showInitErrors {
+                if self.loggingOptions.highlighter.showInitErrors {
                     print("WARNING COULD NOT CREATE JS CONTEXT")
                 }
 
@@ -95,7 +95,7 @@ open class Highlighter {
             let _ = context.evaluateScript(highlightJs)
 
             guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
-                if self.loggingOptions.showInitErrors {
+                if self.loggingOptions.highlighter.showInitErrors {
                     print("WARNING COULD NOT LOAD HLJS")
                 }
 
@@ -106,7 +106,7 @@ open class Highlighter {
             self.hljs = hljs
             self.bundle = bundle
         } catch {
-            if self.loggingOptions.showInitErrors {
+            if self.loggingOptions.highlighter.showInitErrors {
                 print("WARNING COULD NOT LOAD OR EVALUATE JS FILE")
             }
 
@@ -115,8 +115,8 @@ open class Highlighter {
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
-        guard setTheme("default-light", self.loggingOptions.theme) else {
-            if self.loggingOptions.showInitErrors {
+        guard setTheme("default-light", withFont: nil, ofSize: 16.0, self.loggingOptions.theme) else {
+            if self.loggingOptions.highlighter.showInitErrors {
                 print("WARNING COULD NOT SET INITIAL THEME")
             }
 
@@ -222,11 +222,11 @@ open class Highlighter {
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, loggingOptions: ThemeLoggingOptions? = nil) -> Bool {
+    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, _ loggingOptions: ThemeLoggingOptions? = nil) -> Bool {
 
         // Make sure we can load the theme's CSS file -- or fail
         guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
-            if self.loggingOptions.showCSSErrors {
+            if self.loggingOptions.highlighter.showCSSErrors {
                 print("WARNING COULD NOT LOAD CSS FOR THEME \(themeName)")
             }
 
