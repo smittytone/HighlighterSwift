@@ -33,6 +33,9 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
 
+    // FROM 3.1.1
+    public var loggingOptions: LoggingOptions = LoggingOptions()
+
 
     // MARK: - Private Properties
     
@@ -53,7 +56,7 @@ open class Highlighter {
      Returns `nil` on failure to load or evaluate `highlight.min.js`,
      or to load the default theme (`Default`)
     */
-    public init?() {
+    public init?(loggingOptions: HighlighterLoggingOptions? = nil) {
         
         // Get the library's bundle based on how it's
         // being included in the host app
@@ -63,14 +66,28 @@ open class Highlighter {
         let bundle = Bundle(for: Highlighter.self)
 #endif
 
+        // FROM 3.1.1
+        // Set the logging options
+        if let lo = loggingOptions {
+            self.loggingOptions = lo
+        }
+
         // Load the highlight.js code from the bundle or fail
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
+            if self.loggingOptions.showInitErrors {
+                print("WARNING COULD NOT LOAD HIGHLIGHT.JS FILE")
+            }
+
             return nil
         }
 
         // Check the JavaScript or fail
         do {
             guard let context = JSContext() else {
+                if self.loggingOptions.showInitErrors {
+                    print("WARNING COULD NOT CREATE JS CONTEXT")
+                }
+
                 return nil
             }
 
@@ -78,6 +95,10 @@ open class Highlighter {
             let _ = context.evaluateScript(highlightJs)
 
             guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
+                if self.loggingOptions.showInitErrors {
+                    print("WARNING COULD NOT LOAD HLJS")
+                }
+
                 return nil
             }
 
@@ -85,13 +106,20 @@ open class Highlighter {
             self.hljs = hljs
             self.bundle = bundle
         } catch {
+            if self.loggingOptions.showInitErrors {
+                print("WARNING COULD NOT LOAD OR EVALUATE JS FILE")
+            }
+
             return nil
         }
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
+        guard setTheme("default-light", self.loggingOptions.theme) else {
+            if self.loggingOptions.showInitErrors {
+                print("WARNING COULD NOT SET INITIAL THEME")
+            }
 
-        guard setTheme("default-light") else {
             return nil
         }
     }
@@ -186,18 +214,22 @@ open class Highlighter {
      Set the Highligt.js theme to use for highlighting.
     
      - Parameters:
-        - themeName:       The Highlight.js theme's name.
-        - withFont:        The name of the font to use. Default: Courier.
-        - ofSize:          The size of the font. Default: 14pt.
-        - debugLogOptions: Optional DEBUG-level logging choices.
+        - themeName:      The Highlight.js theme's name.
+        - withFont:       The name of the font to use. Default: Courier.
+        - ofSize:         The size of the font. Default: 14pt.
+        - loggingOptions: Optional theme logging choices.
 
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, debugLogOptions: ThemeLoggingOptions? = nil) -> Bool {
+    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, loggingOptions: ThemeLoggingOptions? = nil) -> Bool {
 
         // Make sure we can load the theme's CSS file -- or fail
         guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
+            if self.loggingOptions.showCSSErrors {
+                print("WARNING COULD NOT LOAD CSS FOR THEME \(themeName)")
+            }
+
             return false
         }
         
@@ -219,8 +251,8 @@ open class Highlighter {
         self.theme.name = themeName
 
         // FROM 3.1.1
-        if let dlo = debugLogOptions {
-            self.theme.loggingOptions = dlo
+        if let lo = loggingOptions {
+            self.theme.loggingOptions = lo
         }
 
         return true

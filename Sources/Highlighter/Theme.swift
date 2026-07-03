@@ -21,17 +21,6 @@ private typealias HRThemeStringDict = [String: [String: String]]
 
 
 /**
- Holder for current and future logging choices.
-
- 
- */
-public struct ThemeLoggingOptions {
-
-    public var missingStyles: Bool = false
-}
-
-
-/**
  Class representing HighlightSwift's interal storage of a processed Highlight.js theme.
  */
 public class Theme {
@@ -217,7 +206,7 @@ public class Theme {
                         
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                } else if self.loggingOptions.missingStyles {
+                } else if self.loggingOptions.showMissingStyles {
 #if DEBUG
                     print("WARNING MISSING STYLE in \(self.name): \(aStyle)")
 #endif
@@ -507,8 +496,16 @@ public class Theme {
         // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
         if colourString.count != 8 && colourString.count != 6 && colourString.count != 3 {
 #if DEBUG
+            if self.loggingOptions.showBadColour {
+                print("WARNING BAD COLOUR CODE \(colourValue) -- SUBSTITUTING RED")
+            }
+
             return .red
 #else
+            if self.loggingOptions.showBadColour {
+                print("WARNING BAD COLOUR CODE \(colourValue) -- SUBSTITUTING GREY")
+            }
+
             return .gray
 #endif
         }
