@@ -56,7 +56,7 @@ open class Highlighter {
      Returns `nil` on failure to load or evaluate `highlight.min.js`,
      or to load the default theme (`Default`)
     */
-    public init?(loggingOptions: LoggingOptions? = nil) {
+    public init?(_ loggingOptions: LoggingOptions? = nil) {
 
         // Get the library's bundle based on how it's
         // being included in the host app
@@ -75,7 +75,7 @@ open class Highlighter {
         // Load the highlight.js code from the bundle or fail
         guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
             if self.loggingOptions.highlighter.showInitErrors {
-                print("WARNING COULD NOT LOAD HIGHLIGHT.JS FILE")
+                self.loggingOptions.logger.critical("Could not load Highlight.js file")
             }
 
             return nil
@@ -85,7 +85,7 @@ open class Highlighter {
         do {
             guard let context = JSContext() else {
                 if self.loggingOptions.highlighter.showInitErrors {
-                    print("WARNING COULD NOT CREATE JS CONTEXT")
+                    self.loggingOptions.logger.critical("Could not create JavaScript context")
                 }
 
                 return nil
@@ -96,7 +96,7 @@ open class Highlighter {
 
             guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
                 if self.loggingOptions.highlighter.showInitErrors {
-                    print("WARNING COULD NOT LOAD HLJS")
+                    self.loggingOptions.logger.critical("Could not get hljs object")
                 }
 
                 return nil
@@ -107,7 +107,7 @@ open class Highlighter {
             self.bundle = bundle
         } catch {
             if self.loggingOptions.highlighter.showInitErrors {
-                print("WARNING COULD NOT LOAD OR EVALUATE JS FILE")
+                self.loggingOptions.logger.critical("Could not load or evaluate JavaScript")
             }
 
             return nil
@@ -115,9 +115,9 @@ open class Highlighter {
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
-        guard setTheme("default-light", withFont: nil, ofSize: 16.0, self.loggingOptions.theme) else {
+        guard setTheme("default-light") else {
             if self.loggingOptions.highlighter.showInitErrors {
-                print("WARNING COULD NOT SET INITIAL THEME")
+                self.loggingOptions.logger.critical("Could not instantiate initial theme")
             }
 
             return nil
@@ -217,17 +217,16 @@ open class Highlighter {
         - themeName:      The Highlight.js theme's name.
         - withFont:       The name of the font to use. Default: Courier.
         - ofSize:         The size of the font. Default: 14pt.
-        - loggingOptions: Optional theme logging choices.
 
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
     @discardableResult
-    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil, _ loggingOptions: ThemeLoggingOptions? = nil) -> Bool {
+    public func setTheme(_ themeName: String, withFont: String? = nil, ofSize: CGFloat? = nil) -> Bool {
 
         // Make sure we can load the theme's CSS file -- or fail
         guard let themePath = self.bundle.path(forResource: themeName, ofType: "css") else {
             if self.loggingOptions.highlighter.showCSSErrors {
-                print("WARNING COULD NOT LOAD CSS FOR THEME \(themeName)")
+                self.loggingOptions.logger.error("Could not load CSS for theme \(themeName)")
             }
 
             return false
@@ -235,25 +234,22 @@ open class Highlighter {
         
         // Create the required font
         // If this fails ('font' == nil), we use the defaults
-        var font: HRFont? = nil
+        var font: HSFont? = nil
         if let fontName: String = withFont {
             var size: CGFloat = 14.0
             if ofSize != nil {
                 size = ofSize!
             }
             
-            font = HRFont(name: fontName, size: size)
+            font = HSFont(name: fontName, size: size)
         }
         
         // Get the theme CSS and instantiate a Theme object
         let themeString = try! String(contentsOfFile: themePath)
         self.theme = Theme(withTheme: themeString, usingFont: font)
         self.theme.name = themeName
-
         // FROM 3.1.1
-        if let lo = loggingOptions {
-            self.theme.loggingOptions = lo
-        }
+        self.theme.loggingOptions = self.loggingOptions
 
         return true
     }
@@ -324,7 +320,7 @@ open class Highlighter {
             scanner.skipNextCharacter()
 
             // Get the next charactor
-            let nextChar: String = scanner.getNextCharacter(in: htmlString)
+            let nextChar = scanner.getNextChar()
             if nextChar == "s" {
                 // We have a SPAN tag, so skip over the tag...
                 _ = scanner.scanString(self.spanStart)
@@ -356,7 +352,7 @@ open class Highlighter {
                                                                       options: [.reportCompletion],
                                                                       range: NSMakeRange(0, resultString.length))
         var localOffset: Int = 0
-        for result: NSTextCheckingResult in results {
+        for result in results {
             let fixedRange: NSRange = NSMakeRange(result.range.location - localOffset, result.range.length)
             let entity: String = (resultString.string as NSString).substring(with: fixedRange)
             if let decodedEntity = HTMLUtils.decode(entity) {
@@ -400,11 +396,11 @@ open class Highlighter {
         }
 
         // Determine the colour according to the usage mode
-        let colour: HRColor = lineNumberingData.usingDarkTheme ? .white : .black
+        let colour: HSColor = lineNumberingData.usingDarkTheme ? .white : .black
 
         // Set the line number attributes - keep it low key
         let lineAtts: [NSAttributedString.Key : Any] = [.foregroundColor: colour.withAlphaComponent(0.2),
-                                                        .font: HRFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
+                                                        .font: HSFont.monospacedSystemFont(ofSize: lineNumberingData.fontSize, weight: .ultraLight)]
 
         // Iterate over the rendered lines, prepending the line number
         let formatString = "%0\(formatCount)i"

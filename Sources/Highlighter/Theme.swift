@@ -1,5 +1,5 @@
 /*
- *  Highlighter.swift
+ *  Theme.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
@@ -27,10 +27,10 @@ public class Theme {
 
     // MARK: - Public Properties
 
-    public var codeFont: HRFont!
-    public var boldCodeFont: HRFont!
-    public var italicCodeFont: HRFont!
-    public var themeBackgroundColour: HRColor!
+    public var codeFont: HSFont!
+    public var boldCodeFont: HSFont!
+    public var italicCodeFont: HSFont!
+    public var themeBackgroundColour: HSColor!
     // FROM 1.1.3
     public var lineSpacing: CGFloat = 0.0
     public var paraSpacing: CGFloat = 0.0
@@ -40,7 +40,7 @@ public class Theme {
     // FROM 3.1.0
     public var name: String = ""
     // FROM 3.1.1
-    public var loggingOptions: ThemeLoggingOptions = ThemeLoggingOptions()
+    public var loggingOptions: LoggingOptions = LoggingOptions()
 
 
     // MARK: - Private Properties
@@ -60,20 +60,20 @@ public class Theme {
         - withTheme: The name of the Highlight.js theme to use. Default: `Default`.
         - usingFont: Optionally, a UIFont or NSFont to apply to the theme. Default: Courier @ 14pt.
     */
-    init(withTheme: String = "default", usingFont: HRFont? = nil) {
+    init(withTheme: String = "default", usingFont: HSFont? = nil) {
         
         // Record the theme name
         self.name = withTheme
         self.theme = withTheme      // This SHOULD be the CSS...
 
         // Apply the font choice
-        if let font: HRFont = usingFont {
+        if let font = usingFont {
             setCodeFont(font)
-        } else if let font = HRFont(name: "courier", size: 14.0) {
+        } else if let font = HSFont(name: "courier", size: 14.0) {
             setCodeFont(font)
         } else {
             // Just in case Courier has been deleted...
-            setCodeFont(HRFont.systemFont(ofSize: 14.0))
+            setCodeFont(HSFont.systemFont(ofSize: 14.0))
         }
 
         // Generate and store the theme variants
@@ -82,7 +82,7 @@ public class Theme {
         self.themeDict = strippedThemeToTheme(self.strippedTheme)
 
         // Determine the theme's background colour as a hex string
-        var backgroundColourHex: String? = self.strippedTheme[".hljs"]?["background"]
+        var backgroundColourHex = self.strippedTheme[".hljs"]?["background"]
         if backgroundColourHex == nil {
             backgroundColourHex = self.strippedTheme[".hljs"]?["background-color"]
         }
@@ -92,7 +92,7 @@ public class Theme {
             self.themeBackgroundColour = colourFromHexString(bgColourHex)
         } else {
             // Set a generic (light) background
-            self.themeBackgroundColour = HRColor.white
+            self.themeBackgroundColour = HSColor.white
         }
     }
 
@@ -107,7 +107,7 @@ public class Theme {
      - Parameters:
         - font: The UIFont or NSFont to use.
     */
-    public func setCodeFont(_ font: HRFont) {
+    public func setCodeFont(_ font: HSFont) {
 
         // Store the primary font choice
         self.codeFont = font
@@ -131,11 +131,11 @@ public class Theme {
                                                                   UIFontDescriptor.AttributeName.face:"Oblique"])
 #endif
 
-        self.boldCodeFont   = HRFont(descriptor: boldDescriptor, size: font.pointSize)
-        self.italicCodeFont = HRFont(descriptor: italicDescriptor, size: font.pointSize)
+        self.boldCodeFont   = HSFont(descriptor: boldDescriptor, size: font.pointSize)
+        self.italicCodeFont = HSFont(descriptor: italicDescriptor, size: font.pointSize)
 
         if (self.italicCodeFont == nil || self.italicCodeFont.familyName != font.familyName) {
-            self.italicCodeFont = HRFont(descriptor: obliqueDescriptor, size: font.pointSize)
+            self.italicCodeFont = HSFont(descriptor: obliqueDescriptor, size: font.pointSize)
         }
 
         if (self.italicCodeFont == nil) {
@@ -171,13 +171,13 @@ public class Theme {
         
         // FROM 1.1.3
         // Incorporate line and paragraph spacing
-        let spacedParaStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        let spacedParaStyle = NSMutableParagraphStyle()
         spacedParaStyle.lineSpacing = (self.lineSpacing >= 0.0 ? self.lineSpacing : 0.0)
         spacedParaStyle.paragraphSpacing = (self.paraSpacing >= 0.0 ? self.paraSpacing : 0.0)
         
         if styleList.count > 0 {
             // Build the attributes from the style list, including the font
-            var embeddedAlpha: HRColor? = nil
+            var embeddedAlpha: HSColor? = nil
             var attrs = [AttributedStringKey: Any]()
             attrs[.font] = self.codeFont
             attrs[.paragraphStyle] = spacedParaStyle
@@ -200,16 +200,14 @@ public class Theme {
                         // FROM 3.1.0
                         // Trap a covert opacity value
                         if attrName == .strokeColor {
-                            embeddedAlpha = attrValue as? HRColor
+                            embeddedAlpha = attrValue as? HSColor
                             continue
                         }
                         
                         attrs.updateValue(attrValue, forKey: attrName)
                     }
-                } else if self.loggingOptions.showMissingStyles {
-#if DEBUG
-                    print("WARNING MISSING STYLE in \(self.name) CSS: \(aStyle)")
-#endif
+                } else if self.loggingOptions.theme.showMissingStyles {
+                    self.loggingOptions.logger.debug("Missing style \(aStyle) in theme \(self.name)")
                 }
             }
 
@@ -217,9 +215,9 @@ public class Theme {
             // Apply an embedded alpha value, if there is one
             if let alpha = embeddedAlpha {
                 // There has been an opacity setting, so merge it into the current foreground
-                var base: HRColor = .labelColor
+                var base: HSColor = .labelColor
                 if attrs[.foregroundColor] != nil {
-                    base = attrs[.foregroundColor]! as! HRColor
+                    base = attrs[.foregroundColor]! as! HSColor
                 }
 
                 attrs[.foregroundColor] = base.withAlphaComponent(alpha.alphaComponent)
@@ -319,19 +317,19 @@ public class Theme {
     */
     private func strippedThemeToString(_ themeStringDict: HRThemeStringDict) -> String {
 
-        var resultString: String = ""
+        var result = ""
         for (key, props) in themeStringDict {
-            resultString += (key + "{")
+            result += (key + "{")
             for (cssProp, val) in props {
                 if key != ".hljs" || (cssProp.lowercased() != "background-color" && cssProp.lowercased() != "background") {
-                    resultString += "\(cssProp):\(val);"
+                    result += "\(cssProp):\(val);"
                 }
             }
 
-            resultString += "}"
+            result += "}"
         }
 
-        return resultString
+        return result
     }
 
 
@@ -370,14 +368,14 @@ public class Theme {
 
                         if alphaValue < 0.0 { alphaValue = 0.0 }
                         if alphaValue > 1.0 { alphaValue = 1.0 }
-                        atttributes[attributeForCSSKey(key)] = HRColor(red: 0.0, green: 0.0, blue: 0.0, alpha: alphaValue)
+                        atttributes[attributeForCSSKey(key)] = HSColor(red: 0.0, green: 0.0, blue: 0.0, alpha: alphaValue)
                     default:
                         break
                 }
             }
 
             if atttributes.count > 0 {
-                let key: String = className.replacingOccurrences(of: ".", with: "")
+                let key = className.replacingOccurrences(of: ".", with: "")
                 returnTheme[key] = atttributes
             }
         }
@@ -394,7 +392,7 @@ public class Theme {
      
      - Returns: A UIFont or NSFont.
     */
-    internal func fontForCSSStyle(_ fontStyle: String) -> HRFont {
+    internal func fontForCSSStyle(_ fontStyle: String) -> HSFont {
 
         switch fontStyle {
             case "bold", "bolder", "600", "700", "800", "900":
@@ -457,9 +455,9 @@ public class Theme {
      
      - Returns: A UIColor or NSColor.
     */
-    internal func colourFromHexString(_ colourValue: String) -> HRColor {
+    internal func colourFromHexString(_ colourValue: String) -> HSColor {
         
-        var colourString: String = colourValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        var colourString = colourValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             // The colour is defined by a hex value
@@ -473,9 +471,9 @@ public class Theme {
                 case "blue":
                     return .blue
                 case "white":
-                    return HRColor(white: 1.0, alpha: 1.0)
+                    return HSColor(white: 1.0, alpha: 1.0)
                 case "black":
-                    return HRColor(white: 0.0, alpha: 1.0)
+                    return HSColor(white: 0.0, alpha: 1.0)
                 case "gray":
                     return .hexToColour("AAAAAA")
                 case "navy":
@@ -496,16 +494,16 @@ public class Theme {
         // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
         if colourString.count != 8 && colourString.count != 6 && colourString.count != 3 {
 #if DEBUG
-            if self.loggingOptions.showBadColour {
-                print("WARNING BAD COLOUR CODE \(colourValue) -- SUBSTITUTING RED")
+            let subColour = "RED"
+#else
+            let subColour = "GREY"
+#endif
+            if self.loggingOptions.theme.showBadColour {
+                self.loggingOptions.logger.warning("Bad colour code \(colourValue) -- substituting \(subColour)")
             }
-
+#if DEBUG
             return .red
 #else
-            if self.loggingOptions.showBadColour {
-                print("WARNING BAD COLOUR CODE \(colourValue) -- SUBSTITUTING GREY")
-            }
-
             return .gray
 #endif
         }
@@ -545,6 +543,6 @@ public class Theme {
             divisor = 15.0
         }
 
-        return HRColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: alpha)
+        return HSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: alpha)
     }
 }

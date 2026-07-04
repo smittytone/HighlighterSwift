@@ -1,5 +1,5 @@
 /*
- *  Highlighter.swift
+ *  Extensions.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
@@ -68,6 +68,8 @@ extension Scanner {
      Look ahead and return the next character in the sequence without
      altering the current location of the scanner.
 
+     DEPRECATED
+
      - Parameters:
         - in: The string being scanned.
 
@@ -83,11 +85,34 @@ extension Scanner {
 
 
     /**
+     Look ahead and return the next character in the sequence without
+     altering the current location of the scanner.
+
+     FROM 4.0.0
+
+     - Returns The next character as a string, or an empty one.
+     */
+    func getNextChar() -> String {
+
+        if self.currentIndex < self.string.endIndex {
+            let nextIndex = self.string.index(after: self.currentIndex)
+            return String(self.string[self.currentIndex..<nextIndex])
+        }
+
+        return ""
+    }
+
+
+    /**
      Step over the next character.
      */
     func skipNextCharacter() {
 
-        self.currentIndex = self.string.index(after: self.currentIndex)
+        // FROM 4.0.0
+        // Add check to hopefully fix certain Thumbnailer crashes
+        if self.currentIndex < self.string.endIndex {
+            self.currentIndex = self.string.index(after: self.currentIndex)
+        }
     }
 }
 
@@ -105,7 +130,7 @@ extension NSColor {
      */
     static func hexToColour(_ hex: String) -> NSColor {
 
-        var colourString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        var colourString = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             let index = colourString.index(colourString.startIndex, offsetBy: 1)
@@ -122,11 +147,11 @@ extension NSColor {
             return CGFloat(UInt8(hs, radix: 16) ?? 255)
         }
 
-        let cns: NSString = colourString as NSString
-        let red: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
-        let green: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
-        let blue: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
-        let alpha: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
+        let cns = colourString as NSString
+        let red = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
+        let green = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
+        let blue = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
+        let alpha = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
         return NSColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
@@ -164,7 +189,7 @@ extension UIColor {
      */
     static func hexToColour(_ hex: String) -> UIColor {
 
-        var colourString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        var colourString = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             let index = colourString.index(colourString.startIndex, offsetBy: 1)
@@ -181,11 +206,11 @@ extension UIColor {
             return CGFloat(UInt8(hs, radix: 16) ?? 255)
         }
 
-        let cns: NSString = colourString as NSString
-        let red: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
-        let green: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
-        let blue: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
-        let alpha: CGFloat = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
+        let cns = colourString as NSString
+        let red = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
+        let green = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
+        let blue = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
+        let alpha = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }

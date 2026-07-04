@@ -1,5 +1,5 @@
 /*
- *  Highlighter.swift
+ *  LineNumberData.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
@@ -77,6 +77,7 @@ public struct LineNumberData {
     // MARK: Constructors
 
     public init() {
+
         self.usingDarkTheme = false
         self.lineBreak = "\n"
         self.baseSeparator = "  "
@@ -84,7 +85,9 @@ public struct LineNumberData {
         self.baseMinWidth = 1
     }
 
+    
     public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", fontSize: CGFloat = 16.0) {
+
         self.usingDarkTheme = usingDarkTheme
         self.lineBreak = lineBreak
         self.fontSize = fontSize

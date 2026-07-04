@@ -1,10 +1,11 @@
 /*
- *  Highlighter.swift
+ *  LoggingOptions.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
  *  Licence: MIT
  */
+import os
 
 
 /**
@@ -14,6 +15,7 @@ public struct LoggingOptions {
 
     public var highlighter: HighlighterLoggingOptions = HighlighterLoggingOptions()
     public var theme: ThemeLoggingOptions = ThemeLoggingOptions()
+    public let logger = Logger()
 }
 
 
@@ -39,3 +41,4 @@ public struct ThemeLoggingOptions {
     public var showBadColour: Bool = false
 #endif
 }
+

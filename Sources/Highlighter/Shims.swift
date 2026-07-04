@@ -1,5 +1,5 @@
 /*
- *  Highlighter.swift
+ *  Shims.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
  *
@@ -11,12 +11,12 @@
  */
 #if os(macOS)
 import AppKit
-public typealias HRColor = NSColor
-public typealias HRFont  = NSFont
+public typealias HSColor = NSColor
+public typealias HSFont  = NSFont
 #else
 import UIKit
-public typealias HRColor = UIColor
-public typealias HRFont  = UIFont
+public typealias HSColor = UIColor
+public typealias HSFont  = UIFont
 #endif
 
 

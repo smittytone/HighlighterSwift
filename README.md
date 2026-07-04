@@ -1,4 +1,4 @@
-# HighlighterSwift 3.1.1
+# HighlighterSwift 4.0.0
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -19,7 +19,7 @@ This library provides a Swift wrapper for the popular [Highlight.js](https://hig
 * Redundant code has been removed.
 * Gains unit tests, with more to come, I hope.
 
-## Theme (Style) Files and HighlighterSwift 3.1.0
+## Theme (Style) Files and HighlighterSwift
 
 **HighlighterSwift** uses minified versions of the standard *Highlight.js* theme files (`/src/styles/*.css` and `/src/styles/base16/*.css`). Additionally, these have been adjusted to better suit the needs of **HighlighterSwift** and how it processes these files when (for example) `setTheme()` is called. You cannot simply transfer theme files straight from *Highlight.js* to **HighlighterSwift**.
 
@@ -148,6 +148,22 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()` — it returns an array of strings.
 
 The function `availableThemes()` returns a list of the installed themes.
+
+### Logging
+
+By default, key errors and warnings are reported in `DEBUG` builds but not in `RELEASE` builds. To change this behaviour in your app, pass in a customised `LoggingOptions` instance when you call `Hightligher()`. 
+
+For example, you might want the available debug errors to be logged with the exception of the missing CSS style definition reports, as these can be extensive and missing styles are legal. In which case you would update your code as follows:
+
+```swift
+var loggingOptions = LoggingOptions()
+loggingOptions.theme.showMissingStyles = false
+if let highlighter = Highlighter(loggingOptions) {
+    ...
+}
+```
+
+Please see `Entities.swift` for the full list of current `LoggingOptions` properties (all Booleans), and their default `DEBUG` and `RELEASE` values.
 
 ## Release Notes
 

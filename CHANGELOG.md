@@ -1,7 +1,9 @@
 ## Release Notes
 
-- 3.1.1 *Unreleased*
-    - Improved error reporting. 
+- 4.0.0 *Unreleased*
+    - Improved error reporting, via Unified Logging.
+    - **Potential Break** Migrate minimum supported iOS version to 14.
+    - **Potential Break** Renamed `shim.swift` font, colour typealiases.
 - 3.1.0 *27 May 2026*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
     - Add `highlight.js` themes not yet included in *HighlighterSwift*.
@@ -16,8 +18,8 @@
 - 3.0.1 *18 March 2026*
     - Strict concurrency compilation warning fix (thanks [@Wcowin](https://github.com/Wcowin)).
 - 3.0.0 *9 February 2026*
-    - **Potential Break** Migrate minimum supported iOS version to 13 (thanks [@aabagdi](https://github.com/aabagdi)).
     - Fix use of non-shimmed `NSColor` and `NSFont`.
+    - **Potential Break** Migrate minimum supported iOS version to 13 (thanks [@aabagdi](https://github.com/aabagdi)).
 - 2.0.1 *2 February 2026*
     - Correct certain framework imports for iOS (thanks [@florianreinhart](https://github.com/florianreinhart)).
 - 2.0.0 *11 September 2025*
