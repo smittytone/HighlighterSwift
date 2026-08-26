@@ -129,7 +129,7 @@ extension NSColor {
      */
     static func hexToColour(_ hex: String) -> NSColor {
 
-        var colourString = colourValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        var colourString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             // The colour is defined by a hex value
@@ -224,7 +224,7 @@ extension UIColor {
      */
     static func hexToColour(_ hex: String) -> UIColor {
 
-        var colourString = colourValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        var colourString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             // The colour is defined by a hex value
