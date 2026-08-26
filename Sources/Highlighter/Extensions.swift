@@ -77,7 +77,7 @@ extension Scanner {
      */
     func getNextCharacter(in outer: String) -> String {
 
-        let stringc= self.string as NSString
+        let string = self.string as NSString
         let idx = self.currentIndex.utf16Offset(in: outer)
         return string.substring(with: NSMakeRange(idx, 1))
     }
