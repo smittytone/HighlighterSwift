@@ -171,17 +171,16 @@ open class Highlighter {
         }
         
         // Check we got a valid string back - fail if we didn't
-        let renderedHTMLValue: JSValue? = returnValue.objectForKeyedSubscript("value")
-        guard var renderedHTMLString: String = renderedHTMLValue!.toString() else {
-            return nil
-        }
-        
-        // Trap 'undefined' output as this is effectively an error condition
-        // and should not be returned as a valid result -- it's actually a fail
-        if renderedHTMLString == "undefined" {
+        guard let renderedHTMLValue = returnValue.objectForKeyedSubscript("value") else {
             return nil
         }
 
+        // Trap 'undefined' output as this is effectively an error condition
+        // and should not be returned as a valid result -- it's actually a fail
+        guard var renderedHTMLString = renderedHTMLValue.toString(), renderedHTMLString != "undefined" else {
+            return nil
+        }
+        
         // Convert the HTML received from Highlight.js to an NSAttributedString or nil
         var returnAttrString: NSAttributedString? = nil
         
@@ -235,7 +234,7 @@ open class Highlighter {
         // Create the required font
         // If this fails ('font' == nil), we use the defaults
         var font: HSFont? = nil
-        if let fontName: String = withFont {
+        if let fontName = withFont {
             var size: CGFloat = 14.0
             if ofSize != nil {
                 size = ofSize!
@@ -281,8 +280,8 @@ open class Highlighter {
     */
     public func supportedLanguages() -> [String] {
 
-        let res: JSValue? = hljs.invokeMethod("listLanguages", withArguments: [])
-        return res!.toArray() as! [String]
+        guard let res: JSValue = hljs.invokeMethod("listLanguages", withArguments: []) else { return [] }
+        return res.toArray() as? [String] ?? []
     }
 
 
@@ -300,7 +299,7 @@ open class Highlighter {
 
         let resultString: NSMutableAttributedString = NSMutableAttributedString(string: "")
         var scanned: String? = nil
-        var propStack: [String] = ["hljs"]
+        var propStack = ["hljs"]
         let scanner: Scanner = Scanner(string: htmlString)
         scanner.charactersToBeSkipped = nil
 
@@ -341,20 +340,20 @@ open class Highlighter {
                 propStack.removeLast()
             } else {
                 // We have code text, so style it based on the previous SPAN classe we've stored
-                let attrScannedString: NSAttributedString = self.theme.applyStyleToString("<", styleList: propStack)
+                let attrScannedString = self.theme.applyStyleToString("<", styleList: propStack)
                 resultString.append(attrScannedString)
                 scanner.skipNextCharacter()
             }
         }
 
         // Process HTML escapes in the rendered attribute string
-        let results: [NSTextCheckingResult] = self.htmlEscape.matches(in: resultString.string,
-                                                                      options: [.reportCompletion],
-                                                                      range: NSMakeRange(0, resultString.length))
-        var localOffset: Int = 0
+        let results = self.htmlEscape.matches(in: resultString.string,
+                                              options: [.reportCompletion],
+                                              range: NSMakeRange(0, resultString.length))
+        var localOffset = 0
         for result in results {
-            let fixedRange: NSRange = NSMakeRange(result.range.location - localOffset, result.range.length)
-            let entity: String = (resultString.string as NSString).substring(with: fixedRange)
+            let fixedRange = NSMakeRange(result.range.location - localOffset, result.range.length)
+            let entity = (resultString.string as NSString).substring(with: fixedRange)
             if let decodedEntity = HTMLUtils.decode(entity) {
                 resultString.replaceCharacters(in: fixedRange, with: String(decodedEntity))
                 localOffset += (result.range.length - 1);

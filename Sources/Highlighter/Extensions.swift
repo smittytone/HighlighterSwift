@@ -77,10 +77,9 @@ extension Scanner {
      */
     func getNextCharacter(in outer: String) -> String {
 
-        let string: NSString = self.string as NSString
-        let idx: Int = self.currentIndex.utf16Offset(in: outer)
-        let nextChar: String = string.substring(with: NSMakeRange(idx, 1))
-        return nextChar
+        let stringc= self.string as NSString
+        let idx = self.currentIndex.utf16Offset(in: outer)
+        return string.substring(with: NSMakeRange(idx, 1))
     }
 
 
@@ -130,6 +129,41 @@ extension NSColor {
      */
     static func hexToColour(_ hex: String) -> NSColor {
 
+        var colourString = colourValue.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if (colourString.hasPrefix("#")) {
+            // The colour is defined by a hex value
+            colourString = String(colourString.dropFirst(1))
+        }
+
+        // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
+        guard [8, 6, 3].contains(colourString.count) else { return NSColor.gray }
+        guard let colourValue = Int(colourString, radix: 16) else { return NSColor.gray }
+
+        var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0
+        var divisor: CGFloat = 255.0
+        var a: CGFloat = 1.0
+
+        if colourString.count == 6 {
+            r = UInt64((colourValue >> 16) & 0xFF)
+            g = UInt64((colourValue >> 8) & 0xFF)
+            b = UInt64(colourValue & 0xFF)
+        } else if colourString.count == 8 {
+            r = UInt64((colourValue >> 24) & 0xFF)
+            g = UInt64((colourValue >> 16) & 0xFF)
+            b = UInt64((colourValue >> 8) & 0xFF)
+            a = CGFloat(colourValue & 0xFF) / divisor
+        } else {
+            // Decode a three-character hex string
+            r = UInt64((colourValue >> 8) & 0xF)
+            g = UInt64((colourValue >> 4) & 0xF)
+            b = UInt64(colourValue & 0xF)
+            divisor = 15.0
+        }
+
+        return NSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: a)
+
+        /*
         var colourString = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
@@ -153,6 +187,7 @@ extension NSColor {
         let blue = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
         let alpha = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
         return NSColor(red: red, green: green, blue: blue, alpha: alpha)
+        */
     }
 }
 #elseif os(iOS)
@@ -189,29 +224,39 @@ extension UIColor {
      */
     static func hexToColour(_ hex: String) -> UIColor {
 
-        var colourString = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        var colourString = colourValue.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
-            let index = colourString.index(colourString.startIndex, offsetBy: 1)
-            colourString = String(colourString[index...])
+            // The colour is defined by a hex value
+            colourString = String(colourString.dropFirst(1))
         }
 
-        // Colours in hex strings have 6 (`AABBCC`) or 8 (6 + alpha, `AABBCCDD`) values
-        if colourString.count != 8 && colourString.count != 6 {
-            return .red
+        // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
+        guard [8, 6, 3].contains(colourString.count) else { return NSColor.gray }
+        guard let colourValue = Int(colourString, radix: 16) else { return NSColor.gray }
+
+        var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0
+        var divisor: CGFloat = 255.0
+        var a: CGFloat = 1.0
+
+        if colourString.count == 6 {
+            r = UInt64((colourValue >> 16) & 0xFF)
+            g = UInt64((colourValue >> 8) & 0xFF)
+            b = UInt64(colourValue & 0xFF)
+        } else if colourString.count == 8 {
+            r = UInt64((colourValue >> 24) & 0xFF)
+            g = UInt64((colourValue >> 16) & 0xFF)
+            b = UInt64((colourValue >> 8) & 0xFF)
+            a = CGFloat(colourValue & 0xFF) / divisor
+        } else {
+            // Decode a three-character hex string
+            r = UInt64((colourValue >> 8) & 0xF)
+            g = UInt64((colourValue >> 4) & 0xF)
+            b = UInt64(colourValue & 0xF)
+            divisor = 15.0
         }
 
-        func hexToFloat(_ hs: String) -> CGFloat {
-            // No alpha value supplied, so assume full opacity is required
-            return CGFloat(UInt8(hs, radix: 16) ?? 255)
-        }
-
-        let cns = colourString as NSString
-        let red = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
-        let green = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
-        let blue = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
-        let alpha = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
-        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        return NSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: a)
     }
 }
 #endif

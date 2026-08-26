@@ -457,11 +457,11 @@ public class Theme {
     */
     internal func colourFromHexString(_ colourValue: String) -> HSColor {
         
-        var colourString = colourValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        var colourString = colourValue.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if (colourString.hasPrefix("#")) {
             // The colour is defined by a hex value
-            colourString = String(colourString.dropFirst(1)) //(colourString as NSString).substring(from: 1)
+            colourString = String(colourString.dropFirst(1))
         } else {
             switch colourString {
                 case "red":
@@ -508,6 +508,9 @@ public class Theme {
 #endif
         }
 
+        return .hexToColour(colourString)
+
+        /*
         var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0, a: UInt64 = 0
         var divisor: CGFloat
         var alpha: CGFloat = 1.0
@@ -544,5 +547,6 @@ public class Theme {
         }
 
         return HSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: alpha)
+        */
     }
 }
