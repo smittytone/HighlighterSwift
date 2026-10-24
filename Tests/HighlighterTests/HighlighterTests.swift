@@ -115,4 +115,38 @@ final class HighlighterTests: XCTestCase {
         XCTAssert(result == .gray || result == .red) // RELEASE and DEBUG values
     }
     
+
+func testAugmentLanguage() {
+
+        // highlight.js's bash grammar omits the search/filter tools from its
+        // `built_in` list (grep/find/sed/awk — while rm/head/ls/cat are in),
+        // so those command words render unstyled. augmentLanguage appends
+        // keywords to the grammar scope in THIS instance's copy of
+        // highlight.js. highlight.js compiles a grammar lazily ON FIRST
+        // HIGHLIGHT and consumes the raw scopes in the process, so
+        // augmentation must happen BEFORE the first highlight in that
+        // language — engine-creation time. Two fresh instances pin the
+        // ordering contract:
+
+        // Plain instance: the grep command word is unstyled.
+        let plainOutput = self.hr!.highlight("grep \"pattern\" path", as: "bash")
+        XCTAssert(plainOutput != nil)
+
+        // Augmented instance (augment BEFORE first highlight): same command,
+        // command word now styled.
+        guard let augmented = Highlighter() else { return XCTFail("instance") }
+        XCTAssertTrue(augmented.augmentLanguage("bash", addingKeywords: "grep find sed awk"),
+                      "bash + built_in must exist and update")
+        let augmentedOutput = augmented.highlight("grep \"pattern\" path", as: "bash")
+        XCTAssert(augmentedOutput != nil)
+        // NSAttributedString equality covers ATTRIBUTES (the plain string
+        // is identical by design — the styling is the difference).
+        XCTAssertNotEqual(plainOutput!, augmentedOutput!,
+                          "the styled output must change once the keyword lands")
+
+        // Unknown language and unknown scope refuse without partial writes.
+        XCTAssertFalse(augmented.augmentLanguage("fintlewoodlewix@1", addingKeywords: "x"))
+        XCTAssertFalse(augmented.augmentLanguage("bash", addingKeywords: "x", scope: "no-such-scope"))
+    }
+
 }
