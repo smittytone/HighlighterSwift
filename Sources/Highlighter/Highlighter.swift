@@ -47,6 +47,18 @@ open class Highlighter {
     private let spanEnd: String = "/span>"
     private let htmlEscape: NSRegularExpression = try! NSRegularExpression(pattern: "&#?[a-zA-Z0-9]+?;", options: .caseInsensitive)
 
+    /// Embed a Swift string as a single-quoted JavaScript string literal
+    /// (escaping backslashes, quotes, and newlines). Used by
+    /// `augmentLanguage` for the values interpolated into its script.
+    private enum JSONHelper {
+        static func jsString(_ value: String) -> String {
+            "'" + value
+                .replacingOccurrences(of: "\\", with: "\\\\")
+                .replacingOccurrences(of: "'", with: "\\'")
+                .replacingOccurrences(of: "\n", with: "\\n") + "'"
+        }
+    }
+
 
     // MARK: - Constructor
 
@@ -282,6 +294,43 @@ open class Highlighter {
 
         guard let res: JSValue = hljs.invokeMethod("listLanguages", withArguments: []) else { return [] }
         return res.toArray() as? [String] ?? []
+    }
+
+    /**
+     Augment a language grammar's keyword scope at runtime.
+
+     Highlight.js ships fixed grammars, and a grammar's keyword list can
+     omit words a user expects highlighted — bash's `built_in` list covers
+     coreutils (rm, head, ls, cat…) but not the search/filter tools (grep,
+     find, sed, awk…), so those command words render unstyled. This appends
+     keywords to a grammar scope IN THIS INSTANCE'S copy of highlight.js
+     (every Highlighter evaluates its own), taking effect for subsequent
+     `highlight` calls.
+
+     - Parameters:
+        - languageName:  A registered language name (e.g. `bash`).
+        - keywords:     Space-separated keywords to append.
+        - scope:        The keyword scope to append to (default `built_in`).
+
+     - Returns: `true` when the language and scope were found and updated.
+    */
+    public func augmentLanguage(_ languageName: String, addingKeywords keywords: String, scope: String = "built_in") -> Bool {
+
+        // The grammar's scope is a space-separated string (or, in newer
+        // highlight.js versions, an array) — normalise to a string, append,
+        // write back. Unknown language/scope ⇒ false, no partial writes.
+        let script = """
+        (function() {
+            var grammar = hljs.getLanguage(\(JSONHelper.jsString(languageName)));
+            if (!grammar || !grammar.keywords || !grammar.keywords[\(JSONHelper.jsString(scope))]) { return false; }
+            var existing = grammar.keywords[\(JSONHelper.jsString(scope))];
+            var joined = Array.isArray(existing) ? existing.join(' ') : existing;
+            grammar.keywords[\(JSONHelper.jsString(scope))] = joined + ' ' + \(JSONHelper.jsString(keywords));
+            return true;
+        })();
+        """
+        guard let result = hljs.context.evaluateScript(script), result.isBoolean else { return false }
+        return result.toBool()
     }
 
 
