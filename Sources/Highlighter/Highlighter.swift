@@ -348,7 +348,7 @@ open class Highlighter {
      */
     public func augment(language languageName: String, withKeywords keywordList: [String], scope: String = "built_in") -> Bool {
 
-        return augment(language: languageName, withkeywords: keywordList.joined(separator: " "), scope: scope)
+        return augment(language: languageName, withKeywords: keywordList.joined(separator: " "), scope: scope)
     }
 
 
