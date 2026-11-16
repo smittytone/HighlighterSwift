@@ -33,15 +33,15 @@ public class Theme {
     public var italicCodeFont: HSFont!
     public var themeBackgroundColour: HSColor!
     // FROM 1.1.3
-    public var lineSpacing: CGFloat = 0.0
-    public var paraSpacing: CGFloat = 0.0
+    public var lineSpacing: CGFloat                                     = 0.0
+    public var paraSpacing: CGFloat                                     = 0.0
     // FROM 1.2.0
-    public var isDark: Bool = false
-    public var fontSize: CGFloat = 18.0
+    public var isDark: Bool                                             = false
+    public var fontSize: CGFloat                                        = 18.0
     // FROM 3.1.0
-    public var name: String = ""
+    public var name: String                                             = ""
     // FROM 3.1.1
-    public var loggingOptions: LoggingOptions = LoggingOptions()
+    public var loggingOptions: LoggingOptions                           = LoggingOptions()
 
 
     // MARK: - Private Properties
@@ -510,44 +510,5 @@ public class Theme {
         }
 
         return .hexToColour(colourString)
-
-        /*
-        var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0, a: UInt64 = 0
-        var divisor: CGFloat
-        var alpha: CGFloat = 1.0
-
-        if colourString.count == 6 || colourString.count == 8 {
-            // Decode a six-character hex string
-            let rString = String(colourString.dropLast(colourString.count - 2))
-            let gString = String(colourString.dropFirst(2).dropLast(colourString.count - 4))
-            let bString = String(colourString.dropFirst(4).dropLast(colourString.count - 6))
-
-            Scanner(string: rString).scanHexInt64(&r)
-            Scanner(string: gString).scanHexInt64(&g)
-            Scanner(string: bString).scanHexInt64(&b)
-
-            divisor = 255.0
-            
-            if colourString.count == 8 {
-                // Decode the eight-character hex string's alpha value
-                let aString = String(colourString.dropFirst(6))
-                Scanner(string: aString).scanHexInt64(&a)
-                alpha = CGFloat(a) / divisor
-            }
-        } else {
-            // Decode a three-character hex string
-            let rString = String(colourString.dropLast(2))
-            let gString = String(colourString.dropFirst(1).dropLast(1))
-            let bString = String(colourString.dropFirst(2))
-
-            Scanner(string: rString).scanHexInt64(&r)
-            Scanner(string: gString).scanHexInt64(&g)
-            Scanner(string: bString).scanHexInt64(&b)
-
-            divisor = 15.0
-        }
-
-        return HSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: alpha)
-        */
     }
 }

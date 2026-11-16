@@ -69,18 +69,14 @@ extension Scanner {
      Look ahead and return the next character in the sequence without
      altering the current location of the scanner.
 
-     DEPRECATED
-
      - Parameters:
         - in: The string being scanned.
 
      - Returns The next character as a string.
      */
-    func getNextCharacter(in outer: String) -> String {
+    func getNextCharacter(in outer: String = "") -> String {
 
-        let string = self.string as NSString
-        let idx = self.currentIndex.utf16Offset(in: outer)
-        return string.substring(with: NSMakeRange(idx, 1))
+        return getNextChar()
     }
 
 

@@ -48,9 +48,9 @@ open class Highlighter {
     private let spanEnd: String = "/span>"
     private let htmlEscape: NSRegularExpression = try! NSRegularExpression(pattern: "&#?[a-zA-Z0-9]+?;", options: .caseInsensitive)
 
-    /// Embed a Swift string as a single-quoted JavaScript string literal
-    /// (escaping backslashes, quotes, and newlines). Used by
-    /// `augmentLanguage` for the values interpolated into its script.
+    // Embed a Swift string as a single-quoted JavaScript string literal
+    // (escaping backslashes, quotes, and newlines). Used by
+    // `augment(language:withKeywords)` for the values interpolated into its script.
     private enum JSONHelper {
         static func jsString(_ value: String) -> String {
             "'" + value
@@ -86,7 +86,7 @@ open class Highlighter {
         }
 
         // Load the highlight.js code from the bundle or fail
-        guard let highlightPath: String = bundle.path(forResource: "highlight.min", ofType: "js") else {
+        guard let highlightPath = bundle.path(forResource: "highlight.min", ofType: "js") else {
             if self.loggingOptions.highlighter.showInitErrors {
                 self.loggingOptions.logger.critical("Could not load Highlight.js file")
             }
@@ -95,36 +95,35 @@ open class Highlighter {
         }
 
         // Check the JavaScript or fail
-        do {
-            guard let context = JSContext() else {
-                if self.loggingOptions.highlighter.showInitErrors {
-                    self.loggingOptions.logger.critical("Could not create JavaScript context")
-                }
 
-                return nil
+        guard let context = JSContext() else {
+            if self.loggingOptions.highlighter.showInitErrors {
+                self.loggingOptions.logger.critical("Could not create JavaScript context")
             }
 
-            let highlightJs: String = try String(contentsOfFile: highlightPath)
-            let _ = context.evaluateScript(highlightJs)
+            return nil
+        }
 
-            guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
-                if self.loggingOptions.highlighter.showInitErrors {
-                    self.loggingOptions.logger.critical("Could not get hljs object")
-                }
-
-                return nil
-            }
-
-            // Store the results for later
-            self.hljs = hljs
-            self.bundle = bundle
-        } catch {
+        guard let highlightJs = try? String(contentsOfFile: highlightPath) else {
             if self.loggingOptions.highlighter.showInitErrors {
                 self.loggingOptions.logger.critical("Could not load or evaluate JavaScript")
             }
 
             return nil
         }
+
+        let _ = context.evaluateScript(highlightJs)
+        guard let hljs = context.globalObject.objectForKeyedSubscript("hljs") else {
+            if self.loggingOptions.highlighter.showInitErrors {
+                self.loggingOptions.logger.critical("Could not get hljs object")
+            }
+
+            return nil
+        }
+
+        // Store the results for later
+        self.hljs = hljs
+        self.bundle = bundle
 
         // Check and set applying a theme or fail
         // NOTE 'setTheme()' depends on 'self.bundle'
@@ -170,17 +169,16 @@ open class Highlighter {
     public func highlight(_ code: String, as languageName: String? = nil, doFastRender: Bool = true, lineNumbering: LineNumberData? = nil) -> NSAttributedString? {
 
         let returnValue: JSValue
-        
         if let language = languageName {
             // Use the specified language
             // NOTE Will return 'undefined' (trapped below) if it's a unknown language
             let options: [String: Any] = ["language": language, "ignoreIllegals": self.ignoreIllegals]
-            returnValue = hljs.invokeMethod("highlight",
-                                            withArguments: [code, options])
+            returnValue = self.hljs.invokeMethod("highlight",
+                                                 withArguments: [code, options])
         } else {
             // Use language auto detection
-            returnValue = hljs.invokeMethod("highlightAuto",
-                                            withArguments: [code])
+            returnValue = self.hljs.invokeMethod("highlightAuto",
+                                                 withArguments: [code])
         }
         
         // Check we got a valid string back - fail if we didn't
@@ -226,9 +224,9 @@ open class Highlighter {
      Set the Highligt.js theme to use for highlighting.
     
      - Parameters:
-        - themeName:      The Highlight.js theme's name.
-        - withFont:       The name of the font to use. Default: Courier.
-        - ofSize:         The size of the font. Default: 14pt.
+        - themeName: The Highlight.js theme's name.
+        - withFont:  The name of the font to use. Default: Courier.
+        - ofSize:    The size of the font. Default: 14pt.
 
      - Returns: Whether the theme was successfully applied (`true`) or not (`false`)
     */
@@ -296,6 +294,9 @@ open class Highlighter {
         guard let res: JSValue = hljs.invokeMethod("listLanguages", withArguments: []) else { return [] }
         return res.toArray() as? [String] ?? []
     }
+
+
+    // MARK: - Language Extension
 
     /**
      Augment a language grammar's keyword scope at runtime.
@@ -374,10 +375,10 @@ open class Highlighter {
     */
     private func processHTMLString(_ htmlString: String) -> NSAttributedString? {
 
-        let resultString: NSMutableAttributedString = NSMutableAttributedString(string: "")
+        let resultString = NSMutableAttributedString(string: "")
         var scanned: String? = nil
         var propStack = ["hljs"]
-        let scanner: Scanner = Scanner(string: htmlString)
+        let scanner = Scanner(string: htmlString)
         scanner.charactersToBeSkipped = nil
 
         while !scanner.isAtEnd {
@@ -396,7 +397,7 @@ open class Highlighter {
             scanner.skipNextCharacter()
 
             // Get the next charactor
-            let nextChar = scanner.getNextChar()
+            let nextChar = scanner.getNextCharacter()
             if nextChar == "s" {
                 // We have a SPAN tag, so skip over the tag...
                 _ = scanner.scanString(self.spanStart)
