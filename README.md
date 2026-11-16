@@ -37,7 +37,7 @@ You should also note that some theme style elements may not fully match the late
 
 ## Platform Support
 
-**HighlighterSwift** supports macOS 11 (Big Sur) and up, iOS (iPadOS) 13 and up, tvOS 13 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however. If you use **HighlighterSwift** with these operating systems and run into issues, please let me know.
+**HighlighterSwift** supports macOS 12 (Big Sur) and up, iOS (iPadOS) 14 and up, tvOS 14 and up, and visionOS 1 and up. iOS, tvOS and visionOS support remains untested, however. If you use **HighlighterSwift** with these operating systems and run into issues, please let me know.
 
 ## Installation
 
@@ -77,7 +77,7 @@ and/or a paragraph spacing value:
 highlighter.theme.paraSpacing = 1.0
 ```
 
-A value of `0.0` for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph — use `0.0` for no additional spacing (the default).
+A value of `0.0` for `lineSpacing` is equivalent to single spacing. `paraSpacing` is the space in points added at the end of the paragraph—use `0.0` for no additional spacing (the default).
 
 Both values must be non-negative. Negative values be replaced with the default values.
 
@@ -145,9 +145,24 @@ if let displayString: NSAttributedString = highlighter.highlight(codeString, as:
 
 ### Supported Languages and Themes
 
-You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()` — it returns an array of strings.
+You can get a list of supported languages by the name they are known to *Highlight.js* by calling `supportedLanguages()`—it returns an array of strings.
 
 The function `availableThemes()` returns a list of the installed themes.
+
+### Augmenting Languages
+
+You can extend existing languages with additional keywords by calling `augment(language:, withKeywords)`. Pass in the name of the language to extend (e.g., `bash`) and a list of the keywords you wish to add and by styled as such. Pass in the keywords as a space-separated string, or as an array of strings.
+
+```swift
+guard let highlighter = Highlighter() else { return nil }
+if highlighter.augment(language: "bash", withKeywords: "grep find sed awk") {
+    let output = highlighter.highlight("grep \"pattern\" path")
+    return output
+}
+```
+
+At this time, this function can only be used to extend languages, not to add them.
+
 
 ### Logging
 
