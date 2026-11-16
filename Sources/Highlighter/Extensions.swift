@@ -116,7 +116,7 @@ extension Scanner {
 }
 
 
-#if os(OSX)
+#if os(macOS)
 extension NSColor {
 
     /**
@@ -162,32 +162,6 @@ extension NSColor {
         }
 
         return NSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: a)
-
-        /*
-        var colourString = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-
-        if (colourString.hasPrefix("#")) {
-            let index = colourString.index(colourString.startIndex, offsetBy: 1)
-            colourString = String(colourString[index...])
-        }
-
-        // Colours in hex strings have 6 (`AABBCC`) or 8 (6 + alpha, `AABBCCDD`) values
-        if colourString.count != 8 && colourString.count != 6 {
-            return .red
-        }
-
-        func hexToFloat(_ hs: String) -> CGFloat {
-            // No alpha value supplied, so assume full opacity is required
-            return CGFloat(UInt8(hs, radix: 16) ?? 255)
-        }
-
-        let cns = colourString as NSString
-        let red = hexToFloat(cns.substring(with: NSRange(location: 0, length: 2))) / 255.0
-        let green = hexToFloat(cns.substring(with: NSRange(location: 2, length: 2))) / 255.0
-        let blue = hexToFloat(cns.substring(with: NSRange(location: 4, length: 2))) / 255.0
-        let alpha = hexToFloat(cns.substring(with: NSRange(location: 6, length: 2))) / 255.0
-        return NSColor(red: red, green: green, blue: blue, alpha: alpha)
-        */
     }
 }
 #elseif os(iOS)
@@ -232,8 +206,8 @@ extension UIColor {
         }
 
         // Colours in hex strings have 3, 6 or 8 (6 + alpha) values
-        guard [8, 6, 3].contains(colourString.count) else { return NSColor.gray }
-        guard let colourValue = Int(colourString, radix: 16) else { return NSColor.gray }
+        guard [8, 6, 3].contains(colourString.count) else { return UIColor.gray }
+        guard let colourValue = Int(colourString, radix: 16) else { return UIColor.gray }
 
         var r: UInt64 = 0, g: UInt64 = 0, b: UInt64 = 0
         var divisor: CGFloat = 255.0
@@ -256,7 +230,7 @@ extension UIColor {
             divisor = 15.0
         }
 
-        return NSColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: a)
+        return UIColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: a)
     }
 }
 #endif

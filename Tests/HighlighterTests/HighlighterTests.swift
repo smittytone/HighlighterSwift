@@ -105,10 +105,7 @@ final class HighlighterTests: XCTestCase {
         
         // Bad hex value 1
         result = self.hr!.theme.colourFromHexString("#ZZZ")
-        XCTAssert(result.redComponent == 0.0 &&
-                    result.blueComponent == 0.0 &&
-                    result.greenComponent == 0.0
-        )
+        XCTAssert(result == NSColor.gray)
         
         // Bad hex value 2
         result = self.hr!.theme.colourFromHexString("#aaaaa")
@@ -145,7 +142,7 @@ func testAugment() {
         // Test arry parameter version
         guard let augmentedViaArray = Highlighter() else { return XCTFail("instance") }
         XCTAssertTrue(augmentedViaArray.augment(language: "bash", withKeywords: ["grep", "find", "sed", "awk"]), "bash + built_in must exist and update")
-        let augmentedArrayOutput = augmentedViaArray.highlight("grep \"pattern\" path", as: "bash")
+        let augmentedViaArrayOutput = augmentedViaArray.highlight("grep \"pattern\" path", as: "bash")
         XCTAssert(augmentedViaArrayOutput != nil)
         XCTAssertNotEqual(plainOutput!, augmentedViaArrayOutput!, "the styled output must change once the keyword lands")
 
