@@ -4,6 +4,7 @@
     - **Potential Break** Migrate minimum supported iOS version to 14.
     - **Potential Break** Migrate minimum supported macOS version to 12.
     - **Potential Break** Renamed `shim.swift` font, colour typealiases.
+    - Add `augment(language:, withKeywords:)` to allow keywords missing from `highlight.js` to be injected (thanks [@georgeharker](https://github.com/georgeharker)).
     - Improved error reporting, via Unified Logging.
 - 3.1.0 *27 May 2026*
     - Bring all existing themes (styles) up to date with latest `highlight.js` versions.
