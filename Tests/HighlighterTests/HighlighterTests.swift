@@ -135,18 +135,30 @@ func testAugment() {
         // Augmented instance (augment BEFORE first highlight): same command,
         // command word now styled.
         guard let augmented = Highlighter() else { return XCTFail("instance") }
-        XCTAssertTrue(augmented.augment(language: "bash", withKeywords: "grep find sed awk"),
-                      "bash + built_in must exist and update")
+        XCTAssertTrue(augmented.augment(language: "bash", withKeywords: "grep find sed awk"), "bash + built_in must exist and update")
         let augmentedOutput = augmented.highlight("grep \"pattern\" path", as: "bash")
         XCTAssert(augmentedOutput != nil)
         // NSAttributedString equality covers ATTRIBUTES (the plain string
         // is identical by design — the styling is the difference).
-        XCTAssertNotEqual(plainOutput!, augmentedOutput!,
-                          "the styled output must change once the keyword lands")
+        XCTAssertNotEqual(plainOutput!, augmentedOutput!,  "the styled output must change once the keyword lands")
+
+        // Test arry parameter version
+        guard let augmentedViaArray = Highlighter() else { return XCTFail("instance") }
+        XCTAssertTrue(augmentedViaArray.augment(language: "bash", withKeywords: ["grep", "find", "sed", "awk"]), "bash + built_in must exist and update")
+        let augmentedArrayOutput = augmentedViaArray.highlight("grep \"pattern\" path", as: "bash")
+        XCTAssert(augmentedViaArrayOutput != nil)
+        XCTAssertNotEqual(plainOutput!, augmentedViaArrayOutput!, "the styled output must change once the keyword lands")
 
         // Unknown language and unknown scope refuse without partial writes.
         XCTAssertFalse(augmented.augment(language: "fintlewoodlewix@1", withKeywords: "x"))
         XCTAssertFalse(augmented.augment(language: "bash", withKeywords: "x", scope: "no-such-scope"))
+
+        // Empty strings passed in
+        XCTAssertFalse(augmented.augment(language: "bash", withKeywords: "", scope: "no-such-scope"))
+        XCTAssertFalse(augmented.augment(language: "", withKeywords: "grep", scope: "no-such-scope"))
+        XCTAssertFalse(augmented.augment(language: "bash", withKeywords: "x", scope: ""))
+        XCTAssertFalse(augmented.augment(language: "", withKeywords: "", scope: ""))
+
     }
 
 }
