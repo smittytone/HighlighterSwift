@@ -308,12 +308,14 @@ open class Highlighter {
      (every Highlighter evaluates its own), taking effect for subsequent
      `highlight` calls.
 
+     CONTRIBUTED BY @georgeharker (https://github.com/georgeharker)
+
      FROM 4.0.0
 
      - Parameters:
-        - languageName: A registered language name (e.g. `bash`).
-        - keywords:     Space-separated keywords to append.
-        - scope:        The keyword scope to append to (default `built_in`).
+        - languageName: A registered language name, e.g., `bash`.
+        - keywords:     Space-separated keywords to append, e.g., `"grep find awk"`.
+        - scope:        The keyword scope to append to. Default: `built_in`.
 
      - Returns: `true` when the language and scope were found and updated.
     */
@@ -346,6 +348,13 @@ open class Highlighter {
      Alternative entry for `augment()` which takes an array of keywords rather than a string.
 
      FROM 4.0.0
+
+     - Parameters:
+        - languageName: A registered language name, e.g., `bash`.
+        - keywords:     Array of keyword strings to append, e.g., `["grep", "find", "awk"]`.
+        - scope:        The keyword scope to append to. Default: `built_in`.
+
+     - Returns: `true` when the language and scope were found and updated.
      */
     public func augment(language languageName: String, withKeywords keywordList: [String], scope: String = "built_in") -> Bool {
 
