@@ -189,3 +189,5 @@ Please see [CHANGELOG.md](CHANGELOG.md).
 **HighlighterSwift**, like *Highlightr*, is released under the terms of the MIT Licence. *Hightlight.js* is released under the BSD 3-Clause Licence.
 
 **HighlighterSwift** is &copy; 2026, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2025, Josh Goebel and other contributors.
+
+_AI was not used in the development of this software. This is a statement of plain fact, not of policy. AI tools may be used in future._
