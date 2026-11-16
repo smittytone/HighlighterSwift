@@ -1,4 +1,5 @@
 /*
+ *  HighlighterSwift
  *  HTMLUtils.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes

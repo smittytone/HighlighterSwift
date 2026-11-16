@@ -1,4 +1,5 @@
 /*
+ *  HighlighterSwift
  *  Extensions.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
@@ -6,7 +7,7 @@
  *  Licence: MIT
  */
 
-#if os(OSX)
+#if os(macOS)
 import AppKit
 #elseif os(iOS)
 import UIKit

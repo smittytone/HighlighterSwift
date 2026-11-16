@@ -1,4 +1,5 @@
 /*
+ *  HighlighterSwift
  *  Theme.swift
  *  Copyright 2026, Tony Smith
  *  Copyright 2016, Juan-Pablo Illanes
@@ -6,7 +7,7 @@
  *  Licence: MIT
  */
 
-#if os(OSX)
+#if os(macOS)
 import AppKit
 #elseif os(iOS)
 import UIKit
@@ -115,7 +116,7 @@ public class Theme {
         self.fontSize = font.pointSize
 
         // Generate the bold and italic variants
-#if os(OSX)
+#if os(macOS)
         let boldDescriptor    = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
                                                                   .face:"Bold"])
         let italicDescriptor  = NSFontDescriptor(fontAttributes: [.family:font.familyName!,
