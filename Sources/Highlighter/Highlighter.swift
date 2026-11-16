@@ -307,8 +307,10 @@ open class Highlighter {
      (every Highlighter evaluates its own), taking effect for subsequent
      `highlight` calls.
 
+     FROM 4.0.0
+
      - Parameters:
-        - languageName:  A registered language name (e.g. `bash`).
+        - languageName: A registered language name (e.g. `bash`).
         - keywords:     Space-separated keywords to append.
         - scope:        The keyword scope to append to (default `built_in`).
 
@@ -320,6 +322,7 @@ open class Highlighter {
         // though older grammars still use space-separated strings. Normalise
         // to an array on write: split whatever's there, append the new words,
         // drop empties. Unknown language/scope ⇒ false, no partial writes.
+        guard !keywords.isEmpty && !languageName.isEmpty && !scope.isEmpty else { return false }
         let script = """
         (function() {
             var grammar = hljs.getLanguage(\(JSONHelper.jsString(languageName)));
@@ -335,6 +338,17 @@ open class Highlighter {
         """
         guard let result = hljs.context.evaluateScript(script), result.isBoolean else { return false }
         return result.toBool()
+    }
+
+
+    /**
+     Alternative entry for `augment()` which takes an array of keywords rather than a string.
+
+     FROM 4.0.0
+     */
+    public func augment(language languageName: String, withKeywords keywordList: [String], scope: String = "built_in") -> Bool {
+
+        return augment(language: languageName, withkeywords: keywordList.joined(" "), scope: scope)
     }
 
 
