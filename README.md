@@ -151,7 +151,7 @@ The function `availableThemes()` returns a list of the installed themes.
 
 ### Augmenting Languages
 
-You can extend existing languages with additional keywords by calling `augment(language:, withKeywords)`. Pass in the name of the language to extend (e.g., `bash`) and a list of the keywords you wish to add and by styled as such. Pass in the keywords as a space-separated string, or as an array of strings.
+You can extend existing languages with additional keywords by calling `augment(language:, withKeywords:)`. Pass in the name of the language to extend (e.g., `bash`) and a list of the keywords you wish to add to the language and by styled. Pass in the keywords as a space-separated string, or as an array of strings.
 
 ```swift
 guard let highlighter = Highlighter() else { return nil }
@@ -161,8 +161,15 @@ if highlighter.augment(language: "bash", withKeywords: "grep find sed awk") {
 }
 ```
 
-At this time, this function can only be used to extend languages, not to add them.
+```swift
+guard let highlighter = Highlighter() else { return nil }
+if highlighter.augment(language: "bash", withKeywords: ["grep", "find", "sed", "awk"]) {
+    let output = highlighter.highlight("grep \"pattern\" path")
+    return output
+}
+```
 
+At this time, this function can only be used to extend currently supported languages, not to add new ones.
 
 ### Logging
 
@@ -190,4 +197,4 @@ Please see [CHANGELOG.md](CHANGELOG.md).
 
 **HighlighterSwift** is &copy; 2026, Tony Smith. Portions are &copy; 2016, Juan Pablo Illanes. Other portions are &copy; 2006-2025, Josh Goebel and other contributors.
 
-_AI was not used in the development of this software. This is a statement of plain fact, not of policy. AI tools may be used in future._
+_AI was not used in the development of this software. This is a statement of plain fact, not of policy. AI tools may be used in future for testing, code review and/or research._
