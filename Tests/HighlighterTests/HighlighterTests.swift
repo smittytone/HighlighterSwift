@@ -62,7 +62,7 @@ final class HighlighterTests: XCTestCase {
         // Test colour decoding -- all should be processed as valid colours
         
         // Six-digit RGB
-        var result: NSColor = self.hr!.theme.colourFromHexString("#808000")
+        var result = self.hr!.theme.colourFromHexString("#808000")
         XCTAssert(result.redComponent > 0.49 &&
                     result.redComponent < 0.56 &&
                     result.greenComponent > 0.49 &&

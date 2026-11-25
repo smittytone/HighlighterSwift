@@ -186,12 +186,12 @@ extension UIColor {
 
 
     /**
-     Generate a new NSColor from an RGB+A hex string..
+     Generate a new UIColor from an RGB+A hex string..
 
      - Parameters:
         - hex: The RGB+A hex string, eg.`AABBCCFF`.
 
-     - Returns: An NSColor object.
+     - Returns: An UIColor object.
      */
     static func hexToColour(_ hex: String) -> UIColor {
 
