@@ -1,4 +1,4 @@
-# HighlighterSwift 4.0.0
+# HighlighterSwift 4.0.1
 
 This library provides a Swift wrapper for the popular [Highlight.js](https://highlightjs.org/) code highlighting utility.
 
@@ -185,7 +185,7 @@ if let highlighter = Highlighter(loggingOptions) {
 }
 ```
 
-Please see `Entities.swift` for the full list of current `LoggingOptions` properties (all Booleans), and their default `DEBUG` and `RELEASE` values.
+Please see `LoggingOptions.swift` for the full list of current `LoggingOptions` properties (all Booleans), and their default `DEBUG` and `RELEASE` values.
 
 ## Release Notes
 

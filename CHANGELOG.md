@@ -1,5 +1,7 @@
 ## Release Notes
 
+- 4.0.1 *Unreleased*
+    - Correct logging instructions.
 - 4.0.0 *25 November 2026*
     - **Potential Break** Migrate minimum supported iOS version to 14.
     - **Potential Break** Migrate minimum supported macOS version to 12.
