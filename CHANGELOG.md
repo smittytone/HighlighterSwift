@@ -1,6 +1,6 @@
 ## Release Notes
 
-- 4.0.0 *Unreleased*
+- 4.0.0 *25 November 2026*
     - **Potential Break** Migrate minimum supported iOS version to 14.
     - **Potential Break** Migrate minimum supported macOS version to 12.
     - **Potential Break** Renamed `Shims.swift` font, colour typealiases.
