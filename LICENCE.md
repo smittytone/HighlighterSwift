@@ -4,6 +4,8 @@ Copyright © 2026, Tony Smith (@smittytone) — [MIT Licence](#mid-licence)
 Portions copyright © 2016, Juan Pablo Illanes — [MIT Licence](#mid-licence)
 Portions copyright © 2006-2026, Josh Goebel and Other Contributors — [BSD 3-Clause Licence](#bsd-3-clause-licence)
 
+HighligherSwift source code is provided under the terms of the MIT Licence. It contains Highlight.js which is issued under the terms of the BSD 3-Clause "New" or "Revised" Licence.
+
 ---
 
 ### MIT Licence
