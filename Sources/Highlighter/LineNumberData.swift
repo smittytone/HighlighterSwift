@@ -103,7 +103,7 @@ public struct LineNumberData {
         self.baseMinWidth = 1
     }
 
-    
+
     public init(usingDarkTheme: Bool = false, lineBreak: String = "\n", fontSize: CGFloat = 16.0) {
 
         self.usingDarkTheme = usingDarkTheme

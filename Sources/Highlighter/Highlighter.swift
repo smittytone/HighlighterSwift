@@ -65,6 +65,7 @@ open class Highlighter {
     private let spanEnd: String = "/span>"
     private let htmlEscape: NSRegularExpression = try! NSRegularExpression(pattern: "&#?[a-zA-Z0-9]+?;", options: .caseInsensitive)
 
+    // FROM 4.0.0
     // Embed a Swift string as a single-quoted JavaScript string literal
     // (escaping backslashes, quotes, and newlines). Used by
     // `augment(language:withKeywords)` for the values interpolated into its script.
@@ -275,7 +276,7 @@ open class Highlighter {
         let themeString = try! String(contentsOfFile: themePath)
         self.theme = Theme(withTheme: themeString, usingFont: font)
         self.theme.name = themeName
-        // FROM 4.0.0
+        // FROM 4.0.0 -- pass on logging options
         self.theme.loggingOptions = self.loggingOptions
 
         return true
@@ -394,7 +395,7 @@ open class Highlighter {
 
         let resultString = NSMutableAttributedString(string: "")
         var scanned: String? = nil
-        var propStack = ["hljs"]
+        var propertyStack = ["hljs"]
         let scanner = Scanner(string: htmlString)
         scanner.charactersToBeSkipped = nil
 
@@ -403,7 +404,7 @@ open class Highlighter {
             scanned = scanner.scanUpToString(self.htmlStart)
 
             if let content = scanned, !content.isEmpty {
-                resultString.append(self.theme.applyStyleToString(content, styleList: propStack))
+                resultString.append(self.theme.applyStyleToString(content, styleList: propertyStack))
 
                 if scanner.isAtEnd {
                     continue
@@ -427,15 +428,15 @@ open class Highlighter {
 
                 // ... and stash the class data we extracted
                 if let content = scanned, !content.isEmpty {
-                    propStack.append(content)
+                    propertyStack.append(content)
                 }
             } else if nextChar == "/" {
                 // We have a SPAN end tag so skip over it
                 _ = scanner.scanString(self.spanEnd)
-                propStack.removeLast()
+                propertyStack.removeLast()
             } else {
                 // We have code text, so style it based on the previous SPAN classe we've stored
-                let attrScannedString = self.theme.applyStyleToString("<", styleList: propStack)
+                let attrScannedString = self.theme.applyStyleToString("<", styleList: propertyStack)
                 resultString.append(attrScannedString)
                 scanner.skipNextCharacter()
             }

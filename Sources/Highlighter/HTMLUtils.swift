@@ -75,7 +75,7 @@ internal class HTMLUtils {
     */
     class func decodeNumeric(_ entityValue: String, base: Int32) -> Character? {
 
-        let code: UInt32 = UInt32(strtoul(entityValue, nil, base))
+        let code = UInt32(strtoul(entityValue, nil, base))
         return Character(UnicodeScalar(code)!)
     }
 

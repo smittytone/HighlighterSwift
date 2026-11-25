@@ -27,6 +27,7 @@
 /**
  Basic imports and typealiases.
  */
+import Foundation
 #if os(macOS)
 import AppKit
 public typealias HSColor = NSColor
@@ -36,7 +37,6 @@ import UIKit
 public typealias HSColor = UIColor
 public typealias HSFont  = UIFont
 #endif
-
 
 /**
  Set type aliases according to which Swift is being run and,
