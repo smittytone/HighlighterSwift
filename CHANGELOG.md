@@ -4,6 +4,7 @@
     - **Potential Break** Migrate minimum supported iOS version to 14.
     - **Potential Break** Migrate minimum supported macOS version to 12.
     - **Potential Break** Renamed `Shims.swift` font, colour typealiases.
+    - Update to the latest version of Highlight.js (11.12.0)
     - Add `augment(language:, withKeywords:)` to allow keywords missing from `highlight.js` to be injected (thanks [@georgeharker](https://github.com/georgeharker)).
     - Fix colour object type on iOS/tvOS/iPadOS/VisionOS.
     - Improved error reporting, via Unified Logging.
@@ -32,9 +33,9 @@
     - **Potential Break** Update baseline Swift version to 5.9.
     - **Potential Break** Change access rules for many module components.
 - 1.1.7 *23 July 2025*
-    - Update to the latest version of Highlight.js 11.11.1.
+    - Update to the latest version of Highlight.js (11.11.1).
 - 1.1.6 *30 August 2024*
-    - Update to the latest version of Highlight.js 11.9.0.
+    - Update to the latest version of Highlight.js (11.9.0).
 - 1.1.5 *29 April 2024*
     - Add dark GitHub theme.
 - 1.1.4 *10 November 2023*
