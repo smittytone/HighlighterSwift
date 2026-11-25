@@ -34,7 +34,7 @@ open class Highlighter {
     // When `true`, forces highlighting to finish even if illegal syntax is detected.
     open var ignoreIllegals = false
 
-    // FROM 3.1.1
+    // FROM 4.0.0
     public var loggingOptions: LoggingOptions = LoggingOptions()
 
 
@@ -79,7 +79,7 @@ open class Highlighter {
         let bundle = Bundle(for: Highlighter.self)
 #endif
 
-        // FROM 3.1.1
+        // FROM 4.0.0
         // Retain the logging options if any are passed in
         if let lo = loggingOptions {
             self.loggingOptions = lo
@@ -258,7 +258,7 @@ open class Highlighter {
         let themeString = try! String(contentsOfFile: themePath)
         self.theme = Theme(withTheme: themeString, usingFont: font)
         self.theme.name = themeName
-        // FROM 3.1.1
+        // FROM 4.0.0
         self.theme.loggingOptions = self.loggingOptions
 
         return true

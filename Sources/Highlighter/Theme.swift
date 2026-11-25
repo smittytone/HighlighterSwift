@@ -40,7 +40,7 @@ public class Theme {
     public var fontSize: CGFloat                                        = 18.0
     // FROM 3.1.0
     public var name: String                                             = ""
-    // FROM 3.1.1
+    // FROM 4.0.0
     public var loggingOptions: LoggingOptions                           = LoggingOptions()
 
 
